@@ -1,7 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
+import react,{useState} from 'react'
 
 function App() {
+  const [msg, setMsg] = useState("")
+  const handleClick= async()=> {
+
+    const data = await fetch('/test')
+    const json = await data.json()
+    setMsg(json.msg)
+  }
   return (
     <div className="App">
       <header className="App-header">
@@ -9,14 +17,8 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+       <button onClick={handleClick}>CLick me</button>
+       {msg}
       </header>
     </div>
   );
