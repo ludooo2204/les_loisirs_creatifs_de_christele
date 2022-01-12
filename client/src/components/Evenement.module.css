@@ -1,0 +1,18 @@
+.calendarContainer{
+    /* display: flex; */
+    /* height: 50VH; */
+    /* width: 50% ; */
+    /* height: 50% ; */
+    /* opacity: 0.5; */
+    margin-left: 5%;
+    margin-right: 5%;
+    background-color: #f1f1ed;
+    /* overflow: visible; */
+/* height: 80VH; */
+}
+.evenementContainer{
+    background: url("../image/fond_vierge.png") no-repeat;
+    background-size: cover;
+    height: 95VH;
+    /* overflow: visible; */
+}

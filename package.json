@@ -11,6 +11,7 @@
 	"scripts": {
 		"start": "nodemon -r dotenv/config server.js",
 		"client": "cd client && yarn start",
+		"clientInstall": "cd client && yarn",
 		"build": "cd client && yarn build"
 	}
 }

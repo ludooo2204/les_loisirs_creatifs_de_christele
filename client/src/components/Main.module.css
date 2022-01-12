@@ -1,0 +1,227 @@
+.main {
+	background: url("../image/fond_vierge.png") no-repeat;
+	background-size: cover;
+	width: 100%;
+	height: 95vh;
+	display: flex;
+	overflow: hidden;
+	/* align-items: center; */
+	/* position: relative; */
+}
+.fleurLeft {
+	background: url("../image/bord_gauche.png") no-repeat;
+	background-position: right top;
+	background-size: cover;
+	height: 100%;
+}
+.fleurRight {
+	background: url("../image/bord_droit.png") no-repeat;
+	background-size: cover;
+
+	height: 100%;
+	width: 100%;
+	/* flex: 1; */
+	/* float: right; */
+	/* align-self: end; */
+}
+.titre {
+	flex: 3;
+	background: url("../image/titre.png") no-repeat;
+	background-size: contain;
+	background-position: center;
+}
+.fleurLeftcontainer {
+	flex: 1;
+	/* height: 95vh;
+    width: 40%;
+    al
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	z-index: 1; */
+}
+.fleurRightcontainer {
+	flex: 1;
+	display: flex;
+	/* justify-content: end; */
+	/* background-color: aqua; */
+	/* height: 95vh;
+    /* width: 100%; */
+	/* position: absolute; */
+	/* right: 0px;
+	bottom: 0px;
+	z-index: 1; */
+}
+.tout {
+	position: relative;
+	width: 100vw;
+	/* overflow: hidden; */
+}
+.ciseau1 {
+	/* width: 50%; */
+	height: 80%;
+	position: absolute;
+
+	top: 0px;
+}
+.ciseau2 {
+	height: 80%;
+	position: absolute;
+	top: 0px;
+	/* width: 5%; */
+}
+.ciseaux {
+	/* background-color: aqua; */
+	width: 3VW;
+	height: 3VW;
+	/* width: 8%;
+	height: 8%; */
+	padding: 1%;
+	position: absolute;
+	top: 75%;
+	left: 70%;
+	transform: rotate(-155deg);
+	/* z-index: 3; */
+	/* z-index: 3; */
+}
+.cardImage {
+	width: 100%;
+	/* text-align: center; */
+	/* margin: 0 auto; */
+	/* padding-bottom: 20%; */
+	border-radius: 10%;
+	/* padding: 2%; */
+	transition: all 0.4s;
+	/* padding-bottom: 15%; */
+}
+
+.cardContainer {
+	margin: 5%;
+	border-radius: 10%;
+	width: 15%;
+	height: 25vw;
+	transition: all 0.4s;
+	background-color: #f0c8a3;
+	position: relative;
+	/* padding-bottom: 14%; */
+	overflow: hidden;
+
+	outline: none;
+}
+.cardContainerModal {
+	/* margin: 5%;
+	padding-right:  5%; */
+	height: 90vh;
+	width: 60VW;
+	/* background-color: #f0c8a310; */
+	transition: all 0.4s;
+	position: relative;
+	outline: none;
+}
+.cardImageModal {
+	transition: all 0.4s;
+	max-width: 100%;
+	max-height: 100%;
+	height: inherit !important;
+}
+.cardContainer:hover {
+	/* padding-bottom: 15%; */
+	/* transform: scale(1.1); */
+	transition: all 0.4s;
+}
+/* .cardImage:hover{
+	padding-bottom: 35%;
+	/* transform: scale(1.2); */
+/* transition: all 0.4s;  */
+/* }  */
+.divCardContainer {
+	/* padding-bottom: 20%; */
+
+	/* transform: scale(1.2); */
+	border-radius: 10%;
+	outline: none;
+}
+.divCardContainerModal {
+	height: 90vh !important;
+	/* transform: scale(1.2); */
+	outline: none;
+	display: flex !important;
+	justify-content: center;
+	text-align: center;
+}
+.legende {
+	position: relative;
+	background: linear-gradient(180deg, rgba(240, 200, 163, 1) 0%, rgb(243, 238, 234) 70%, rgb(243, 238, 234) 100%);
+	text-align: center;
+	height: 250px;
+	border-radius: 10%;
+	overflow: visible;
+	/* transform: translateY(-10%); */
+	transition: 0.2s ease-in-out;
+	color: "#684529",
+
+}
+.legende:hover {
+	transform: translateY(-40%);
+	padding-left: 10%;
+	padding-right: 10%;
+	border-radius: 5%;
+	z-index: 3;
+}
+.thumbnail {
+	margin: 5%;
+	border-radius: 10%;
+	width: 100%;
+	/* height: 10VW; */
+	transition: all 0.4s;
+	/* background-color: #a7f0a3; */
+
+	outline: none;
+}
+.priceTag {
+	position: relative;
+	top: -1.5VW;
+	left: 1VW;
+	width: 2VW;
+	text-align: center;
+	height: 2VW;
+	background-color: #EAF9D9;
+	border-radius: 50%;
+	z-index: 2;
+	line-height: 2VW;
+	font-weight: 500;
+	font-size: 1VW;
+	transition: all 0.4s;
+		color: #684529;
+		border: 2px solid  ;
+
+}
+.legende:hover .priceTag {
+	background-color: #DEBAD5;
+	transform: translateX(9rem) scale(1.2);
+	border-color: #A64E8F ;
+
+}
+.legende:hover .title {
+	margin-bottom: 0px;
+}
+.title {
+	margin-top: 0;
+	margin-bottom: 1000px;
+	font-size: 1.5vw;
+	color: #684529;
+
+}
+.closeButton{
+	border-radius: 50%;
+	background-color: crimson;
+	color: aliceblue;
+	font-weight: 900;
+	/* padding: 5px; */
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	z-index: 1;
+	width: 30px;
+	height: 30px;
+}
