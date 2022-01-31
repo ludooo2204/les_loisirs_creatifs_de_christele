@@ -9,6 +9,7 @@
     "express": "^4.17.2",
     "react-slick": "^0.28.1"
   },
+  "proxy":"http://localhost:7000/",
   "scripts": {
     "start": "nodemon -r dotenv/config server.js",
     "client": "cd client && yarn start",
