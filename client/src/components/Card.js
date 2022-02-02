@@ -20,14 +20,13 @@ const customStyles = {
 		bottom: "auto",
 		marginRight: "-50%",
 		transform: "translate(-50%, -50%)",
-		backgroundColor: '#fefff7',
-
+		backgroundColor: "#fefff7",
 	},
 };
 
-const Card = () => {
+const Card = ({ isAdmin }) => {
 	const [modalIsOpen, setIsOpen] = React.useState(false);
-
+	console.log(isAdmin + "from card.js");
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
@@ -41,21 +40,21 @@ const Card = () => {
 		//   },
 		dots: true,
 		dotsClass: "slick-dots ",
-		swipe:false,
+		swipe: false,
 		infinite: true,
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
 	const settingsModal = {
-		customPaging: function(i) {
+		customPaging: function (i) {
 			return (
-			  <a>
-				<img src={images[i]} className={styles.thumbnail}/>
-			  </a>
+				<a>
+					<img src={images[i]} className={styles.thumbnail} />
+				</a>
 			);
-		  },
+		},
 		dots: true,
-	
+
 		dotsClass: "slick-dots slick-thumb",
 		// swipe:false,
 		infinite: true,
@@ -66,7 +65,9 @@ const Card = () => {
 		<div className={styles.cardContainer}>
 			{/* <img src={image1} /> */}
 			<Modal isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} style={customStyles} contentLabel="Example Modal">
-				<button className={styles.closeButton} onClick={()=>setIsOpen(false)}>X</button>
+				<button className={styles.closeButton} onClick={() => setIsOpen(false)}>
+					X
+				</button>
 				<div className={styles.cardContainerModal}>
 					<Slider {...settingsModal}>
 						<div className={styles.divCardContainerModal}>
@@ -94,6 +95,7 @@ const Card = () => {
 			</Slider>
 			<div className={styles.legende}>
 				<div className={styles.priceTag}>35€</div>
+				{isAdmin&&<div className={styles.admin}>35€</div>}
 				<h3 className={styles.title}>Boite à thé</h3>
 				<p> magnifique boite à thés avec 16 compartiments. Piece unique !</p>
 			</div>

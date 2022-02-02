@@ -14,7 +14,7 @@ const customStyles = {
 		top: "50%",
 		left: "50%",
 		width: "50VW",
-		height: "65VH",
+		height: "80VH",
 		right: "auto",
 		bottom: "auto",
 		marginRight: "-50%",
@@ -30,12 +30,17 @@ const customStyles = {
 
 Modal.setAppElement("body");
 
-const Navbar = () => {
+const Navbar = ({ isAdmin }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
+	const [adminConnected, setAdminConnected] = useState(false);
 	const [userConnected, setUserConnected] = useState(null);
 	const seConnecter = (user) => {
-console.log(user);
-setUserConnected(user)
+		console.log(user);
+		if (user === "ludo") {
+			setAdminConnected(true);
+			isAdmin(true)
+		}
+		setUserConnected(user);
 	};
 	function openModal() {
 		setIsOpen(true);
@@ -44,13 +49,13 @@ setUserConnected(user)
 	function closeModal() {
 		setIsOpen(false);
 	}
-	
+
 	return (
 		<>
 			<nav style={styles.navbar}>
 				<div style={{ ...styles.text, ...styles.socialButton }}>
-					<FacebookIcon sx={{ fontSize: 40 }} />
-					<TwitterIcon sx={{ fontSize: 40 }} />
+					<FacebookIcon />
+					<TwitterIcon />
 				</div>
 				<ol style={styles.ol}>
 					<li>
@@ -80,17 +85,21 @@ setUserConnected(user)
 					</li>
 				</ol>
 
-				<ReactTooltip  className="tooltip" globalEventOff='click' place="bottom" type="light" effect="float" id='AccountCircleIcon' >
+				<ReactTooltip className="tooltip" globalEventOff="click" place="bottom" type="light" effect="float" id="AccountCircleIcon">
 					<h1>Connectez-vous</h1>
-				<p>pour pourvoir me poser des questions, commenter mes créations ou recevoir des alertes par mail quand je rajoute de nouveaux produits !</p>
+					<p>pour pourvoir me poser des questions, commenter mes créations ou recevoir des alertes par mail quand je rajoute de nouveaux produits !</p>
 				</ReactTooltip>
 				<div onClick={openModal} style={{ ...styles.text, ...styles.connexionButton }}>
 					{userConnected ? (
 						"Christele Vachon"
 					) : (
 						<>
-							<AccountCircleIcon  data-tip data-for='AccountCircleIcon'  sx={{ fontSize: 40 }} />
-							<HelpOutlineOutlinedIcon style={{ alignSelf: "end", position: "relative", right: "10" }} sx={{ fontSize: 15 }} />
+							<AccountCircleIcon
+								data-tip
+								data-for="AccountCircleIcon"
+								//  sx={{ fontSize: 40 }}
+							/>
+							<HelpOutlineOutlinedIcon style={{ alignSelf: "flex-end", position: "relative", right: "10" }} sx={{ fontSize: 15 }} />
 						</>
 					)}
 				</div>
@@ -102,7 +111,7 @@ setUserConnected(user)
 					style={customStyles}
 					contentLabel="Example Modal"
 				>
-					<LoginForm closeModal={closeModal} seConnecter={seConnecter}/>
+					<LoginForm closeModal={closeModal} seConnecter={seConnecter} />
 				</Modal>
 			</nav>
 		</>

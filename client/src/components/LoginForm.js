@@ -4,7 +4,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ReactTooltip from "react-tooltip";
 import isEmail from "validator/lib/isEmail";
 
-const LoginForm = ({ closeModal,seConnecter }) => {
+const LoginForm = ({ closeModal, seConnecter }) => {
 	const [isChoixInscriptionActif, setIsChoixInscriptionActif] = useState(true);
 	const [passwordShown, setPasswordShown] = useState(false);
 
@@ -17,7 +17,7 @@ const LoginForm = ({ closeModal,seConnecter }) => {
 	const seConnecterViaButton = () => {
 		setIsChoixInscriptionActif(true);
 	};
-	const sInscrireViaButton  = () => {
+	const sInscrireViaButton = () => {
 		setIsChoixInscriptionActif(false);
 	};
 	const validerForm = () => {
@@ -25,7 +25,7 @@ const LoginForm = ({ closeModal,seConnecter }) => {
 	};
 	const validerFormFake = () => {
 		closeModal();
-		seConnecter("ludo")
+		seConnecter("ludo");
 	};
 
 	return (
@@ -42,21 +42,21 @@ const LoginForm = ({ closeModal,seConnecter }) => {
 				<button
 					className={`button button--calypso
 				 ${isChoixInscriptionActif ? "button--calypso--inactif" : "button--calypso--actif"}`}
-					onClick={sInscrireViaButton }
+					onClick={sInscrireViaButton}
 				>
 					<span>S'inscrire</span>
 				</button>
 			</div>
 			<div className="labelGroupModal">
 				<span>
-					<label data-tip data-for='identifiant'>Identifiant</label>
-					<ReactTooltip  className="tooltip"  globalEventOff='click' place="bottom" type="light" effect="float" id='identifiant'  >
-					
-
-					<h3>Identifiant</h3>
-				<p>Cet identifiant peut-être votre nom ou un pseudo si vous souhaitez rester anonyme</p>
-				</ReactTooltip>
-					<HelpOutlineOutlinedIcon     style={{  position: "relative", top: "10" }} sx={{ fontSize: 15 }} />
+					<label data-tip data-for="identifiant">
+						Identifiant
+					</label>
+					<ReactTooltip className="tooltip" globalEventOff="click" place="bottom" type="light" effect="float" id="identifiant">
+						<h3>Identifiant</h3>
+						<p>Cet identifiant peut-être votre nom ou un pseudo si vous souhaitez rester anonyme</p>
+					</ReactTooltip>
+					<HelpOutlineOutlinedIcon style={{ position: "relative", top: "10" }} sx={{ fontSize: 15 }} />
 				</span>
 				<input type="text" />
 				<span>
@@ -71,21 +71,29 @@ const LoginForm = ({ closeModal,seConnecter }) => {
 					</span>
 				)}
 				{!isChoixInscriptionActif && <input type={passwordShown ? "text" : "password"} />}
-				{!isChoixInscriptionActif && <span><label data-tip data-for='mail' >Email</label>	<ReactTooltip  className="tooltip" globalEventOff='click' place="bottom" type="light" effect="float" id='mail' >
-					<h3>E-mail</h3>
-				<p>Cet e-mail set à récupérer votre mot de passe en cas d'oubli</p>
-				</ReactTooltip>
-					<HelpOutlineOutlinedIcon    style={{  position: "relative", top: "10" }} sx={{ fontSize: 15 }} /></span>}
+				{!isChoixInscriptionActif && (
+					<span>
+						<label data-tip data-for="mail">
+							Email
+						</label>{" "}
+						<ReactTooltip className="tooltip" globalEventOff="click" place="bottom" type="light" effect="float" id="mail">
+							<h3>E-mail</h3>
+							<p>Cet e-mail set à récupérer votre mot de passe en cas d'oubli</p>
+						</ReactTooltip>
+						<HelpOutlineOutlinedIcon style={{ position: "relative", top: "10" }} sx={{ fontSize: 15 }} />
+					</span>
+				)}
 				{/* console.log(isEmail('foo@bar.com')); pour verifier si mail ok */}
 				{!isChoixInscriptionActif && <input type="email" />}
 			</div>
-
-			<button className="button--validation" onClick={validerForm}>
-				valider
-			</button>
-			<button style={{width:"100px"}} onClick={validerFormFake}>
-				se connecter pour developpement
-			</button>
+			<span>
+				<button className="button--validation" onClick={validerForm}>
+					valider
+				</button>
+				<button style={{ width: "100px", position: "absolute" }} onClick={validerFormFake}>
+					se connecter pour developpement
+				</button>
+			</span>
 		</div>
 	);
 };

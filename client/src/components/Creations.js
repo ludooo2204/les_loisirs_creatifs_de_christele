@@ -2,10 +2,10 @@ import React from 'react'
 import styles from "./Main.module.css";
 import Card from './Card'
 
-const Creations = () => {
+const Creations = ({isAdmin}) => {
     return (
         <div className={styles.main}>
-            <Card />
+            <Card isAdmin={isAdmin}/>
         </div>
     )
 }
