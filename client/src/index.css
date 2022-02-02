@@ -128,7 +128,8 @@ height: 3REM;
 background: #f0c8a3;
 width: 50%;
 margin: 0 auto;
-
+-webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.78); 
+	box-shadow: 5px 5px 11px 2px rgba(0,0,0,0.4);
 font-family: Pacifico, serif;
 font-size: 1.55rem;
 border-radius: 0.85rem;
@@ -158,6 +159,7 @@ width: 100%;
 margin-bottom: 1rem;
 font-family: Pacifico, serif;
 font-size: 1.25rem;
+line-height: 2rem;
 }
 .labelGroupModal{
 	display: flex;
@@ -171,4 +173,8 @@ font-size: 1.25rem;
 	height: 2rem; 
 border-radius: 5px;
 width: 100%;
+}
+.tooltip{
+	border-radius: 15px!important;
+	font-weight: 600!important;
 }

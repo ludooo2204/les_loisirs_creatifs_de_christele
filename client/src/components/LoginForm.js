@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import isEmail from 'validator/lib/isEmail';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import ReactTooltip from "react-tooltip";
+import isEmail from "validator/lib/isEmail";
 
-const LoginForm = ({ closeModal }) => {
+const LoginForm = ({ closeModal,seConnecter }) => {
 	const [isChoixInscriptionActif, setIsChoixInscriptionActif] = useState(true);
 	const [passwordShown, setPasswordShown] = useState(false);
 
@@ -12,14 +14,18 @@ const LoginForm = ({ closeModal }) => {
 		// inverse the boolean state of passwordShown
 		setPasswordShown(!passwordShown);
 	};
-	const seConnecter = () => {
+	const seConnecterViaButton = () => {
 		setIsChoixInscriptionActif(true);
 	};
-	const sInscrire = () => {
+	const sInscrireViaButton  = () => {
 		setIsChoixInscriptionActif(false);
 	};
 	const validerForm = () => {
-		closeModal()
+		closeModal();
+	};
+	const validerFormFake = () => {
+		closeModal();
+		seConnecter("ludo")
 	};
 
 	return (
@@ -29,41 +35,56 @@ const LoginForm = ({ closeModal }) => {
 				<button
 					className={`button button--calypso
 				 ${isChoixInscriptionActif ? "button--calypso--actif" : "button--calypso--inactif"}`}
-					onClick={seConnecter}
+					onClick={seConnecterViaButton}
 				>
 					<span>Se connecter</span>
 				</button>
 				<button
 					className={`button button--calypso
 				 ${isChoixInscriptionActif ? "button--calypso--inactif" : "button--calypso--actif"}`}
-					onClick={sInscrire}
+					onClick={sInscrireViaButton }
 				>
 					<span>S'inscrire</span>
 				</button>
 			</div>
 			<div className="labelGroupModal">
-				<label>Identifiant</label>
+				<span>
+					<label data-tip data-for='identifiant'>Identifiant</label>
+					<ReactTooltip  className="tooltip"  globalEventOff='click' place="bottom" type="light" effect="float" id='identifiant'  >
+					
+
+					<h3>Identifiant</h3>
+				<p>Cet identifiant peut-être votre nom ou un pseudo si vous souhaitez rester anonyme</p>
+				</ReactTooltip>
+					<HelpOutlineOutlinedIcon     style={{  position: "relative", top: "10" }} sx={{ fontSize: 15 }} />
+				</span>
 				<input type="text" />
 				<span>
 					<label>Mot de passe</label>
-					<VisibilityOutlinedIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "1REM", fontSize: "20", cursor:"pointer" }} />
+					<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 				</span>
 				<input type={passwordShown ? "text" : "password"} />
 				{!isChoixInscriptionActif && (
 					<span>
 						<label>Confirmation mot de passe</label>
-						<VisibilityOutlinedIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "1REM", fontSize: "20", cursor:"pointer" }} />
+						<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 					</span>
 				)}
 				{!isChoixInscriptionActif && <input type={passwordShown ? "text" : "password"} />}
-				{!isChoixInscriptionActif && <label>Email</label>}
-			{/* console.log(isEmail('foo@bar.com')); pour verifier si mail ok */}
+				{!isChoixInscriptionActif && <span><label data-tip data-for='mail' >Email</label>	<ReactTooltip  className="tooltip" globalEventOff='click' place="bottom" type="light" effect="float" id='mail' >
+					<h3>E-mail</h3>
+				<p>Cet e-mail set à récupérer votre mot de passe en cas d'oubli</p>
+				</ReactTooltip>
+					<HelpOutlineOutlinedIcon    style={{  position: "relative", top: "10" }} sx={{ fontSize: 15 }} /></span>}
+				{/* console.log(isEmail('foo@bar.com')); pour verifier si mail ok */}
 				{!isChoixInscriptionActif && <input type="email" />}
 			</div>
 
-
 			<button className="button--validation" onClick={validerForm}>
 				valider
+			</button>
+			<button style={{width:"100px"}} onClick={validerFormFake}>
+				se connecter pour developpement
 			</button>
 		</div>
 	);
