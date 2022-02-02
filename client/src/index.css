@@ -122,6 +122,18 @@ code {
 .button--calypso--inactif {
 	opacity: 0.6;
 }
+.button--validation {
+color:black;
+height: 3REM;
+background: #f0c8a3;
+width: 50%;
+margin: 0 auto;
+
+font-family: Pacifico, serif;
+font-size: 1.55rem;
+border-radius: 0.85rem;
+/* color: rgb(241, 239, 239); */
+}
 .buttonLoginGroupDansModal {
 	display: flex;
 	justify-content: space-around;
@@ -134,7 +146,6 @@ label{
 	font-family: Pacifico, serif;
 	/* width: 80%; */
 	/* margin: 0 auto; */
-	/* text-align: center; */
 	position: relative;
 }
 .labelGroupModal >input{
@@ -143,13 +154,21 @@ left: 0;
 top: 2.7rem;*/
 height: 2rem; 
 border-radius: 5px;
-width: 80%login fform;
+width: 100%;
+margin-bottom: 1rem;
+font-family: Pacifico, serif;
+font-size: 1.25rem;
 }
 .labelGroupModal{
 	display: flex;
 	flex-direction: column;
 	margin: 0 auto;
 	justify-content: space-around;
-	align-items: center;
-	width: 80%;
+	align-items: flex-start;
+	width: 60%;
+}
+.inputForm{
+	height: 2rem; 
+border-radius: 5px;
+width: 100%;
 }

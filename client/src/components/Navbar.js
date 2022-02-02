@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import ReactTooltip from "react-tooltip";
 import Modal from "react-modal";
 import "../index.css";
 import LoginForm from "./LoginForm";
@@ -20,7 +23,7 @@ const customStyles = {
 		display: "flex",
 		justifyContent: "center",
 		padding: "0.3REM",
-		boxShadow: "3px 3px 30px 2px"
+		boxShadow: "3px 3px 30px 2px",
 	},
 };
 
@@ -37,9 +40,14 @@ const Navbar = () => {
 	function closeModal() {
 		setIsOpen(false);
 	}
+	
 	return (
 		<>
 			<nav style={styles.navbar}>
+				<div style={{ ...styles.text, ...styles.socialButton }}>
+					<FacebookIcon sx={{ fontSize: 40 }} />
+					<TwitterIcon sx={{ fontSize: 40 }} />
+				</div>
 				<ol style={styles.ol}>
 					<li>
 						<Link to="/" style={styles.text}>
@@ -67,8 +75,20 @@ const Navbar = () => {
 						</Link>
 					</li>
 				</ol>
+
+				<ReactTooltip   globalEventOff='click' place="bottom" type="light" effect="float" id='AccountCircleIcon' >
+					<h1>Connectez-vous</h1>
+				<p>pour pourvoir me poser des questions et recevoir des alertes par mail quand je rajoute de nouveaux produits !</p>
+				</ReactTooltip>
 				<div onClick={openModal} style={{ ...styles.text, ...styles.connexionButton }}>
-					{isUserConnected ? "Christele Vachon" : <FontAwesomeIcon icon={faUser} />}
+					{isUserConnected ? (
+						"Christele Vachon"
+					) : (
+						<>
+							<AccountCircleIcon data-tip data-for='AccountCircleIcon'  sx={{ fontSize: 40 }} />
+							<HelpOutlineOutlinedIcon style={{ alignSelf: "end", position: "relative", right: "10" }} sx={{ fontSize: 15 }} />
+						</>
+					)}
 				</div>
 
 				<Modal
@@ -117,5 +137,20 @@ const styles = {
 	connexionButton: {
 		position: "absolute",
 		right: "4%",
+		height: "5VH",
+		minHeight: "5VH",
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+	},
+	socialButton: {
+		position: "absolute",
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		width: "7REM",
+		left: "4%",
+		height: "5VH",
+		minHeight: "5VH",
 	},
 };
