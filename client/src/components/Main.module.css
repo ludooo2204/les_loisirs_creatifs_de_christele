@@ -96,7 +96,9 @@
 }
 
 .cardContainer {
-	margin: 5%;
+	margin-top: 5%;
+	margin-left: 1%;
+	margin-right: 1%;
 	border-radius: 10%;
 	width: 15%;
 	height: 25vw;
@@ -198,7 +200,7 @@
 }
 .legende:hover .priceTag {
 	background-color: #DEBAD5;
-	transform: translateX(9rem) scale(1.2);
+	transform: translateX(9VW) scale(1.2);
 	border-color: #A64E8F ;
 
 }
@@ -225,7 +227,52 @@
 	width: 30px;
 	height: 30px;
 }
-.admin{
-	width: 100px;
-	height:  100px;
+
+
+.addCreation{
+	position: fixed;
+	top: 85VH;
+	left: 90VW;
+	color: #684529;
+	font-size: 4VW!important;
+}
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* Nouvelles règles si la fenêtre fait au plus 1024px de large */
+@media screen and (max-width: 1024px)
+{
+    .icons{
+        font-size: 1.5VW!important;
+        color: blue;
+        
+        }
+		.cardContainer {
+			margin-top: 5%;
+			margin-left: 20%;
+			margin-right: 20%;
+			border-radius: 10%;
+			width: 60%;
+			height: 85vw;
+			transition: all 0.4s;
+			background-color: #f0c8a3;
+			position: relative;
+			/* padding-bottom: 14%; */
+			overflow: hidden;
+		
+			outline: none;
+		}
+		.main {
+			background: url("../image/fond_vierge.png") ;
+			background-size: cover;
+			background-repeat: repeat-y;
+			width: 100%;
+			height: auto;
+			display: flex;
+			overflow: visible!important;
+			flex-wrap: wrap;
+			/* align-items: center; */
+			/* position: relative; */
+		}
 }

@@ -5,6 +5,7 @@ import Creations from "./Creations";
 import QuiSuisJe from "./QuiSuisJe";
 import Contact from "./Contact";
 import Evenements from "./Evenements";
+import AjoutCreation from "./AjoutCreation/AjoutCreation";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const Home = () => {
 	const [isAdminProp, setIsAdminProp] = useState(false);
@@ -21,6 +22,7 @@ const Home = () => {
 				<Route path="QuiSuisJe" element={<QuiSuisJe />} />
 				<Route path="Contact" element={<Contact />} />
 				<Route path="Evenements" element={<Evenements />} />
+				<Route path="ajoutCreation" element={<AjoutCreation />} />
 			</Routes>
 		</Router>
 	);

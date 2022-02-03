@@ -7,6 +7,7 @@ import styles from "./Main.module.css";
 import image1 from "../image/1.jpg";
 import image2 from "../image/2.jpg";
 import image3 from "../image/blog3.jpg";
+import DeleteAndModifyByAdmin from "./DeleteAndModifyByAdmin/DeleteAndModifyByAdmin";
 import image4 from "../image/4.jpg";
 let images = [image1, image2, image3];
 
@@ -95,11 +96,12 @@ const Card = ({ isAdmin }) => {
 			</Slider>
 			<div className={styles.legende}>
 				<div className={styles.priceTag}>35€</div>
-				{isAdmin&&<div className={styles.admin}>35€</div>}
 				<h3 className={styles.title}>Boite à thé</h3>
 				<p> magnifique boite à thés avec 16 compartiments. Piece unique !</p>
+		{isAdmin&&<DeleteAndModifyByAdmin />}
 			</div>
 		</div>
+		
 	);
 };
 
