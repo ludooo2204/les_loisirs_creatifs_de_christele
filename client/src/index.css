@@ -4,7 +4,10 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-
+@font-face {
+	font-family: 'Pacifico';
+	src: local('Pacifico'), url("./fonts/Pacifico-Regular.ttf") format('truetype');
+}
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
@@ -173,8 +176,4 @@ line-height: 1.5rem;
 	height: 2rem; 
 border-radius: 5px;
 width: 100%;
-}
-.tooltip{
-	border-radius: 15px!important;
-	font-weight: 600!important;
 }

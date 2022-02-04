@@ -11,7 +11,7 @@
 /* height: 80VH; */
 }
 .evenementContainer{
-    background: url("../image/fond_vierge.png") no-repeat;
+    background: url("../../image/fond_vierge.png") no-repeat;
     background-size: cover;
     height: 95VH;
     /* overflow: visible; */

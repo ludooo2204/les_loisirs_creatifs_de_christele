@@ -7,8 +7,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ReactTooltip from "react-tooltip";
 import Modal from "react-modal";
-import "../index.css";
-import LoginForm from "./LoginForm";
+import styles from "./Navbar.module.css";
+import LoginForm from "../LoginForm/LoginForm";
 const customStyles = {
 	content: {
 		top: "50%",
@@ -38,7 +38,7 @@ const Navbar = ({ isAdmin }) => {
 		console.log(user);
 		if (user === "ludo") {
 			setAdminConnected(true);
-			isAdmin(true)
+			isAdmin(true);
 		}
 		setUserConnected(user);
 	};
@@ -52,44 +52,44 @@ const Navbar = ({ isAdmin }) => {
 
 	return (
 		<>
-			<nav style={styles.navbar}>
-				<div style={{ ...styles.text, ...styles.socialButton }}>
+			<nav className={styles.navbar}>
+				<div className={`${styles.text}  ${styles.socialButton}`}>
 					<FacebookIcon />
 					<TwitterIcon />
 				</div>
-				<ol style={styles.ol}>
+				<ol className={styles.ol}>
 					<li>
-						<Link to="/" style={styles.text}>
+						<Link to="/" className={styles.text}>
 							Accueil
 						</Link>
 					</li>
 					<li>
-						<Link to="/Creations" style={styles.text}>
+						<Link to="/Creations" className={styles.text}>
 							Mes Créations
 						</Link>
 					</li>
 					<li>
-						<Link to="/QuiSuisJe" style={styles.text}>
+						<Link to="/QuiSuisJe" className={styles.text}>
 							Qui suis-je ?
 						</Link>
 					</li>
 					<li>
-						<Link to="/Contact" style={styles.text}>
+						<Link to="/Contact" className={styles.text}>
 							Contactez-moi
 						</Link>
 					</li>
 					<li>
-						<Link to="/Evenements" style={styles.text}>
+						<Link to="/Evenements" className={styles.text}>
 							Evénements
 						</Link>
 					</li>
 				</ol>
 
-				<ReactTooltip className="tooltip" globalEventOff="click" place="bottom" type="light" effect="float" id="AccountCircleIcon">
+				<ReactTooltip className={styles.tooltip} globalEventOff="click" place="bottom" type="light" effect="float" id="AccountCircleIcon">
 					<h1>Connectez-vous</h1>
 					<p>pour pourvoir me poser des questions, commenter mes créations ou recevoir des alertes par mail quand je rajoute de nouveaux produits !</p>
 				</ReactTooltip>
-				<div onClick={openModal} style={{ ...styles.text, ...styles.connexionButton }}>
+				<div onClick={openModal} className={`${styles.text}  ${styles.connexionButton}`}>
 					{userConnected ? (
 						"Christele Vachon"
 					) : (
@@ -120,50 +120,3 @@ const Navbar = ({ isAdmin }) => {
 
 export default Navbar;
 
-const styles = {
-	navbar: {
-		backgroundColor: "#F0C8A3",
-		height: "5VH",
-		minHeight: "5VH",
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "center",
-	},
-	ol: {
-		display: "flex",
-		width: "50%",
-		height: "100%",
-		margin: "0",
-		padding: "0",
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-
-		listStyleType: "none",
-	},
-	text: {
-		color: "#684529",
-		fontFamily: "Pacifico",
-		textDecoration: "none",
-		fontSize: "1.2VW",
-	},
-	connexionButton: {
-		position: "absolute",
-		right: "4%",
-		height: "5VH",
-		minHeight: "5VH",
-		display: "flex",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-	socialButton: {
-		position: "absolute",
-		display: "flex",
-		justifyContent: "space-between",
-		alignItems: "center",
-		width: "7REM",
-		left: "4%",
-		height: "5VH",
-		minHeight: "5VH",
-	},
-};

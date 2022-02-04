@@ -1,0 +1,59 @@
+.tooltip{
+	border-radius: 15px!important;
+	font-weight: 600!important;
+}
+.navbar{
+	background-color: #F0C8A3;
+	height: 5VH;
+	min-height: 5VH;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.ol {
+	display: flex;
+	width: 50%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	list-style-type: none;
+}
+.text {
+	color: #684529;
+	font-family: Pacifico;
+	text-decoration: none;
+	font-size:calc(8px + 0.8VW);
+}
+.connexionButton {
+	position: absolute;
+	right: 4%;
+	height: 5VH;
+	min-height: 5VH;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.socialButton {
+	position: absolute;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 7REM;
+	left: 4%;
+	height: 5VH;
+	min-height: 5VH;
+}
+
+
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* Nouvelles règles si la fenêtre fait au plus 1024px de large */
+@media screen and (max-width: 768px)
+{
+
+}

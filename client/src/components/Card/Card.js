@@ -3,12 +3,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Modal from "react-modal";
-import styles from "./Main.module.css";
-import image1 from "../image/1.jpg";
-import image2 from "../image/2.jpg";
-import image3 from "../image/blog3.jpg";
+import styles from "./Card.module.css";
+import image1 from "../../image/1.jpg";
+import image2 from "../../image/2.jpg";
+import image3 from "../../image/blog3.jpg";
 import DeleteAndModifyByAdmin from "./DeleteAndModifyByAdmin/DeleteAndModifyByAdmin";
-import image4 from "../image/4.jpg";
+import image4 from "../../image/4.jpg";
 let images = [image1, image2, image3];
 
 Modal.setAppElement("#root");
@@ -96,12 +96,11 @@ const Card = ({ isAdmin }) => {
 			</Slider>
 			<div className={styles.legende}>
 				<div className={styles.priceTag}>35€</div>
-				<h3 className={styles.title}>Boite à thé</h3>
-				<p> magnifique boite à thés avec 16 compartiments. Piece unique !</p>
-		{isAdmin&&<DeleteAndModifyByAdmin />}
+				<div className={styles.title}>Boite à thé</div>
+				<div className={styles.description}> magnifique boite à thés avec 16 compartiments. Piece unique !</div>
+				{isAdmin && <DeleteAndModifyByAdmin />}
 			</div>
 		</div>
-		
 	);
 };
 

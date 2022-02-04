@@ -1,10 +1,10 @@
 import React,{useState} from "react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar/Navbar";
 import Main from "./Main";
 import Creations from "./Creations";
-import QuiSuisJe from "./QuiSuisJe";
-import Contact from "./Contact";
-import Evenements from "./Evenements";
+import QuiSuisJe from "./QuiSuisJe/QuiSuisJe";
+import Contact from "./Contact/Contact";
+import Evenements from "./Evenements/Evenements";
 import AjoutCreation from "./AjoutCreation/AjoutCreation";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const Home = () => {

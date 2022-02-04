@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./Main.module.css";
-import Card from './Card'
+import Card from './Card/Card'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
