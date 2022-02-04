@@ -6,7 +6,7 @@ import ciseau2 from'../image/ciseau2.png'
 import bobineFil from'../image/bobine.png'
 
 const Main = () => {
-	
+
 	const fleurLeftRef = useRef();
 	const fleurRightRef = useRef();
 	const titleRef = useRef();

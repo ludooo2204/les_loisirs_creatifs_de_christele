@@ -13,6 +13,10 @@ let images = [image1, image2, image3];
 
 Modal.setAppElement("#root");
 
+// TO detect if mobile or not
+console.log('window.innerWidth');
+console.log(window.innerWidth);
+
 const customStyles = {
 	content: {
 		top: "50%",
