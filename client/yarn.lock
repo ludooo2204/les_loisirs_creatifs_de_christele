@@ -5968,6 +5968,11 @@ makeerror@1.0.12:
   dependencies:
     tmpl "1.0.5"
 
+match-media@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/match-media/-/match-media-0.2.0.tgz#ea4e09742e7253cc7d7e1599ba627e0fa29fbc50"
+  integrity sha1-6k4JdC5yU8x9fhWZumJ+D6KfvFA=
+
 mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.14.tgz#7113fc4281917d63ce29b43446f701e68c25ba50"

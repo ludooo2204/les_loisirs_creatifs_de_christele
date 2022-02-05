@@ -16,6 +16,14 @@
     "start": "nodemon -r dotenv/config server.js",
     "client": "cd client && yarn start",
     "clientInstall": "cd client && yarn",
-    "build": "cd client && yarn build"
+    "build": "cd client && yarn build",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^27.5.0",
+    "superagent": "^7.1.1",
+    "supertest": "^6.2.2"
   }
 }

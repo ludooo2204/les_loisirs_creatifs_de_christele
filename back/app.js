@@ -1,6 +1,7 @@
+
+
 const express =require('express')
 const path = require('path');
-require("dotenv").config;
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -29,8 +30,7 @@ const morgan = require('morgan');
 // });
 
 
-const PORT= process.env.PORT || 7000
-const app = express()
+ const app = express()
 
 
 // enable files upload
@@ -95,6 +95,4 @@ app.get('/*',(_,reponse)=>{
     reponse.sendFile(path.join(__dirname, './client/build/index.html'))
 })
 
-app.listen(PORT,err=>console.log(`le serveur tourne sur le port : ${PORT}`))
-
-
+module.exports = app;

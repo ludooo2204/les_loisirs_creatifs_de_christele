@@ -11,7 +11,7 @@ import DeleteAndModifyByAdmin from "./DeleteAndModifyByAdmin/DeleteAndModifyByAd
 import image4 from "../../image/4.jpg";
 let images = [image1, image2, image3];
 
-Modal.setAppElement("#root");
+// Modal.setAppElement("#root");
 
 // TO detect if mobile or not
 console.log('window.innerWidth');

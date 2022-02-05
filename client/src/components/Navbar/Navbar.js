@@ -89,7 +89,7 @@ const Navbar = ({ isAdmin }) => {
 					<h1>Connectez-vous</h1>
 					<p>pour pourvoir me poser des questions, commenter mes créations ou recevoir des alertes par mail quand je rajoute de nouveaux produits !</p>
 				</ReactTooltip>
-				<div onClick={openModal} className={`${styles.text}  ${styles.connexionButton}`}>
+				<div data-testid="connexion" onClick={openModal} className={`${styles.text}  ${styles.connexionButton}`}>
 					{userConnected ? (
 						"Christele Vachon"
 					) : (
