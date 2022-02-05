@@ -1,0 +1,15 @@
+{
+  "name": "les_loisirs_creatifs_de_christele",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ludooo2204/les_loisirs_creatifs_de_christele.git",
+  "author": "ludovic Vachon <vachon.ludovic@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "back": "cd back && nodemon -r dotenv/config server.js",
+    "client": "cd client && yarn start",
+    "build": "cd client && yarn build",
+    "testClient": "cd client && yarn test",
+    "testBack": "cd back && yarn test"
+  }
+}

@@ -49,8 +49,6 @@ app.use(express.static('client/build'))
 app.post('/addProduct', (req, res) => {
     console.log("coucou");
     try {
-        // console.log("ffreq");
-        // console.log(req);
         if(!req.files) {
             res.send({
                 status: false,
@@ -84,15 +82,15 @@ app.get("/test",(requete,reponse)=>{
     console.log("ya kk1?")
     reponse.send({msg:"hello ludo"})
 })
-app.post("/addProducts",(requete,reponse)=>{
-    console.log("post")
-    console.log(reponse)
-    console.log(requete)
-    console.log("ya kk1?")
-    reponse.send({msg:"hello ludo"})
-})
+// app.post("/addProducts",(requete,reponse)=>{
+//     console.log("post")
+//     console.log(reponse)
+//     console.log(requete)
+//     console.log("ya kk1?")
+//     reponse.send({msg:"hello ludo"})
+// })
 app.get('/*',(_,reponse)=>{
-    reponse.sendFile(path.join(__dirname, './client/build/index.html'))
+    reponse.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
 
 module.exports = app;

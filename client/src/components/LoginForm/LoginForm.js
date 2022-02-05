@@ -90,7 +90,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				<button className="button--validation" onClick={validerForm}>
 					valider
 				</button>
-				<button style={{ width: "100px", position: "absolute" }} onClick={validerFormFake}>
+				<button style={{ width: "100px", position: "absolute" }} data-testid="devAdmin" onClick={validerFormFake}>
 					se connecter pour developpement
 				</button>
 			</span>
