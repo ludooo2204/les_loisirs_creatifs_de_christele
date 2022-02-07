@@ -13,13 +13,13 @@ const FileUploader = ({onFileSelect,onFileSelectError,onFileSelectSuccess}) => {
         console.log(file);
         if (file.size > 1000024)
           onFileSelectError({ error: "File size cannot exceed more than 10MB" });
-        // else onFileSelectSuccess(file);
-        else onFileSelectSuccess(e.target.files);
+        else onFileSelectSuccess(file);
+        // else onFileSelectSuccess(e.target.files);
       };
 
     return (
         <div className="file-uploader">
-            <input type="file" multiple onChange={handleFileInput} />
+            <input type="file"  onChange={handleFileInput} />
             {/* <button onClick={e => fileInput.current && fileInput.current.click()} className="btn btn-primary" >coucou</button> */}
         </div>
     )
@@ -34,10 +34,7 @@ const InputImage = ({Recupererfile}) => {
     console.log("selectedFileé");
     console.log(selectedFile);
     // formData.append("name", name);
-    for (const file of selectedFile) {
-      console.log("file");
-      console.log(file);
-      formData.append("file", file);
+      formData.append("file", selectedFile);
       axios
       .post("/addProduct", formData)
       .then((res) => {
@@ -46,7 +43,6 @@ const InputImage = ({Recupererfile}) => {
         console.log(res);
       })
       .catch((err) => alert("File Upload Error"));
-    }
     // formData.append("file", selectedFile);
     Recupererfile(selectedFile)
     console.log("formData");

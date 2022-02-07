@@ -17,7 +17,7 @@ const AjoutCreation = () => {
 		setDescription(e.target.value);
 	};
 	const handleImage = (e) => {
-		console.log("e");
+		console.log("handleImage");
 		console.log(e);
 		setImages((images) => [...images, e]);
 	};
