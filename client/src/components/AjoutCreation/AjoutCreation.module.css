@@ -3,18 +3,84 @@
 	background-size: cover;
 	width: 100%;
 	height: auto;
-	min-height: 95VH;
+	min-height: 95vh;
+	display: flex;
+	flex-direction: row;
+	overflow: hidden;
+	justify-content: space-around;
+	align-items: center;
+}
+.secondary {
 	display: flex;
 	flex-direction: column;
-	overflow: hidden;
-	/* align-items: center; */
-	/* position: relative; */
+	justify-content: space-around;
+	align-items: center;
+	flex: 7;
 }
-.image{
-	width: 25%;
+.image {
+	width: auto;
 	height: auto;
+	max-width: 20VW;
+	max-height:  25VH;
+	padding-left: 15%;
+	padding-right: 15%;
+	/* max-height: 50VH; */
 }
-.ListeImages{
-display: flex;
-flex-direction: row;
+.ListeImages {
+	display: flex;
+	flex-direction: row;
+	padding-bottom: 10%;
 }
+.svg1 {
+	display: flex;
+	width: 10%;
+	transform: rotate(-20deg) scaleX(-1);
+	flex: 1;
+	align-self: center;
+	padding-bottom: 10%;
+	/* position: absolute;
+	left: 0; */
+}
+.svg2 {
+	display: flex;
+	width: 10%;
+	transform: rotate(20deg);
+	padding-bottom: 10%;
+	flex: 1;
+	align-self: center;
+	/* position: absolute;
+	right: 0; */
+}
+.container {
+	width: 50VW;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+.inputTitle {
+	width: 50%;
+
+}
+.iconeDelete{
+	color: #684529 ;
+	font-size: 2REM;
+}
+.imageGroup{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.buttonValidation {
+    color:black;
+    height: 3REM;
+    background: #f0c8a3;
+    width: 50%;
+    margin: 0 auto;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.78); 
+        box-shadow: 5px 5px 11px 2px rgba(0,0,0,0.4);
+    font-family: Pacifico, serif;
+    font-size: 1.55rem;
+    border-radius: 0.85rem;
+    /* color: rgb(241, 239, 239); */
+    }

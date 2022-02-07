@@ -3,6 +3,7 @@ import styles from "./AjoutCreation.module.css";
 import ReactTooltip from "react-tooltip";
 import InputImage from "./InputImage";
 import ListeImages from "./ListeImages";
+import { ReactComponent as LoginSvg } from "../../image/svg/Black-And-White-Flowers2.svg";
 
 const AjoutCreation = () => {
 	const [name, setName] = useState("");
@@ -31,14 +32,20 @@ const AjoutCreation = () => {
 	console.log(images);
 	return (
 		<div className={styles.main}>
-			<h1>REVOIR L'UPLOAD DE FICHIER MULTIPLE</h1>
-			<ListeImages images={images}/>
-			<InputImage Recupererfile={handleImage} />
-			<label>Titre</label>
-			<input onChange={handleTitle} type="text" value={title} maxLength="11" />
-			<label>Description</label>
-			<textarea onChange={handleDescription} value={description} type="text" maxLength="20" />
-			<button onClick={validerAjout}>valider</button>
+			<LoginSvg className={styles.svg1} />
+			<div className={styles.secondary}>
+				<div className={styles.container}>
+					<label>Titre</label>
+					<input onChange={handleTitle} type="text" value={title} maxLength="25" className={styles.inputTitle} />
+					<label>Description</label>
+					<textarea onChange={handleDescription} rows={5} value={description} type="text" maxLength="60" />
+					<br />
+					<InputImage Recupererfile={handleImage} />
+				</div>
+				<ListeImages images={images} />
+					<button onClick={validerAjout} className={styles.buttonValidation}>valider</button>
+			</div>
+				<LoginSvg className={styles.svg2} />
 		</div>
 	);
 };
