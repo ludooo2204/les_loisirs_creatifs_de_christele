@@ -19,6 +19,8 @@ const AjoutCreation = () => {
 	const handleImage = (e) => {
 		console.log("handleImage");
 		console.log(e);
+		// console.log('URL.createObjectURL(e)');
+		// console.log(URL.createObjectURL(e));
 		setImages((images) => [...images, e]);
 	};
 	const validerAjout = () => {

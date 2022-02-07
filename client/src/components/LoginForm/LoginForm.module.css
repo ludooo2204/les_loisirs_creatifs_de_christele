@@ -1,0 +1,51 @@
+.LoginSvg1{
+    width: 15%;
+    margin: 0 auto;
+    position: absolute;
+    top:0; 
+    left: 0;
+    transform: scaleX(-1);
+}
+.LoginSvg2{
+    width: 15%;
+    margin: 0 auto;
+    position: absolute;
+    top:0; 
+    right: 0;
+}
+.LoginSvg3{
+    width: 15%;
+    margin: 0 auto;
+    position: absolute;
+    bottom:0; 
+    left: 0;
+    transform: scale(-1,-1);
+
+}
+.LoginSvg4{
+    width: 15%;
+    margin: 0 auto;
+    position: absolute;
+    bottom:0; 
+    right: 0;
+    transform: scaleY(-1);
+}
+
+.dev{
+    width: 100px;
+     position: absolute;
+     left: 5%;
+}
+.buttonValidation {
+    color:black;
+    height: 3REM;
+    background: #f0c8a3;
+    width: 50%;
+    margin: 0 auto;
+    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.78); 
+        box-shadow: 5px 5px 11px 2px rgba(0,0,0,0.4);
+    font-family: Pacifico, serif;
+    font-size: 1.55rem;
+    border-radius: 0.85rem;
+    /* color: rgb(241, 239, 239); */
+    }

@@ -3,6 +3,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ReactTooltip from "react-tooltip";
 import isEmail from "validator/lib/isEmail";
+import {ReactComponent as LoginSvg} from '../../image/svg/Black-And-White-Flowers.svg'
+import styles from "./LoginForm.module.css";
+
 
 const LoginForm = ({ closeModal, seConnecter }) => {
 	const [isChoixInscriptionActif, setIsChoixInscriptionActif] = useState(true);
@@ -47,6 +50,10 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					<span>S'inscrire</span>
 				</button>
 			</div>
+			<LoginSvg className={styles.LoginSvg1}/>
+			<LoginSvg className={styles.LoginSvg2}/>
+			<LoginSvg className={styles.LoginSvg3}/>
+			<LoginSvg className={styles.LoginSvg4}/>
 			<div className="labelGroupModal">
 				<span>
 					<label data-tip data-for="identifiant">
@@ -86,14 +93,12 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				{/* console.log(isEmail('foo@bar.com')); pour verifier si mail ok */}
 				{!isChoixInscriptionActif && <input type="email" />}
 			</div>
-			<span>
-				<button className="button--validation" onClick={validerForm}>
+				<button className={styles.buttonValidation} onClick={validerForm}>
 					valider
 				</button>
-				<button style={{ width: "100px", position: "absolute" }} data-testid="devAdmin" onClick={validerFormFake}>
+				<button className={styles.dev } data-testid="devAdmin" onClick={validerFormFake}>
 					se connecter pour developpement
 				</button>
-			</span>
 		</div>
 	);
 };

@@ -125,19 +125,7 @@ code {
 .button--calypso--inactif {
 	opacity: 0.6;
 }
-.button--validation {
-color:black;
-height: 3REM;
-background: #f0c8a3;
-width: 50%;
-margin: 0 auto;
--webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.78); 
-	box-shadow: 5px 5px 11px 2px rgba(0,0,0,0.4);
-font-family: Pacifico, serif;
-font-size: 1.55rem;
-border-radius: 0.85rem;
-/* color: rgb(241, 239, 239); */
-}
+
 .buttonLoginGroupDansModal {
 	display: flex;
 	justify-content: space-around;

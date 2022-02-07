@@ -2,10 +2,19 @@
 	background: url("../../image/fond_vierge.png") no-repeat;
 	background-size: cover;
 	width: 100%;
-	height: 95vh;
+	height: auto;
+	min-height: 95VH;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
 	/* align-items: center; */
 	/* position: relative; */
+}
+.image{
+	width: 25%;
+	height: auto;
+}
+.ListeImages{
+display: flex;
+flex-direction: row;
 }

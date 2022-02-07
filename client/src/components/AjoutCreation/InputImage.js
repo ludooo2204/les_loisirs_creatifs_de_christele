@@ -11,6 +11,8 @@ const FileUploader = ({onFileSelect,onFileSelectError,onFileSelectSuccess}) => {
         console.log(e.target.files);
         console.log("file");
         console.log(file);
+        // console.log("URL.createObjectURL(file)");
+        // console.log(URL.createObjectURL(file));
         if (file.size > 1000024)
           onFileSelectError({ error: "File size cannot exceed more than 10MB" });
         else onFileSelectSuccess(file);
@@ -33,6 +35,8 @@ const InputImage = ({Recupererfile}) => {
     e.preventDefault();
     console.log("selectedFileé");
     console.log(selectedFile);
+    // console.log('URL.createObjectURL(selectedFile)');
+    // console.log(URL.createObjectURL(selectedFile));
     // formData.append("name", name);
       formData.append("file", selectedFile);
       axios
@@ -48,14 +52,7 @@ const InputImage = ({Recupererfile}) => {
     console.log("formData");
     console.log(formData);
   
-    // axios
-    //   .post("/addProduct", formData)
-    //   .then((res) => {
-    //     alert("File Upload success");
-    //     console.log("res");
-    //     console.log(res);
-    //   })
-    //   .catch((err) => alert("File Upload Error"));
+ 
   };
 
   return (
