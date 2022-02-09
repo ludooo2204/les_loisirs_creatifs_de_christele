@@ -8,24 +8,41 @@ const fs = require("fs");
 
 // const passport = require('passport');
 
-// let mysql = require("mysql");
-// let con = mysql.createConnection({
-// 	host: "localhost",
-// 	user: "root",
-// 	password: "",
-//   database:"api"
-// });
-// con.connect(function (err) {
-// 	if (err) throw err;
-// 	console.log("connected!!");
-// 	con.query("SELECT * FROM etalonnages", function (err, result) {
-// 		if (err) throw err;
-// result.forEach(element => {
-//   console.log(element)
+let mysql = require("mysql");
+let con = mysql.createConnection({
+	host: "localhost",
+	user: "root",
+	password: "",
+	database: "christelebdd",
+});
+con.connect(function (err) {
+	if (err) throw err;
+	console.log("connected!!");
 
-// });
-// 	});
-// });
+	// INSERT INTO `categories` (`id`, `nom`) VALUES (NULL, 'noel');
+	con.query(
+		"CREATE TABLE IF NOT EXISTS `creations` ( `id` INT NOT NULL AUTO_INCREMENT , `nom` VARCHAR(50) NOT NULL , `prix` INT NOT NULL , `description` VARCHAR(300) NOT NULL , `likes` INT DEFAULT 0 , `date_publication` DATETIME DEFAULT CURRENT_TIMESTAMP , `categorieID` INT NOT NULL ,FOREIGN KEY(`categorieID`) REFERENCES `categories`(`categorieID`), PRIMARY KEY (`id`)) ENGINE = MyISAM;",
+		function (err, result) {
+			if (err) throw err;
+			console.log("base de données  creations CREEE !!");
+		}
+	);
+	con.query(
+		"CREATE TABLE IF NOT EXISTS `categories` ( `id` INT NOT NULL AUTO_INCREMENT , `categorie` VARCHAR(50) NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;",
+		function (err, result) {
+			if (err) throw err;
+			console.log("base de données  categories CREEE !!");
+		}
+	);
+
+		con.query("SELECT * FROM creations INNER JOIN categories ON creations.categorieID = categories.id ", function (err, result) {
+			if (err) throw err;
+	result.forEach(element => {
+	  console.log(element)
+
+	});
+		});
+});
 
 const app = express();
 
@@ -83,17 +100,17 @@ app.post("/addProduct", (req, res) => {
 	try {
 		console.log("la nouvelle creation");
 		console.log(req.body);
-        let data=req.body
-        const rnd = +new Date();
-		for (let i=0;i<data.images.length;i++) {
-			fs.rename("uploads/" + data.images[i], "uploads/" +"_"+ rnd + data.images[i], (err) => {
+		let data = req.body;
+		const rnd = +new Date();
+		for (let i = 0; i < data.images.length; i++) {
+			fs.rename("uploads/" + data.images[i], "uploads/" + "_" + rnd + data.images[i], (err) => {
 				if (err) throw err;
 				console.log("REname complete");
 			});
-            data.images[i]="_"+rnd+data.images[i]
+			data.images[i] = "_" + rnd + data.images[i];
 		}
-        console.log("data")
-        console.log(data)
+		console.log("data");
+		console.log(data);
 	} catch (err) {
 		console.log("tiens ca bug");
 		console.log(err);
