@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from "./Main.module.css";
 import Card from './Card/Card'
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
+import axios from 'axios';
 const Creations = ({isAdmin}) => {
+    useEffect(() => {
+      axios.get('/getProducts')
+      .then(e=>console.log(e) )
+    
+     
+    }, [])
+    
     let navigate = useNavigate();
     return (
         <div className={styles.main}>

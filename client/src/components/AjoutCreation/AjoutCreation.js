@@ -60,9 +60,7 @@ const AjoutCreation = () => {
 				<button onClick={validerAjout} className={styles.buttonValidation}>
 					valider
 				</button>
-				<button onClick={()=>navigate('../Creations')} className={styles.buttonValidation}>
-					nav
-				</button>
+				
 			</div>
 			<LoginSvg className={styles.svg2} />
 		</div>

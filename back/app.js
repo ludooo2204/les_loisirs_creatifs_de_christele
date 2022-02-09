@@ -4,52 +4,10 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const fs = require("fs");
-
-// const passport = require('passport');
-
-let mysql = require("mysql");
-let con = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "",
-	database: "christelebdd",
-});
-con.connect(function (err) {
-	if (err) throw err;
-	console.log("connected!!");
-
-	// INSERT INTO categories` (`id`, `nom`) VALUES (NULL, 'noel');
-	con.query(
-		"CREATE TABLE IF NOT EXISTS creations ( id_creation INT NOT NULL AUTO_INCREMENT , nom VARCHAR(50) NOT NULL , prix INT NOT NULL , description VARCHAR(300) NOT NULL , likes INT DEFAULT 0 , date_publication DATETIME DEFAULT CURRENT_TIMESTAMP , categorieID INT NOT NULL ,CONSTRAINT FK_categorieID FOREIGN KEY (categorieID) REFERENCES categories(categorieID), PRIMARY KEY (id_creation)) ENGINE = MyISAM;",
-		function (err, result) {
-			if (err) throw err;
-			console.log("base de données  creations CREEE !!");
-		}
-	);
-	con.query(
-		"CREATE TABLE IF NOT EXISTS categories ( id_categorie INT NOT NULL AUTO_INCREMENT , categorie VARCHAR(50) NOT NULL , PRIMARY KEY (id_categorie)) ENGINE = MyISAM;",
-		function (err, result) {
-			if (err) throw err;
-			console.log("base de données  categories CREEE !!");
-		}
-	);
-	con.query(
-		"CREATE TABLE IF NOT EXISTS images ( id_image INT NOT NULL AUTO_INCREMENT , url VARCHAR(100) NOT NULL ,CONSTRAINT FK_id_creation FOREIGN KEY (id_creation) REFERENCES creations(id_creation), id_creation INT NOT NULL, PRIMARY KEY (id_image)) ENGINE = MyISAM;",
-		function (err, result) {
-			if (err) throw err;
-			console.log("base de données  images CREEE !!");
-		}
-	);
-
-		con.query("SELECT * FROM creations INNER JOIN categories ON creations.categorieID = categories.id_categorie ", function (err, result) {
-			if (err) throw err;
-	result.forEach(element => {
-	  console.log(element)
-
-	});
-		});
-});
+let addImage = require("./routes/addImage");
+let addProduct = require("./routes/addProduct"); 
+let getProducts = require("./routes/getProducts"); 
+let initBDD = require("./initBDD");
 
 const app = express();
 
@@ -63,78 +21,19 @@ app.use(
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("dev"));
-
+// app.use(morgan("dev"));
+// app.use(morgan('combined'))
+app.use(morgan('tiny'));
 app.use(express.json());
 app.use(express.static("client/build"));
-
-app.post("/addImage", (req, res) => {
-	console.log("coucou");
-	try {
-		if (!req.files) {
-			res.send({
-				status: false,
-				message: "No file uploaded",
-			});
-		} else {
-			console.log("req");
-			console.log(req.files);
-			//Use the name of the input field (i.e. "avatar") to retrieve the uploaded file
-			let avatar = req.files.file;
-			// const rnd= Math.random()
-			//Use the mv() method to place the file in upload directory (i.e. "uploads")
-			avatar.mv("./uploads/" + avatar.name);
-			// avatar.mv('./uploads/' + rnd+avatar.name);
-
-			//send response
-			res.send({
-				status: true,
-				message: "File is uploaded",
-				data: {
-					name: avatar.name,
-					// name: rnd+avatar.name,
-					mimetype: avatar.mimetype,
-					size: avatar.size,
-				},
-			});
-		}
-	} catch (err) {
-		res.status(500).send(err);
-	}
-});
-app.post("/addProduct", (req, res) => {
-	console.log("coucou");
-	try {
-		console.log("la nouvelle creation");
-		console.log(req.body);
-		let data = req.body;
-		const rnd = +new Date();
-		for (let i = 0; i < data.images.length; i++) {
-			fs.rename("uploads/" + data.images[i], "uploads/" + "_" + rnd + data.images[i], (err) => {
-				if (err) throw err;
-				console.log("REname complete");
-			});
-			data.images[i] = "_" + rnd + data.images[i];
-		}
-		console.log("data");
-		console.log(data);
-	} catch (err) {
-		console.log("tiens ca bug");
-		console.log(err);
-		res.status(500).send(err);
-	}
-});
+app.use("/addImage", addImage);
+app.use("/addProduct", addProduct);
+app.use("/getProducts", getProducts);
 app.get("/test", (requete, reponse) => {
 	console.log("ya kk1?");
 	reponse.send({ msg: "hello ludo" });
 });
-// app.post("/addProducts",(requete,reponse)=>{
-//     console.log("post")
-//     console.log(reponse)
-//     console.log(requete)
-//     console.log("ya kk1?")
-//     reponse.send({msg:"hello ludo"})
-// })
+
 app.get("/*", (_, reponse) => {
 	reponse.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
