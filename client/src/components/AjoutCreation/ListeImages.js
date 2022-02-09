@@ -1,21 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AjoutCreation.module.css";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 const ListeImages = ({ images }) => {
-	if (images.length > 0) {
-		console.log("images from ListeImages");
-		console.log(images);
-		console.log("URL.createObjectURL(selectedFile)");
-		console.log(URL.createObjectURL(images[0]));
+	const [imagesState, setimagesState] = useState(images);
+	useEffect(() => {
+setimagesState(images)	
+	
+	}, [images]);
+	
+	console.log("images");
+	console.log(images);
+	console.log("imagesState");
+	console.log(imagesState);
+	const onDelete =(i)=>{
+		console.log(imagesState);
+		const copie=[...imagesState]
+		copie.splice(i,1);
+		setimagesState(copie)
 	}
 	return (
 		<div className={styles.ListeImages}>
-			{images &&
-				images.map((image) => {
+			{imagesState &&
+				imagesState.map((image,i) => {
 					return (
-						<div className={styles.imageGroup}>
+						<div key={i} className={styles.imageGroup}>
 							<img className={styles.image} src={URL.createObjectURL(image)} />
-              <HighlightOffIcon className={styles.iconeDelete}/>
+           				    <HighlightOffIcon className={styles.iconeDelete} onClick={()=>onDelete(i)}/>
 						</div>
 					);
 				})}

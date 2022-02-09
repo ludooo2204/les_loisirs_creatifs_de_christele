@@ -28,17 +28,17 @@ const AjoutCreation = () => {
 		console.log("titre " + title);
 		console.log("descripttion " + description);
 	};
-	console.log("images");
+	console.log("images from ajoutcreation");
 	console.log(images);
 	return (
 		<div className={styles.main}>
 			<LoginSvg className={styles.svg1} />
 			<div className={styles.secondary}>
 				<div className={styles.container}>
-					<label>Titre</label>
+					<label className={styles.LabelTitle}>Titre</label>
 					<input onChange={handleTitle} type="text" value={title} maxLength="25" className={styles.inputTitle} />
-					<label>Description</label>
-					<textarea onChange={handleDescription} rows={5} value={description} type="text" maxLength="60" />
+					<label className={styles.LabelTitle}>Description</label>
+					<textarea onChange={handleDescription} rows={5} value={description} className={styles.inputTitle}  	type="text" maxLength="60" />
 					<br />
 					<InputImage Recupererfile={handleImage} />
 				</div>

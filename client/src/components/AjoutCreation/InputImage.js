@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import styles from "./AjoutCreation.module.css";
-
 
 const FileUploader = ({ onFileSelect, onFileSelectError, onFileSelectSuccess }) => {
 	const fileInput = useRef(null);
@@ -9,6 +8,9 @@ const FileUploader = ({ onFileSelect, onFileSelectError, onFileSelectSuccess }) 
 	const handleFileInput = (e) => {
 		// handle validations
 		const file = e.target.files[0];
+		console.log("files");
+		console.log("files");
+		console.log("files");
 		console.log("files");
 		console.log(e.target.files);
 		console.log("file");
@@ -22,7 +24,8 @@ const FileUploader = ({ onFileSelect, onFileSelectError, onFileSelectSuccess }) 
 
 	return (
 		<div className="file-uploader">
-			<input type="file" onChange={handleFileInput} />
+			<input type="file" name="file" id="file" className={styles.inputFile} onChange={handleFileInput} />
+			<label for="file">Choisir une image</label>
 			{/* <button onClick={e => fileInput.current && fileInput.current.click()} className="btn btn-primary" >coucou</button> */}
 		</div>
 	);
@@ -31,9 +34,13 @@ const FileUploader = ({ onFileSelect, onFileSelectError, onFileSelectSuccess }) 
 const InputImage = ({ Recupererfile }) => {
 	const [name, setName] = useState("");
 	const [selectedFile, setSelectedFile] = useState(null);
-	const submitForm = (e) => {
+	useEffect(() => {
+	 if (selectedFile) submitForm()}
+	, [selectedFile])
+	
+	const submitForm = () => {
 		const formData = new FormData();
-		e.preventDefault();
+		// e.preventDefault();
 		console.log("selectedFileé");
 		console.log(selectedFile);
 		// console.log('URL.createObjectURL(selectedFile)');
@@ -53,13 +60,22 @@ const InputImage = ({ Recupererfile }) => {
 		console.log("formData");
 		console.log(formData);
 	};
-
+	const handleSelect = (file) => {
+		setSelectedFile(file);
+	};
 	return (
 		<div className="App">
 			<form>
-				<FileUploader onFileSelectSuccess={(file) => setSelectedFile(file)} onFileSelectError={({ error }) => alert(error)} />
+				<FileUploader
+					onFileSelectSuccess={(file) => {
+						handleSelect(file);
+					}}
+					onFileSelectError={({ error }) => alert(error)}
+				/>
 				<br />
-				<button onClick={submitForm} className={styles.buttonValidation}>Submit</button>
+				{/* <button onClick={submitForm} className={`${styles.buttonValidation} ${styles.buttonSubmit}`}>
+					Submit
+				</button> */}
 			</form>
 		</div>
 	);
