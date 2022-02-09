@@ -20,8 +20,8 @@
 .image {
 	width: auto;
 	height: auto;
-	max-width: 20VW;
-	max-height:  25VH;
+	max-width: 20vw;
+	max-height: 25vh;
 	padding-left: 15%;
 	padding-right: 15%;
 	/* max-height: 50VH; */
@@ -52,72 +52,94 @@
 	right: 0; */
 }
 .container {
-	width: 50VW;
+	width: 50vw;
 	margin: 0 auto;
 	display: flex;
+	/* padding-top: -10%; */
+	padding-bottom: 3%;
 	flex-direction: column;
+	margin-top: 2%;
 }
 .inputTitle {
 	width: 50%;
 	margin: 0 auto;
+	margin-bottom: 2rem;
+	line-height: 2rem;
+	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 
+	font-size: 1.3rem;
 }
-.LabelTitle{
+.LabelTitle {
 	position: relative;
 	left: 20%;
-	margin-top: 5%;
+	font-size: 1.5rem;
 }
-.iconeDelete{
-	color: #684529 ;
-	font-size: 2REM;
+.iconeDelete {
+	color: #684529;
+	font-size: 2rem;
 }
-.imageGroup{
+.imageGroup {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin: 0 3%;
 }
 .buttonValidation {
-    color:black;
-    height: 3REM;
-    background: #f0c8a3;
-    width: 50%;
-    margin: 0 auto;
-    -webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.78); 
-        box-shadow: 5px 5px 11px 2px rgba(0,0,0,0.4);
-    font-family: Pacifico, serif;
-    font-size: 1.55rem;
-    border-radius: 0.85rem;
-    /* color: rgb(241, 239, 239); */
-    }
-	.buttonSubmit{
+	color: black;
+	height: 3rem;
+	background: #f0c8a3;
+	width: 50%;
+	margin: 0 auto;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Pacifico, serif;
+	font-size: 1.55rem;
+	border-radius: 0.85rem;
+	/* color: rgb(241, 239, 239); */
+}
+.buttonSubmit {
 	width: 15%;
 	height: 2rem;
 	font-size: 1rem;
-	}
-	.inputFile {
-		width: 0.1px;
+}
+.inputFile {
+	width: 0.1px;
 	height: 0.1px;
 	opacity: 0;
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
-	}
-	.inputFile + label {
-		color:black;
-		height: 2REM;
-		background: #f0c8a3;
-		width: 20%;
-		margin: 0 auto;
-		-webkit-box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.78); 
-			box-shadow: 5px 5px 11px 2px rgba(0,0,0,0.4);
-		font-family: Pacifico, serif;
-		font-size: 1rem;
-		border-radius: 0.85rem;
-		border: 1px black solid;
-	}
-	
-	.inputFile:focus + label,
+}
+
+.inputFile + label {
+	color: black;
+	height: 2rem;
+	background: #f0c8a3;
+	width: 20%;
+	margin: 0 auto;
+	-webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.78);
+	box-shadow: 5px 5px 11px 2px rgba(0, 0, 0, 0.4);
+	font-family: Pacifico, serif;
+	font-size: 1rem;
+	border-radius: 0.85rem;
+	border: 1px black solid;
+	padding: 0.5rem 1.5rem;
+}
+
+/* .inputFile:focus + label,
 	.inputFile + label:hover {
 		background-color: red;
-	}
+	} */
+.euro {
+	border: 0 inset #ccc;
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+}
+.euro input {
+	border: 1px black solid;
+	text-align: right;
+	/* width: 100%; */
+	line-height: 2rem;
+}
