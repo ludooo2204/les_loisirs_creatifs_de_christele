@@ -5,8 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 let addImage = require("./routes/addImage");
-let addProduct = require("./routes/addProduct"); 
-let getProducts = require("./routes/getProducts"); 
+let addProduct = require("./routes/addProduct");
+let getProducts = require("./routes/getProducts");
 let initBDD = require("./initBDD");
 
 const app = express();
@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(morgan("dev"));
 // app.use(morgan('combined'))
-app.use(morgan('tiny'));
+app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.static("client/build"));
 app.use("/addImage", addImage);

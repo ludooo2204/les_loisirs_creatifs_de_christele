@@ -6,7 +6,7 @@ router.get("/", (req, res) => {
     console.log("getProducts!");
 	try {
       
-            console.log("connected!!");
+            // console.log("connected!!");
         
             // INSERT INTO categories` (`id`, `nom`) VALUES (NULL, 'noel');
         
@@ -14,9 +14,9 @@ router.get("/", (req, res) => {
         	con.query("SELECT * FROM creations", function (err, result) {
                 if (err) throw err;
 
-                result.forEach((element) => {
-                    console.log(element);
-                });
+                // result.forEach((element) => {
+                //     console.log(element);
+                // });
 		res.status(200).json(result);
 
             });

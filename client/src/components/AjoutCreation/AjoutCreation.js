@@ -6,10 +6,13 @@ import ListeImages from "./ListeImages";
 import { ReactComponent as LoginSvg } from "../../image/svg/Black-And-White-Flowers2.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { matchSorter } from "match-sorter";
 
 const AjoutCreation = () => {
 	const [title, setTitle] = useState("");
 	const [prix, setPrix] = useState("");
+	const [tag, setTag] = useState("");
+	const [tagTrouvés, setTagTrouvés] = useState(null);
 	const [images, setImages] = useState([]);
 	const [description, setDescription] = useState("");
 	let navigate = useNavigate();
@@ -22,6 +25,16 @@ const AjoutCreation = () => {
 	const handlePrix = (e) => {
 		setPrix(e.target.value);
 	};
+	const bddTag = ["decoration", "noel", "tamere"];
+	const handleTag = (e) => {
+		setTag(e.target.value);
+
+		if (e.target.value != "") {
+			const resultatDeRecherche = matchSorter(bddTag, e.target.value);
+			console.log(resultatDeRecherche);
+			setTagTrouvés(resultatDeRecherche);
+		} else setTagTrouvés(null);
+	};
 	const handleImage = (e) => {
 		console.log("handleImage");
 		console.log(e);
@@ -33,13 +46,14 @@ const AjoutCreation = () => {
 		// console.log("titre " + title);
 		// console.log("descripttion " + description);
 		// console.log("prix " + prix);
-		console.log("images " + images);
+		// console.log("images " + images);
+
 		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name) };
 		console.log(nouvelleCreation);
-		axios.post("/addProduct", nouvelleCreation).then(
-			navigate('../Creations')
-		).then(alert('Nouvelle créations ajoutée !'))
+		axios.post("/addProduct", nouvelleCreation).then(navigate("../Creations"));
+		// .then(alert('Nouvelle créations ajoutée !'))
 	};
+
 	return (
 		<div className={styles.main}>
 			<LoginSvg className={styles.svg1} />
@@ -53,14 +67,15 @@ const AjoutCreation = () => {
 					<span className={styles.euro}>
 						<input onChange={handlePrix} type="" value={prix} maxLength="25" className={styles.inputTitle} />€
 					</span>
-					<br />
+					<label className={styles.LabelTitle}>Tags</label>
+					<input onChange={handleTag} type="text" value={tag} maxLength="25" className={styles.inputTitle} />
+					{tagTrouvés&&tagTrouvés.map(e=><span>{e}</span>)}
 					<InputImage Recupererfile={handleImage} />
 				</div>
 				<ListeImages images={images} />
 				<button onClick={validerAjout} className={styles.buttonValidation}>
 					valider
 				</button>
-				
 			</div>
 			<LoginSvg className={styles.svg2} />
 		</div>
