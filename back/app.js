@@ -7,6 +7,7 @@ const morgan = require("morgan");
 let addImage = require("./routes/addImage");
 let addProduct = require("./routes/addProduct");
 let getProducts = require("./routes/getProducts");
+let tag = require("./routes/tag");
 let initBDD = require("./initBDD");
 
 const app = express();
@@ -27,6 +28,7 @@ app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.static("client/build"));
 app.use("/addImage", addImage);
+app.use("/tag", tag);
 app.use("/addProduct", addProduct);
 app.use("/getProducts", getProducts);
 app.get("/test", (requete, reponse) => {

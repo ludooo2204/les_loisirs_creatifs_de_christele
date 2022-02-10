@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AjoutCreation.module.css";
 
-const Tag = ({ tags }) => {
+
+const Tag = ({ tags, selectionTag }) => {
 	const [tagsSelectionnés, settagsSelectionnés] = useState([]);
 	const [selection, setSelection] = useState([]);
 	useEffect(() => {
@@ -9,6 +10,7 @@ const Tag = ({ tags }) => {
 	}, []);
 	useEffect(() => {
 		console.log(selection);
+		selectionTag(tagsSelectionnés);
 	}, [selection]);
 
 	const addTag = (index) => {
@@ -24,10 +26,12 @@ const Tag = ({ tags }) => {
 		<div className={styles.tags}>
 			{tags &&
 				tags.map((tag, i) => (
-					<div className={selection[i]?styles.tagSelection:styles.tag} key={i} onClick={() => addTag(i)}>
+					<div className={selection[i] ? styles.tagSelection : styles.tag} key={i} onClick={() => addTag(i)}>
 						{tag}
 					</div>
 				))}
+			
+				
 		</div>
 	);
 };

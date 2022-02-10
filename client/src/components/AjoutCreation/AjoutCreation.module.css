@@ -63,7 +63,7 @@
 .inputTitle {
 	width: 50%;
 	margin: 0 auto;
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
 	line-height: 2rem;
 	font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 
@@ -73,6 +73,7 @@
 	position: relative;
 	left: 20%;
 	font-size: 1.5rem;
+	width: 40%;
 }
 .iconeDelete {
 	color: #684529;

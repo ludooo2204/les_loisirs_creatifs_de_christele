@@ -39,6 +39,10 @@ router.post("/", (req, res) => {
 
 		let dataToStore = { ...data };
 		dataToStore.images = dataModified;
+		console.log("dataToStore")
+		console.log("dataToStore")
+		console.log("dataToStore")
+		console.log(dataToStore)
 		let sqlCreation = `INSERT INTO creations (nom,prix,description,likes,categorieID) VALUES ('${dataToStore.title}','${dataToStore.prix}','${dataToStore.description}','${0}','${1}')`;
 		con.query(sqlCreation, function (err, result) {
 			if (err) throw err;

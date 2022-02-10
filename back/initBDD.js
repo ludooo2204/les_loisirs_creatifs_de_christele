@@ -22,6 +22,10 @@ con.connect(function (err) {
 		if (err) throw err;
 		console.log("base de données  images CREEE !!");
 	});
+	con.query("CREATE TABLE IF NOT EXISTS tags ( id_tag INT NOT NULL AUTO_INCREMENT , tag VARCHAR(100) NOT NULL, PRIMARY KEY (id_tag)) ENGINE = MyISAM;", function (err, result) {
+		if (err) throw err;
+		console.log("base de données  tags CREEE !!");
+	});
 
 
 });
