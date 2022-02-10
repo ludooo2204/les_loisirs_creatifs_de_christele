@@ -7,6 +7,7 @@ import { ReactComponent as LoginSvg } from "../../image/svg/Black-And-White-Flow
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { matchSorter } from "match-sorter";
+import Tag from "./Tag";
 
 const AjoutCreation = () => {
 	const [title, setTitle] = useState("");
@@ -25,33 +26,23 @@ const AjoutCreation = () => {
 	const handlePrix = (e) => {
 		setPrix(e.target.value);
 	};
+	
 	const bddTag = ["decoration", "noel", "tamere"];
 	const handleTag = (e) => {
 		setTag(e.target.value);
 
 		if (e.target.value != "") {
 			const resultatDeRecherche = matchSorter(bddTag, e.target.value);
-			console.log(resultatDeRecherche);
 			setTagTrouvés(resultatDeRecherche);
 		} else setTagTrouvés(null);
 	};
 	const handleImage = (e) => {
-		console.log("handleImage");
-		console.log(e);
-		// console.log('URL.createObjectURL(e)');
-		// console.log(URL.createObjectURL(e));
 		setImages((images) => [...images, e]);
 	};
 	const validerAjout = () => {
-		// console.log("titre " + title);
-		// console.log("descripttion " + description);
-		// console.log("prix " + prix);
-		// console.log("images " + images);
-
 		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name) };
 		console.log(nouvelleCreation);
 		axios.post("/addProduct", nouvelleCreation).then(navigate("../Creations"));
-		// .then(alert('Nouvelle créations ajoutée !'))
 	};
 
 	return (
@@ -69,7 +60,8 @@ const AjoutCreation = () => {
 					</span>
 					<label className={styles.LabelTitle}>Tags</label>
 					<input onChange={handleTag} type="text" value={tag} maxLength="25" className={styles.inputTitle} />
-					{tagTrouvés&&tagTrouvés.map(e=><span>{e}</span>)}
+					{/* {tagTrouvés && tagTrouvés.map((e) => <span>{e}</span>)} */}
+					{tagTrouvés&&<Tag tags={tagTrouvés} />}
 					<InputImage Recupererfile={handleImage} />
 				</div>
 				<ListeImages images={images} />
