@@ -17,7 +17,7 @@ const FileUploader = ({ onFileSelect, onFileSelectError, onFileSelectSuccess }) 
 	return (
 		<div className="file-uploader">
 			<input type="file" name="file" id="file" className={styles.inputFile} onChange={handleFileInput} />
-			<label for="file">Ajouter une image</label>
+			<label htmlFor="file">Ajouter une image</label>
 			{/* <button onClick={e => fileInput.current && fileInput.current.click()} className="btn btn-primary" >coucou</button> */}
 		</div>
 	);
@@ -40,7 +40,7 @@ const InputImage = ({ Recupererfile }) => {
 		// formData.append("name", name);
 		formData.append("file", selectedFile);
 		axios
-			.post("/addImage", formData)
+			.post("/image", formData)
 			.then((res) => {
 				// alert("File Upload success");
 				// console.log("res");

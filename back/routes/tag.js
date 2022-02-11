@@ -22,7 +22,7 @@ router.post("/", (req, res) => {
 		let data = req.body;
 console.log(data)
 	try {
-		let sqlTag = `INSERT INTO tags (tag) VALUES ('${data.tag}')`;
+		let sqlTag = `INSERT INTO tags (tag) VALUES ("${data.tag}")`;
 			con.query(sqlTag, function (err, result) {
 				if (err) throw err;
 				console.log("result");

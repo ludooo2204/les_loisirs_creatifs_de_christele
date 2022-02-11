@@ -7,7 +7,7 @@ import ReactTooltip from 'react-tooltip';
 import axios from 'axios';
 const Creations = ({isAdmin}) => {
     useEffect(() => {
-      axios.get('/getProducts')
+      axios.get('/products')
       .then(e=>console.log(e) )
     
      

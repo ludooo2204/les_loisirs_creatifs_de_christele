@@ -27,7 +27,7 @@ const Tag = ({ tags, selectionTag }) => {
 			{tags &&
 				tags.map((tag, i) => (
 					<div className={selection[i] ? styles.tagSelection : styles.tag} key={i} onClick={() => addTag(i)}>
-						{tag}
+						{tag.tag}
 					</div>
 				))}
 			

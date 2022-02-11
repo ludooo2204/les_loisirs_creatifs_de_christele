@@ -4,9 +4,8 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-let addImage = require("./routes/addImage");
-let addProduct = require("./routes/addProduct");
-let getProducts = require("./routes/getProducts");
+let image = require("./routes/image");
+let products = require("./routes/products");
 let tag = require("./routes/tag");
 let initBDD = require("./initBDD");
 
@@ -27,10 +26,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("tiny"));
 app.use(express.json());
 app.use(express.static("client/build"));
-app.use("/addImage", addImage);
+app.use("/image", image);
 app.use("/tag", tag);
-app.use("/addProduct", addProduct);
-app.use("/getProducts", getProducts);
+// app.use("/addProduct", addProduct);
+app.use("/products", products);
 app.get("/test", (requete, reponse) => {
 	console.log("ya kk1?");
 	reponse.send({ msg: "hello ludo" });
