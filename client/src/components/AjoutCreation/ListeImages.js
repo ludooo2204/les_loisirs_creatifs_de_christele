@@ -21,6 +21,8 @@ setimagesState(images)
 				imagesState.map((image,i) => {
 					return (
 						<div key={i} className={styles.imageGroup}>
+							{console.log(image)}
+{console.log(URL.createObjectURL(image))}
 							<img className={styles.image} src={URL.createObjectURL(image)} />
            				    <HighlightOffIcon className={styles.iconeDelete} onClick={()=>onDelete(i)}/>
 						</div>

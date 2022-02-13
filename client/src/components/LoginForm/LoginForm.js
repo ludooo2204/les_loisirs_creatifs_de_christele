@@ -93,12 +93,12 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				{/* console.log(isEmail('foo@bar.com')); pour verifier si mail ok */}
 				{!isChoixInscriptionActif && <input type="email" />}
 			</div>
-				<button className={styles.buttonValidation} onClick={validerForm}>
+				<button className={styles.buttonValidation} onClick={validerFormFake}>
 					valider
 				</button>
-				<button className={styles.dev } data-testid="devAdmin" onClick={validerFormFake}>
+				{/* <button className={styles.dev } data-testid="devAdmin" onClick={validerFormFake}>
 					se connecter pour developpement
-				</button>
+				</button> */}
 		</div>
 	);
 };

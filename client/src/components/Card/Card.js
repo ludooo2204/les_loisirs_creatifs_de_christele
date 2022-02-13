@@ -29,12 +29,14 @@ const customStyles = {
 	},
 };
 
-const Card = ({ isAdmin }) => {
+const Card = ({ isAdmin,data }) => {
 	const [modalIsOpen, setIsOpen] = React.useState(false);
 	console.log(isAdmin + "from card.js");
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
+	
+	
 	const settings = {
 		// customPaging: function(i) {
 		// 	return (
@@ -76,6 +78,7 @@ const Card = ({ isAdmin }) => {
 				<div className={styles.cardContainerModal}>
 					<Slider {...settingsModal}>
 						<div className={styles.divCardContainerModal}>
+					
 							<img src={image1} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
