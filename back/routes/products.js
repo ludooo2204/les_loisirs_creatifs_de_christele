@@ -3,6 +3,12 @@ let router = express.Router();
 let con = require("../initBDD");
 const fs = require("fs");
 const sharp = require("sharp");
+function getCurrentFilenames() {
+	console.log("Current filenames:");
+	fs.readdirSync(__dirname).forEach(file => {
+	  console.log(file);
+	});
+  }
 router.post("/", (req, res) => {
 	console.log("post product!");
 	try {
@@ -10,8 +16,9 @@ router.post("/", (req, res) => {
 		let data = req.body;
 		const rnd = +new Date();
 		let dataModified = [];
+		getCurrentFilenames()
 		for (let i = 0; i < data.images.length; i++) {
-			console.log(data.images[i]);
+			// console.log(data.images[i]);
 			//resize image
 			// sharp(__dirname + "/../uploads/" + data.images[i])
 			// 	.resize(200, 200)
@@ -21,14 +28,15 @@ router.post("/", (req, res) => {
 				.toFile(__dirname + "/../../client/src/uploads/min_" + data.images[i])
 				.then((info) => {
 					//rename fichier
-					fs.rename("uploads/" + data.images[i], "uploads/" + rnd + "_" + data.images[i], (err) => {
+					console.log("coucou")
+					fs.rename(__dirname + "/../../client/src/uploads/" + data.images[i], __dirname + "/../../client/src/uploads/" + rnd + "_" + data.images[i], (err) => {
 						if (err) throw err;
 						else {
 							console.log("REname complete");
 						}
 					});
 					//rename fichier min
-					fs.rename("uploads/min_" + data.images[i], "uploads/min_" + rnd + "_" + data.images[i], (err) => {
+					fs.rename(__dirname + "/../../client/src/uploads/min_" + data.images[i], __dirname + "/../../client/src/uploads/min_" + rnd + "_" + data.images[i], (err) => {
 						if (err) throw err;
 						else {
 							console.log("rename min complete");
@@ -41,13 +49,13 @@ router.post("/", (req, res) => {
 
 		let dataToStore = { ...data };
 		dataToStore.images = dataModified;
-		console.log("dataToStore");
-		console.log(dataToStore);
+		// console.log("dataToStore");
+		// console.log(dataToStore);
 		let sqlCreation = `INSERT INTO creations (nom,prix,description,likes) VALUES ("${dataToStore.title}","${dataToStore.prix}","${dataToStore.description}","${0}")`;
 		con.query(sqlCreation, function (err, result) {
 			if (err) throw err;
-			console.log("result");
-			console.log(result.insertId);
+			// console.log("result");
+			// console.log(result.insertId);
 			let sqlListeImages = "";
 			for (let i = 0; i < dataToStore.images.length; i++) {
 				const element = dataToStore.images[i];
@@ -101,8 +109,8 @@ router.get("/", (req, res) => {
 			for (const iterator of creationsUnique) {
 				// const créations retourne tous les objets pour chaque création unique
 				const créations = result.filter((e) => iterator == e.id_creation);
-				console.log("créations")
-				console.log(créations)
+				// console.log("créations")
+				// console.log(créations)
 			let urlUnique = [...new Set(créations.map(e=>e.url))];
 			let tagUnique = [...new Set(listeIDCreations)];
 
@@ -116,8 +124,8 @@ router.get("/", (req, res) => {
 				 delete(créationTemp.id)
 				 listeCreations.push(créationTemp)
 			}
-			console.log("listeCreations")
-			console.log(listeCreations)
+			// console.log("listeCreations")
+			// console.log(listeCreations)
 			res.status(200).json(listeCreations);
 		});
 	} catch (err) {

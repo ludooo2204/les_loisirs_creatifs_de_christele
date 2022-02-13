@@ -12,15 +12,23 @@ const Creations = ({ isAdmin }) => {
 			console.log(e);
 			setBddCréation(e.data);
 		});
-	
 	}, []);
+	useEffect(() => {
+		if (bddCréation) {
+			console.log(bddCréation)
+			const imagess = require("../uploads/" + bddCréation[0].url[0]);
+			console.log(imagess)
+		}
+	}, [bddCréation]);
 
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
+			{/* {console.log(require("../uploads/"+bddCréation[0].url))} */}
+			{/* //ca ca marche !! */}
+			{/* {bddCréation&&<img src={require("../uploads/"+bddCréation[0].url)} width={100} height={100}	/>} */}
 			{/* <Card isAdmin={isAdmin} /> */}
-      {/* {bddCréation&&bddCréation.map(e=><Card isAdmin={isAdmin} data={e} />)} */}
-	  {/* <img url={require("../../uploads/_1644440034411bad.jpg")} /> */}
+			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} imagess={e.url}/>)}
 			{/* <Card isAdmin={isAdmin} />
 			<Card isAdmin={isAdmin} />
 			<Card isAdmin={isAdmin} />

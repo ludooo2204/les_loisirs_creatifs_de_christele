@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -29,13 +29,14 @@ const customStyles = {
 	},
 };
 
-const Card = ({ isAdmin,data }) => {
+const Card = ({ isAdmin,data}) => {
 	const [modalIsOpen, setIsOpen] = React.useState(false);
 	console.log(isAdmin + "from card.js");
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
-	
+
+	console.log(require("../../uploads/"+data.url[0]))
 	
 	const settings = {
 		// customPaging: function(i) {
@@ -52,6 +53,7 @@ const Card = ({ isAdmin,data }) => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
+	console.log(data)
 	const settingsModal = {
 		customPaging: function (i) {
 			return (
@@ -79,10 +81,10 @@ const Card = ({ isAdmin,data }) => {
 					<Slider {...settingsModal}>
 						<div className={styles.divCardContainerModal}>
 					
-							<img src={image1} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
+							<img src={require("../../uploads/"+data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
-							<img src={image3} className={styles.cardImageModal} />
+							<img src={require("../../uploads/"+data.url[1])} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
 							<img src={image2} className={styles.cardImageModal} />
@@ -92,10 +94,10 @@ const Card = ({ isAdmin,data }) => {
 			</Modal>
 			<Slider {...settings}>
 				<div className={styles.divCardContainer}>
-					<img src={image1} onClick={() => toggleModalImage()} className={styles.cardImage} />
+					<img src={require("../../uploads/"+data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
 				</div>
 				<div className={styles.divCardContainer}>
-					<img src={image3} className={styles.cardImage} />
+					<img src={require("../../uploads/"+data.url[1])} className={styles.cardImage} />
 				</div>
 				<div className={styles.divCardContainer}>
 					<img src={image2} className={styles.cardImage} />
