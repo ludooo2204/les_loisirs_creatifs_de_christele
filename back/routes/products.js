@@ -13,9 +13,12 @@ router.post("/", (req, res) => {
 		for (let i = 0; i < data.images.length; i++) {
 			console.log(data.images[i]);
 			//resize image
-			sharp(__dirname + "/../uploads/" + data.images[i])
+			// sharp(__dirname + "/../uploads/" + data.images[i])
+			// 	.resize(200, 200)
+			// 	.toFile(__dirname + "/../uploads/min_" + data.images[i])
+			sharp(__dirname + "/../../client/src/uploads/" + data.images[i])
 				.resize(200, 200)
-				.toFile(__dirname + "/../uploads/min_" + data.images[i])
+				.toFile(__dirname + "/../../client/src/uploads/min_" + data.images[i])
 				.then((info) => {
 					//rename fichier
 					fs.rename("uploads/" + data.images[i], "uploads/" + rnd + "_" + data.images[i], (err) => {

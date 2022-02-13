@@ -12,13 +12,15 @@ const Creations = ({ isAdmin }) => {
 			console.log(e);
 			setBddCréation(e.data);
 		});
+	
 	}, []);
 
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
-			<Card isAdmin={isAdmin} />
-      {bddCréation&&bddCréation.map(e=><Card isAdmin={isAdmin} data={e} />)}
+			{/* <Card isAdmin={isAdmin} /> */}
+      {/* {bddCréation&&bddCréation.map(e=><Card isAdmin={isAdmin} data={e} />)} */}
+	  {/* <img url={require("../../uploads/_1644440034411bad.jpg")} /> */}
 			{/* <Card isAdmin={isAdmin} />
 			<Card isAdmin={isAdmin} />
 			<Card isAdmin={isAdmin} />

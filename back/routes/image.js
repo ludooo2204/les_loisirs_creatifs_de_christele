@@ -1,5 +1,7 @@
     
 let express = require('express');
+var path = require('path');
+
 let router = express.Router();
 router.post("/", (req, res) => {
 	console.log("coucou");
@@ -16,7 +18,7 @@ router.post("/", (req, res) => {
 			let avatar = req.files.file;
 			// const rnd= Math.random()
 			//Use the mv() method to place the file in upload directory (i.e. "uploads")
-			avatar.mv("./uploads/" + avatar.name);
+			avatar.mv("../client/src/uploads/" + avatar.name);
 			// avatar.mv('./uploads/' + rnd+avatar.name);
 
 			//send response
@@ -34,5 +36,9 @@ router.post("/", (req, res) => {
 	} catch (err) {
 		res.status(500).send(err);
 	}
+});
+router.get('/', function (req, res) {
+	res.sendFile(path.resolve('uploads/_1644440034411bad.jpg'));  
+	//   res.sendFile(__dirname+'/../uploads/_1644440034411bad.jpg');
 });
 module.exports = router;
