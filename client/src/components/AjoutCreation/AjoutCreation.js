@@ -19,47 +19,39 @@ const AjoutCreation = () => {
 	const [tagTrouvés, setTagTrouvés] = useState(null);
 	const [tagChoisi, setTagChoisi] = useState(null);
 	const [bddTag, setBddTag] = useState(null);
-
 	const [images, setImages] = useState([]);
-	// const [dataToModify, setDataToModify] = useState(null);
 	const [description, setDescription] = useState("");
 	const tagInputRef = useRef();
 	const { state } = useLocation();
-	// console.log(state)
 
 	useEffect(() => {
 		if (state) {
-			// console.log(state);
-			console.log(state.tags);
-const tagsTemp=state.tags.map((e)=>{return {tag:e,modifié:true}})
-console.log(tagsTemp)
+			const tagsTemp = state.tags.map((e) => {
+				return { tag: e, modifié: true };
+			});
+			console.log(tagsTemp);
 			setTitle(state.nom);
 			setDescription(state.description);
 			setPrix(state.prix);
-			setImages(state.url)
-			setTagTrouvés(tagsTemp)
-			setTagChoisi(state.tags)
+			setImages(state.url);
+			setTagTrouvés(tagsTemp);
+			setTagChoisi(state.tags);
 		}
 	}, [state]);
 	useEffect(() => {
-	  console.log("tagTrouvés")
-	  console.log(tagTrouvés)
-	
-	  
-	}, [tagTrouvés])
-	
+		console.log("tagTrouvés");
+		console.log(tagTrouvés);
+	}, [tagTrouvés]);
+
 	useEffect(() => {
 		console.log("fetch tags");
 		axios.get("/tag").then((tags) => {
-			console.log(tags.data)
+			console.log(tags.data);
 			setBddTag(tags.data);
 		});
 	}, [newTag]);
 	useEffect(() => {
-		// console.log("tagInputRef")
-		// console.log(tagInputRef.current.value)
 		if (!state) handleTag(tagInputRef.current.value);
-		// else 
 	}, [bddTag]);
 
 	let navigate = useNavigate();
@@ -75,7 +67,6 @@ console.log(tagsTemp)
 		else setPrix(e.target.value);
 	};
 
-	// const bddTag = ["decoration", "noel", "tamere"];
 	const handleTag = (e) => {
 		let value;
 		e.target == undefined ? (value = e) : (value = e.target.value);
@@ -90,26 +81,17 @@ console.log(tagsTemp)
 			for (const iterator of resultatDeRecherche) {
 				temp.push(bddTag.filter((e) => e.tag == iterator)[0]);
 			}
-			console.log("temp");
-			console.log(temp);
-			// setTagTrouvés(resultatDeRecherche);
 			setTagTrouvés(temp);
 		} else setTagTrouvés(null);
 	};
 	const handleImage = (e) => {
-		console.log("images?");
-		console.log(e);
 		setImages((images) => [...images, e]);
 	};
 	const handleTagSelectionné = (e) => {
-	
 		setTagChoisi(e);
 	};
 	const validerAjout = () => {
-		console.log("tagChoisi");
-		console.log(tagChoisi);
-		console.log(images);
-		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi: state?tagChoisi:tagChoisi.map((e) => e.id_tag) };
+		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi: state ? tagChoisi : tagChoisi.map((e) => e.id_tag) };
 		if (prix == "") {
 			alert("il manque un prix !");
 		} else if (title == "") {
@@ -123,9 +105,7 @@ console.log(tagsTemp)
 		} else {
 			console.log(nouvelleCreation);
 			if (state) {
-				axios.patch('/products/'+state.id,nouvelleCreation)
-				.then(navigate("../Creations"))
-				// axios.patch("/products/", nouvelleCreation).then(navigate("../Creations"));
+				axios.patch("/products/" + state.id, nouvelleCreation).then(navigate("../Creations"));
 			} else axios.post("/products", nouvelleCreation).then(navigate("../Creations"));
 		}
 	};
@@ -138,8 +118,8 @@ console.log(tagsTemp)
 				.catch((err) => console.log(err));
 		}
 	};
-	console.log("tagTrouvés")
-	console.log(tagTrouvés)
+	console.log("tagTrouvés");
+	console.log(tagTrouvés);
 	return (
 		<div className={styles.main}>
 			<LoginSvg className={styles.svg1} />

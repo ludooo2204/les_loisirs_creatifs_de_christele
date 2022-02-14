@@ -18,7 +18,6 @@ const DeleteAndModifyByAdmin = ({id,refresh,modifierCreation}) => {
 	return <div className={styles.adminButtons}>
     <HighlightOffIcon className={styles.icons} onClick={handleDelete} />
     <EditIcon className={styles.icons} onClick={modifierCreation} />
-			{/* {isAdmin && <AddCircleIcon data-tip data-for="add" onClick={() => navigate("../ajoutCreation")} className={styles.addCreation} />} */}
 
     </div>;
 };

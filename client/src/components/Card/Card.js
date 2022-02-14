@@ -42,7 +42,6 @@ const Card = ({ isAdmin, data,refresh }) => {
 		console.log(data)
 		navigate("../../ajoutCreation",{state:data})
 	}
-	// console.log(require("../../uploads/" + data.url[0]));
 
 	const settings = {
 		// customPaging: function(i) {
