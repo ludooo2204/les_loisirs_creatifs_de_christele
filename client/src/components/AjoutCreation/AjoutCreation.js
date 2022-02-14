@@ -3,9 +3,10 @@ import styles from "./AjoutCreation.module.css";
 import ReactTooltip from "react-tooltip";
 import InputImage from "./InputImage";
 import ListeImages from "./ListeImages";
+import ListeImagesModifiées from "./ListeImagesModifiées";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { ReactComponent as LoginSvg } from "../../image/svg/Black-And-White-Flowers2.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { matchSorter } from "match-sorter";
 import Tag from "./Tag";
@@ -20,22 +21,26 @@ const AjoutCreation = () => {
 	const [bddTag, setBddTag] = useState(null);
 
 	const [images, setImages] = useState([]);
+	// const [dataToModify, setDataToModify] = useState(null);
 	const [description, setDescription] = useState("");
 	const tagInputRef = useRef();
-	// useEffect(() => {
-	// 	alert("Voir pour rafracihir la liste des tags quand ajout");
-	// 	console.log("fetch tags");
-	// 	axios.get("/tag").then((tags) => {
-	// 		console.log(tags.data);
-	// 		setBddTag(tags.data);
-	// 	});
-	// }, []);
+	const { state } = useLocation();
+	// console.log(state)
+
+	useEffect(() => {
+		if (state) {
+			console.log(state);
+			setTitle(state.nom);
+			setDescription(state.description);
+			setPrix(state.prix);
+			setImages(state.url)
+			// setTagTrouvés(state.tags)
+			// setTagChoisi(state.tags)
+		}
+	}, []);
 	useEffect(() => {
 		console.log("fetch tags");
 		axios.get("/tag").then((tags) => {
-			console.log("tags");
-			console.log(tags);
-			console.log(tags.data);
 			setBddTag(tags.data);
 		});
 	}, [newTag]);
@@ -53,8 +58,8 @@ const AjoutCreation = () => {
 		setDescription(e.target.value);
 	};
 	const handlePrix = (e) => {
-		const prix= Number(e.target.value)
-		if (isNaN(prix)) alert("il faut un nombre")
+		const prix = Number(e.target.value);
+		if (isNaN(prix)) alert("il faut un nombre");
 		else setPrix(e.target.value);
 	};
 
@@ -68,50 +73,49 @@ const AjoutCreation = () => {
 				bddTag.map((tag) => tag.tag),
 				value
 			);
-			console.log("ototototo")
-			let temp=[]
+			console.log("ototototo");
+			let temp = [];
 			for (const iterator of resultatDeRecherche) {
-				temp.push(bddTag.filter(e=>e.tag==iterator)[0])
+				temp.push(bddTag.filter((e) => e.tag == iterator)[0]);
 			}
-			console.log("temp")
-			console.log(temp)
+			console.log("temp");
+			console.log(temp);
 			// setTagTrouvés(resultatDeRecherche);
 			setTagTrouvés(temp);
 		} else setTagTrouvés(null);
 	};
 	const handleImage = (e) => {
+		console.log("images?");
+		console.log(e);
 		setImages((images) => [...images, e]);
 	};
 	const handleTagSelectionné = (e) => {
-		console.log(e)
-		console.log(e)
-		console.log(e)
-		console.log(e)
-		console.log(e)
-		console.log(e.id_tag)
+	
 		setTagChoisi(e);
 	};
 	const validerAjout = () => {
-		console.log("tagChoisi")
-		console.log(tagChoisi)
-		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi: tagChoisi.map(e=>e.id_tag) };
+		console.log("tagChoisi");
+		console.log(tagChoisi);
+		console.log(images);
+		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi: tagChoisi.map((e) => e.id_tag) };
 		if (prix == "") {
-			alert("il manque un prix !")
+			alert("il manque un prix !");
+		} else if (title == "") {
+			alert("il manque un titre !");
+		} else if (description == "") {
+			alert("il manque une description !");
+		} else if (tagChoisi == "") {
+			alert("il faut au moins un tag !");
+		} else if (images.length == 0) {
+			alert("il faut au moins une image !");
+		} else {
+			console.log(nouvelleCreation);
+			if (state) {
+				axios.patch('/products/'+state.id,nouvelleCreation)
+				.then(navigate("../Creations"))
+				// axios.patch("/products/", nouvelleCreation).then(navigate("../Creations"));
+			} else axios.post("/products", nouvelleCreation).then(navigate("../Creations"));
 		}
-		else if (title == "") {
-			alert("il manque un titre !")
-		}
-		else if (description == "") {
-			alert("il manque une description !")
-		}
-		else if (tagChoisi == "") {
-			alert("il faut au moins un tag !")
-		}
-		else if (images.length==0) {
-			alert("il faut au moins une image !")
-		}
-		else {console.log(nouvelleCreation);
-		axios.post("/products", nouvelleCreation).then(navigate("../Creations"));}
 	};
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
@@ -140,7 +144,8 @@ const AjoutCreation = () => {
 					{tagTrouvés && <Tag tags={tagTrouvés} selectionTag={handleTagSelectionné} />}
 					<InputImage Recupererfile={handleImage} />
 				</div>
-				<ListeImages images={images} />
+				{!state && <ListeImages images={images} />}
+				{state && <ListeImagesModifiées images={state.url} />}
 				<button onClick={validerAjout} className={styles.buttonValidation}>
 					valider
 				</button>

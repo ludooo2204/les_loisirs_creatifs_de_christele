@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -9,12 +10,13 @@ import image2 from "../../image/2.jpg";
 import image3 from "../../image/blog3.jpg";
 import DeleteAndModifyByAdmin from "./DeleteAndModifyByAdmin/DeleteAndModifyByAdmin";
 import image4 from "../../image/4.jpg";
+import { Navigate } from "react-router-dom";
 let images = [image1, image2, image3];
 
 // Modal.setAppElement("#root");
 
 // TO detect if mobile or not
-console.log('window.innerWidth');
+console.log("window.innerWidth");
 console.log(window.innerWidth);
 
 const customStyles = {
@@ -29,15 +31,19 @@ const customStyles = {
 	},
 };
 
-const Card = ({ isAdmin,data}) => {
+const Card = ({ isAdmin, data,refresh }) => {
 	const [modalIsOpen, setIsOpen] = React.useState(false);
-	console.log(isAdmin + "from card.js");
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
+	let navigate = useNavigate();
 
-	console.log(require("../../uploads/"+data.url[0]))
-	
+	const modifierCreation=()=>{
+		console.log(data)
+		navigate("../../ajoutCreation",{state:data})
+	}
+	// console.log(require("../../uploads/" + data.url[0]));
+
 	const settings = {
 		// customPaging: function(i) {
 		// 	return (
@@ -53,7 +59,7 @@ const Card = ({ isAdmin,data}) => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
-	console.log(data)
+	console.log(data);
 	const settingsModal = {
 		customPaging: function (i) {
 			return (
@@ -78,13 +84,13 @@ const Card = ({ isAdmin,data}) => {
 					X
 				</button>
 				<div className={styles.cardContainerModal}>
+			
 					<Slider {...settingsModal}>
 						<div className={styles.divCardContainerModal}>
-					
-							<img src={require("../../uploads/"+data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
+							<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
-							<img src={require("../../uploads/"+data.url[1])} className={styles.cardImageModal} />
+							<img src={require("../../uploads/" + data.url[1])} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
 							<img src={image2} className={styles.cardImageModal} />
@@ -92,22 +98,25 @@ const Card = ({ isAdmin,data}) => {
 					</Slider>
 				</div>
 			</Modal>
-			<Slider {...settings}>
+			<div className={styles.divCardContainer}>
+					<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
+				</div>
+			{/* <Slider {...settings}>
 				<div className={styles.divCardContainer}>
-					<img src={require("../../uploads/"+data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
+					<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
 				</div>
 				<div className={styles.divCardContainer}>
-					<img src={require("../../uploads/"+data.url[1])} className={styles.cardImage} />
+					<img src={require("../../uploads/" + data.url[1])} className={styles.cardImage} />
 				</div>
 				<div className={styles.divCardContainer}>
 					<img src={image2} className={styles.cardImage} />
 				</div>
-			</Slider>
+			</Slider> */}
 			<div className={styles.legende}>
-				<div className={styles.priceTag}>35€</div>
-				<div className={styles.title}>Boite à thé</div>
-				<div className={styles.description}> magnifique boite à thés avec 16 compartiments. Piece unique !</div>
-				{isAdmin && <DeleteAndModifyByAdmin />}
+				<div className={styles.priceTag}>{data.prix}€</div>
+				<div className={styles.title}>{data.nom}</div>
+				<div className={styles.description}> {data.description}</div>
+				{isAdmin && <DeleteAndModifyByAdmin id={data.id} refresh={refresh} modifierCreation={modifierCreation}/>}
 			</div>
 		</div>
 	);

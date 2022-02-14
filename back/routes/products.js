@@ -17,6 +17,8 @@ router.post("/", (req, res) => {
 		const rnd = +new Date();
 		let dataModified = [];
 		getCurrentFilenames()
+		console.log("data.images")
+		console.log(data)
 		for (let i = 0; i < data.images.length; i++) {
 			// console.log(data.images[i]);
 			//resize image
@@ -117,16 +119,58 @@ router.get("/", (req, res) => {
 				let créationTemp = créations[0];
 				 créationTemp.url=[...new Set(créations.map((e) => e.url))]
 				 créationTemp.tags=[... new Set(créations.map((e) => e.tag))]
+				//  console.log(créationTemp)
 				 delete(créationTemp.id_image)
 				 delete(créationTemp.tag)
 				 delete(créationTemp.id_tag)
 				 delete(créationTemp.id_creation)
-				 delete(créationTemp.id)
+				//  delete(créationTemp.id)
 				 listeCreations.push(créationTemp)
 			}
 			// console.log("listeCreations")
-			// console.log(listeCreations)
+			console.log(listeCreations)
 			res.status(200).json(listeCreations);
+		});
+	} catch (err) {
+		console.log("tiens ca bug");
+		console.log(err);
+		res.status(500).send(err);
+	}
+});
+router.delete("/:id", (req, res) => {
+	console.log("delete products!!");
+	console.log(req.params.id)
+	try {
+	let sql=`DELETE FROM creations WHERE id_creation= ?`;
+		con.query(sql,req.params.id, function (err, result) {
+
+			if (err) throw err;
+			console.log("supprimméé")
+			console.log(result)
+		//// COMMENT RACHRAICHIR LE COMPONENT CREATION APRES ???
+			res.json({refresh:true});
+		});
+	} catch (err) {
+		console.log("tiens ca bug");
+		console.log(err);
+		res.status(500).send(err);
+	}
+});
+router.patch("/:id", (req, res) => {
+	console.log("patch products!!");
+	// console.log(req.params.id)
+	console.log(req.body)
+	const {prix,description}=req.body
+
+	try {
+	let sql='UPDATE `creations` SET `nom` = ?,`prix` = ?,`description` = ? WHERE `id_creation` = ?';
+		con.query(sql,[req.body.title,prix,description,req.params.id], function (err, result) {
+
+			if (err) throw err;
+			console.log("modifié")
+			console.log(result)
+		//// COMMENT RACHRAICHIR LE COMPONENT CREATION APRES ???
+			// res.json({refresh:true});
 		});
 	} catch (err) {
 		console.log("tiens ca bug");

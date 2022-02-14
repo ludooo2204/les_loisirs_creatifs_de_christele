@@ -7,20 +7,26 @@ import ReactTooltip from "react-tooltip";
 import axios from "axios";
 const Creations = ({ isAdmin }) => {
 	const [bddCréation, setBddCréation] = useState(null);
+	const [refreshProp, setRefresh] = React.useState(0);
+
 	useEffect(() => {
 		axios.get("/products").then((e) => {
+			console.log("products fecth");
 			console.log(e);
-			setBddCréation(e.data);
+		if(e.data)	setBddCréation(e.data);
 		});
-	}, []);
+	}, [refreshProp]);
 	useEffect(() => {
 		if (bddCréation) {
 			console.log(bddCréation)
-			const imagess = require("../uploads/" + bddCréation[0].url[0]);
-			console.log(imagess)
+			// const imagess = require("../uploads/" + bddCréation[0].url[0]);
+			// console.log(imagess)
 		}
 	}, [bddCréation]);
-
+const refresh=()=>{
+	console.log("refresh from creation")
+	setRefresh(refreshProp+1)
+}
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
@@ -28,7 +34,9 @@ const Creations = ({ isAdmin }) => {
 			{/* //ca ca marche !! */}
 			{/* {bddCréation&&<img src={require("../uploads/"+bddCréation[0].url)} width={100} height={100}	/>} */}
 			{/* <Card isAdmin={isAdmin} /> */}
-			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} imagess={e.url}/>)}
+			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} imagess={e.url} 
+			refresh={refresh}
+			/>)}
 			{/* <Card isAdmin={isAdmin} />
 			<Card isAdmin={isAdmin} />
 			<Card isAdmin={isAdmin} />
