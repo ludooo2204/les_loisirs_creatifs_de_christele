@@ -8,8 +8,6 @@ setimagesState(images)
 	
 	}, [images]);
 	
-console.log("images")
-console.log(images)
 	const onDelete =(i)=>{
 		console.log(imagesState);
 		const copie=[...imagesState]
