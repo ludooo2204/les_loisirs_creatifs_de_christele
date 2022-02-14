@@ -29,25 +29,37 @@ const AjoutCreation = () => {
 
 	useEffect(() => {
 		if (state) {
-			console.log(state);
+			// console.log(state);
+			console.log(state.tags);
+const tagsTemp=state.tags.map((e)=>{return {tag:e,modifié:true}})
+console.log(tagsTemp)
 			setTitle(state.nom);
 			setDescription(state.description);
 			setPrix(state.prix);
 			setImages(state.url)
-			// setTagTrouvés(state.tags)
-			// setTagChoisi(state.tags)
+			setTagTrouvés(tagsTemp)
+			setTagChoisi(state.tags)
 		}
-	}, []);
+	}, [state]);
+	useEffect(() => {
+	  console.log("tagTrouvés")
+	  console.log(tagTrouvés)
+	
+	  
+	}, [tagTrouvés])
+	
 	useEffect(() => {
 		console.log("fetch tags");
 		axios.get("/tag").then((tags) => {
+			console.log(tags.data)
 			setBddTag(tags.data);
 		});
 	}, [newTag]);
 	useEffect(() => {
 		// console.log("tagInputRef")
 		// console.log(tagInputRef.current.value)
-		handleTag(tagInputRef.current.value);
+		if (!state) handleTag(tagInputRef.current.value);
+		// else 
 	}, [bddTag]);
 
 	let navigate = useNavigate();
@@ -97,7 +109,7 @@ const AjoutCreation = () => {
 		console.log("tagChoisi");
 		console.log(tagChoisi);
 		console.log(images);
-		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi: tagChoisi.map((e) => e.id_tag) };
+		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi: state?tagChoisi:tagChoisi.map((e) => e.id_tag) };
 		if (prix == "") {
 			alert("il manque un prix !");
 		} else if (title == "") {
@@ -126,6 +138,8 @@ const AjoutCreation = () => {
 				.catch((err) => console.log(err));
 		}
 	};
+	console.log("tagTrouvés")
+	console.log(tagTrouvés)
 	return (
 		<div className={styles.main}>
 			<LoginSvg className={styles.svg1} />

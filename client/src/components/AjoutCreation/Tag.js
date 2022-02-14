@@ -5,8 +5,11 @@ import styles from "./AjoutCreation.module.css";
 const Tag = ({ tags, selectionTag }) => {
 	const [tagsSelectionnés, settagsSelectionnés] = useState([]);
 	const [selection, setSelection] = useState([]);
+	console.log("tags")
+	console.log(tags)
 	useEffect(() => {
-		setSelection(tags.map((e) => false));
+		if (!tags[0].modifié) setSelection(tags.map((e) => false));
+		else setSelection(tags.map((e) => true));
 	}, []);
 	useEffect(() => {
 		console.log(selection);
