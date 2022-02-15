@@ -1,2 +1,1 @@
-revoir le systeme de tags
 la modif des image ne marche pas (si je supprime une et en rajoute ca garde la premiere)

@@ -43,34 +43,44 @@ router.post("/", (req, res) => {
 				.catch((err) => console.log(err));
 			dataModified[i] = rnd + "_" + data.images[i];
 		}
-
-		let dataToStore = { ...data };
-		dataToStore.images = dataModified;
-		let sqlCreation = `INSERT INTO creations (nom,prix,description,likes) VALUES ("${dataToStore.title}","${dataToStore.prix}","${dataToStore.description}","${0}")`;
-		con.query(sqlCreation, function (err, result) {
+		con.query("SELECT * FROM tags", function (err, tags) {
 			if (err) throw err;
-			let sqlListeImages = "";
-			for (let i = 0; i < dataToStore.images.length; i++) {
-				const element = dataToStore.images[i];
-				sqlListeImages += `('${element}','${result.insertId}')`;
-				if (i < dataToStore.images.length - 1) sqlListeImages += ",";
-			}
-			let sqlImages = `INSERT INTO images (url,id_creation) VALUES ${sqlListeImages}`;
-			con.query(sqlImages, function (err, result) {
+			console.log("result TAG");
+			console.log("result TAG");
+			console.log("result TAG");
+			console.log(tags);
+			let dataToStore = { ...data };
+			dataToStore.images = dataModified;
+			let sqlCreation = `INSERT INTO creations (nom,prix,description,likes) VALUES ("${dataToStore.title}","${dataToStore.prix}","${dataToStore.description}","${0}")`;
+			con.query(sqlCreation, function (err, result) {
 				if (err) throw err;
-			});
-			let sqlListeAssoc = "";
-			for (let i = 0; i < dataToStore.tagChoisi.length; i++) {
-				const element = dataToStore.tagChoisi[i];
-				sqlListeAssoc += `('${element}','${result.insertId}')`;
-				if (i < dataToStore.tagChoisi.length - 1) sqlListeAssoc += ",";
-			}
-			let sqlAssocTagsCreations = `INSERT INTO asso_creations_tags (id_tag,id_creation) VALUES ${sqlListeAssoc}`;
-			con.query(sqlAssocTagsCreations, function (err, result) {
-				if (err) throw err;
-				console.log("result");
-				console.log(result);
-				res.status(200).json(result);
+				let sqlListeImages = "";
+				for (let i = 0; i < dataToStore.images.length; i++) {
+					const element = dataToStore.images[i];
+					sqlListeImages += `('${element}','${result.insertId}')`;
+					if (i < dataToStore.images.length - 1) sqlListeImages += ",";
+				}
+				let sqlImages = `INSERT INTO images (url,id_creation) VALUES ${sqlListeImages}`;
+				con.query(sqlImages, function (err, result) {
+					if (err) throw err;
+				});
+
+				let sqlListeAssoc = "";
+				for (let i = 0; i < dataToStore.tagChoisi.length; i++) {
+					const element = dataToStore.tagChoisi[i];
+
+					const temp = tags.filter((tag) => tag.tag == element)[0].id_tag;
+
+					sqlListeAssoc += `('${temp}','${result.insertId}')`;
+					if (i < dataToStore.tagChoisi.length - 1) sqlListeAssoc += ",";
+				}
+				let sqlAssocTagsCreations = `INSERT INTO asso_creations_tags (id_tag,id_creation) VALUES ${sqlListeAssoc}`;
+				con.query(sqlAssocTagsCreations, function (err, result) {
+					if (err) throw err;
+					console.log("result");
+					console.log(result);
+					res.status(200).json(result);
+				});
 			});
 		});
 	} catch (err) {
@@ -84,6 +94,11 @@ router.get("/", (req, res) => {
 	try {
 		con.query("SELECT * FROM creations JOIN asso_creations_tags ON asso_creations_tags.id_creation = creations.id_creation JOIN tags ON asso_creations_tags.id_tag = tags.id_tag LEFT JOIN images ON creations.id_creation = images.id_creation ", function (err, result) {
 			if (err) throw err;
+			// console.log("result")
+			// console.log("result")
+			// console.log("result")
+			// console.log("result")
+			// console.log("result")
 			// console.log(result)
 
 			//traitement peut etre evitable avec une requete SQL adéquate
@@ -97,16 +112,17 @@ router.get("/", (req, res) => {
 			for (const iterator of creationsUnique) {
 				// const créations retourne tous les objets pour chaque création unique
 				const créations = result.filter((e) => iterator == e.id_creation);
+				// console.log(créations)
 				let créationTemp = créations[0];
 				créationTemp.url = [...new Set(créations.map((e) => e.url))];
 				créationTemp.tags = [...new Set(créations.map((e) => e.tag))];
 				delete créationTemp.id_image;
 				delete créationTemp.tag;
 				delete créationTemp.id_tag;
-				delete créationTemp.id_creation;
+				// delete créationTemp.id_assoc;
 				listeCreations.push(créationTemp);
 			}
-			console.log(listeCreations);
+			// console.log(listeCreations);
 			res.status(200).json(listeCreations);
 		});
 	} catch (err) {
@@ -135,18 +151,69 @@ router.delete("/:id", (req, res) => {
 });
 router.patch("/:id", (req, res) => {
 	console.log("patch products!!");
-	// console.log(req.params.id)
+	console.log("patch products!!");
+	console.log("patch products!!");
+	console.log(req.params);
 	console.log(req.body);
+	let dataToModify = { ...req.body };
+
 	const { prix, description } = req.body;
 
 	try {
-		let sql = "UPDATE `creations` SET `nom` = ?,`prix` = ?,`description` = ? WHERE `id_creation` = ?";
-		con.query(sql, [req.body.title, prix, description, req.params.id], function (err, result) {
+		con.query("SELECT * FROM tags", function (err, tags) {
 			if (err) throw err;
-			console.log("modifié");
-			console.log(result);
-			//// COMMENT RACHRAICHIR LE COMPONENT CREATION APRES ???
-			// res.json({refresh:true});
+			console.log("result TAG");
+			console.log("result TAG");
+			console.log("result TAG");
+			console.log(tags);
+			let sql = "UPDATE `creations` SET `nom` = ?,`prix` = ?,`description` = ? WHERE `id_creation` = ?";
+			con.query(sql, [req.body.title, prix, description, req.params.id], function (err, result) {
+				if (err) throw err;
+				console.log("la creation a été modifié");
+				// console.log(result);
+				//// COMMENT RACHRAICHIR LE COMPONENT CREATION APRES ???
+				// res.json({refresh:true});
+
+				///PARTIE ASSOC TAG
+				let sql = `DELETE FROM asso_creations_tags WHERE id_creation= ?`;
+				con.query(sql, req.params.id, function (err, result) {
+					if (err) throw err;
+					console.log("supprimméé");
+					console.log(result);
+
+					let sqlListeAssoc = "";
+					for (let i = 0; i < dataToModify.tagChoisi.length; i++) {
+						const element = dataToModify.tagChoisi[i];
+						console.log("element");
+						console.log("element");
+						console.log("element");
+						console.log("element");
+						console.log(element);
+						const temp = tags.filter((tag) => tag.tag == element)[0].id_tag;
+						sqlListeAssoc += `('${temp}','${req.params.id}')`;
+						if (i < dataToModify.tagChoisi.length - 1) sqlListeAssoc += ",";
+					}
+					let sqlAssocTagsCreations = `INSERT INTO asso_creations_tags (id_tag,id_creation) VALUES ${sqlListeAssoc}`;
+					con.query(sqlAssocTagsCreations, function (err, result) {
+						if (err) throw err;
+						console.log("TAG mis a jour !!");
+						console.log(result);
+						res.status(200).json(result);
+					});
+				});
+
+				// let sqlAssocTagsCreations = `INSERT INTO asso_creations_tags (id_tag,id_creation) VALUES ${sqlListeAssoc}`;
+
+				// let sqlAssocTagsCreations = "UPDATE `asso_creations_tags` SET `id_tag` = ?,`id_creation` = ? WHERE `id_creation` = ? ";
+				// con.query(sqlAssocTagsCreations, function (err, result) {
+				// 	if (err) throw err;
+				// 	console.log("result");
+				// 	console.log(result);
+				// 	res.status(200).json(result);
+				// });
+			});
+
+			// res.status(200).send(result);
 		});
 	} catch (err) {
 		console.log("tiens ca bug");

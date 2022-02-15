@@ -115,7 +115,7 @@ const Card = ({ isAdmin, data,refresh }) => {
 				<div className={styles.priceTag}>{data.prix}€</div>
 				<div className={styles.title}>{data.nom}</div>
 				<div className={styles.description}> {data.description}</div>
-				{isAdmin && <DeleteAndModifyByAdmin id={data.id} refresh={refresh} modifierCreation={modifierCreation}/>}
+				{isAdmin && <DeleteAndModifyByAdmin id={data.id_creation} refresh={refresh} modifierCreation={modifierCreation}/>}
 			</div>
 		</div>
 	);

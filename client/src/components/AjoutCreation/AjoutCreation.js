@@ -17,36 +17,39 @@ const AjoutCreation = () => {
 	const [tag, setTag] = useState("");
 	const [newTag, setNewTag] = useState(0);
 	const [tagTrouvés, setTagTrouvés] = useState(null);
-	const [tagChoisi, setTagChoisi] = useState(null);
+	const [tagChoisi, setTagChoisi] = useState([]);
 	const [bddTag, setBddTag] = useState(null);
 	const [images, setImages] = useState([]);
 	const [description, setDescription] = useState("");
+	const [refresh, setRefresh] = useState(0);
 	const tagInputRef = useRef();
 	const { state } = useLocation();
 
 	useEffect(() => {
 		if (state) {
-			const tagsTemp = state.tags.map((e) => {
-				return { tag: e, modifié: true };
-			});
-			console.log(tagsTemp);
+			console.log("state");
+			console.log("state");
+			console.log("state");
+			console.log("state");
+			console.log(state);
+		
 			setTitle(state.nom);
 			setDescription(state.description);
 			setPrix(state.prix);
 			setImages(state.url);
-			setTagTrouvés(tagsTemp);
+			// setTagTrouvés(state.tags);
 			setTagChoisi(state.tags);
 		}
 	}, [state]);
 	useEffect(() => {
-		console.log("tagTrouvés");
-		console.log(tagTrouvés);
-	}, [tagTrouvés]);
+		console.log("tagChoisi");
+		console.log(tagChoisi);
+	}, [tagChoisi]);
 
 	useEffect(() => {
-		console.log("fetch tags");
+		// console.log("fetch tags");
 		axios.get("/tag").then((tags) => {
-			console.log(tags.data);
+			// console.log(tags.data);
 			setBddTag(tags.data);
 		});
 	}, [newTag]);
@@ -88,10 +91,14 @@ const AjoutCreation = () => {
 		setImages((images) => [...images, e]);
 	};
 	const handleTagSelectionné = (e) => {
-		setTagChoisi(e);
+		// IL FAUT RAJOUTER CES SELECTIONS DANS UN ARRAY
+		console.log("tag from selection");
+		console.log(e);
+
+		setTagChoisi((tagChoisi) => [...tagChoisi, e]);
 	};
 	const validerAjout = () => {
-		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi: state ? tagChoisi : tagChoisi.map((e) => e.id_tag) };
+		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi };
 		if (prix == "") {
 			alert("il manque un prix !");
 		} else if (title == "") {
@@ -105,7 +112,7 @@ const AjoutCreation = () => {
 		} else {
 			console.log(nouvelleCreation);
 			if (state) {
-				axios.patch("/products/" + state.id, nouvelleCreation).then(navigate("../Creations"));
+				axios.patch("/products/" + state.id_creation, nouvelleCreation).then(navigate("../Creations"));
 			} else axios.post("/products", nouvelleCreation).then(navigate("../Creations"));
 		}
 	};
@@ -118,8 +125,15 @@ const AjoutCreation = () => {
 				.catch((err) => console.log(err));
 		}
 	};
-	console.log("tagTrouvés");
-	console.log(tagTrouvés);
+	const supprimerTagChoisi = (index) => {
+		console.log(tagChoisi)
+		console.log(index)
+		console.log(tagChoisi[index])
+		tagChoisi.splice(index,1)
+		console.log(tagChoisi)
+		setRefresh(refresh=>refresh+1)
+		setTagChoisi(tagChoisi)
+	};
 	return (
 		<div className={styles.main}>
 			<LoginSvg className={styles.svg1} />
@@ -135,11 +149,19 @@ const AjoutCreation = () => {
 					</span>
 					<label className={styles.LabelTitle}>Tags</label>
 					<input onChange={handleTag} onKeyDown={handleKeyDown} ref={tagInputRef} type="text" value={tag} maxLength="25" className={styles.inputTitle} />
-					{tagTrouvés && <Tag tags={tagTrouvés} selectionTag={handleTagSelectionné} />}
+					{tagTrouvés && <Tag tags={tagTrouvés} addTag={handleTagSelectionné} />}
 					<InputImage Recupererfile={handleImage} />
 				</div>
 				{!state && <ListeImages images={images} />}
 				{state && <ListeImagesModifiées images={state.url} />}
+				{tagChoisi && (
+					<div className={styles.tagChoisiContainer}>
+						{tagChoisi.map((e,i) => (
+							<div onClick={()=>supprimerTagChoisi(i)} key={i} className={styles.tagChoisi}>{e}</div>
+							// <div onClick={()=>supprimerTagChoisi(i)} key={i} className={styles.tagChoisi}>{state ? e : e.tag}</div>
+						))}
+					</div>
+				)}
 				<button onClick={validerAjout} className={styles.buttonValidation}>
 					valider
 				</button>
