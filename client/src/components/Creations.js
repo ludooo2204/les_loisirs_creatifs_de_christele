@@ -24,7 +24,7 @@ const Creations = ({ isAdmin }) => {
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
-			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} imagess={e.url} refresh={refresh} />)}
+			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e}  refresh={refresh} />)}
 
 			<ReactTooltip className="" globalEventOff="click" place="bottom" type="light" effect="float" id="add">
 				<h3>Ajouter une création</h3>

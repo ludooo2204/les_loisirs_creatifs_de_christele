@@ -45,10 +45,6 @@ router.post("/", (req, res) => {
 		}
 		con.query("SELECT * FROM tags", function (err, tags) {
 			if (err) throw err;
-			console.log("result TAG");
-			console.log("result TAG");
-			console.log("result TAG");
-			console.log(tags);
 			let dataToStore = { ...data };
 			dataToStore.images = dataModified;
 			let sqlCreation = `INSERT INTO creations (nom,prix,description,likes) VALUES ("${dataToStore.title}","${dataToStore.prix}","${dataToStore.description}","${0}")`;
@@ -77,8 +73,6 @@ router.post("/", (req, res) => {
 				let sqlAssocTagsCreations = `INSERT INTO asso_creations_tags (id_tag,id_creation) VALUES ${sqlListeAssoc}`;
 				con.query(sqlAssocTagsCreations, function (err, result) {
 					if (err) throw err;
-					console.log("result");
-					console.log(result);
 					res.status(200).json(result);
 				});
 			});
@@ -94,12 +88,6 @@ router.get("/", (req, res) => {
 	try {
 		con.query("SELECT * FROM creations JOIN asso_creations_tags ON asso_creations_tags.id_creation = creations.id_creation JOIN tags ON asso_creations_tags.id_tag = tags.id_tag LEFT JOIN images ON creations.id_creation = images.id_creation ", function (err, result) {
 			if (err) throw err;
-			// console.log("result")
-			// console.log("result")
-			// console.log("result")
-			// console.log("result")
-			// console.log("result")
-			// console.log(result)
 
 			//traitement peut etre evitable avec une requete SQL adéquate
 			let listeIDCreations = [];
@@ -138,8 +126,6 @@ router.delete("/:id", (req, res) => {
 		let sql = `DELETE FROM creations WHERE id_creation= ?`;
 		con.query(sql, req.params.id, function (err, result) {
 			if (err) throw err;
-			console.log("supprimméé");
-			console.log(result);
 			//// COMMENT RACHRAICHIR LE COMPONENT CREATION APRES ???
 			res.json({ refresh: true });
 		});
@@ -151,28 +137,50 @@ router.delete("/:id", (req, res) => {
 });
 router.patch("/:id", (req, res) => {
 	console.log("patch products!!");
-	console.log("patch products!!");
-	console.log("patch products!!");
 	console.log(req.params);
 	console.log(req.body);
 	let dataToModify = { ...req.body };
+	let imagesModifiés = [];
+	let imagesAGarder = [];
+	const rnd = +new Date();
 
+	for (const image of dataToModify.images) {
+		// condition pour separer les images a garder (celle avec le rnd et _ en debut de nom) et celle a modifier
+		if (!isNaN(Number(image.slice(0, 13))) && image.slice(13, 14) == "_") {
+			console.log(image + " est a garder!!!!!");
+			imagesAGarder.push(image);
+		} else {
+			sharp(__dirname + "/../../client/src/uploads/" + image)
+				.resize(200, 200)
+				.toFile(__dirname + "/../../client/src/uploads/min_" + image)
+				.then((info) => {
+					fs.rename(__dirname + "/../../client/src/uploads/" + image, __dirname + "/../../client/src/uploads/" + rnd + "_" + image, (err) => {
+						if (err) throw err;
+						else {
+							console.log("REname complete");
+						}
+					});
+					//rename fichier min
+					fs.rename(__dirname + "/../../client/src/uploads/min_" + image, __dirname + "/../../client/src/uploads/min_" + rnd + "_" + image, (err) => {
+						if (err) throw err;
+						else {
+							console.log("rename min complete");
+						}
+					});
+				})
+				.catch((err) => console.log(err));
+			imagesModifiés.push(rnd + "_" + image);
+		}
+	}
 	const { prix, description } = req.body;
 
 	try {
 		con.query("SELECT * FROM tags", function (err, tags) {
 			if (err) throw err;
-			console.log("result TAG");
-			console.log("result TAG");
-			console.log("result TAG");
-			console.log(tags);
 			let sql = "UPDATE `creations` SET `nom` = ?,`prix` = ?,`description` = ? WHERE `id_creation` = ?";
 			con.query(sql, [req.body.title, prix, description, req.params.id], function (err, result) {
 				if (err) throw err;
 				console.log("la creation a été modifié");
-				// console.log(result);
-				//// COMMENT RACHRAICHIR LE COMPONENT CREATION APRES ???
-				// res.json({refresh:true});
 
 				///PARTIE ASSOC TAG
 				let sql = `DELETE FROM asso_creations_tags WHERE id_creation= ?`;
@@ -184,11 +192,6 @@ router.patch("/:id", (req, res) => {
 					let sqlListeAssoc = "";
 					for (let i = 0; i < dataToModify.tagChoisi.length; i++) {
 						const element = dataToModify.tagChoisi[i];
-						console.log("element");
-						console.log("element");
-						console.log("element");
-						console.log("element");
-						console.log(element);
 						const temp = tags.filter((tag) => tag.tag == element)[0].id_tag;
 						sqlListeAssoc += `('${temp}','${req.params.id}')`;
 						if (i < dataToModify.tagChoisi.length - 1) sqlListeAssoc += ",";
@@ -201,16 +204,57 @@ router.patch("/:id", (req, res) => {
 						res.status(200).json(result);
 					});
 				});
+				con.query(`SELECT * FROM images WHERE id_creation = '${req.params.id}'`, function (err, result) {
+					if (err) throw err;
+					console.log("nouvelles images(imagesModifiés)");
+					console.log(imagesModifiés);
+					console.log("imagesAGarder)");
+					console.log(imagesAGarder);
+					console.log("result");
+					console.log(result);
+					//TODO
+					// IL FAUT SUPPRIMER TOUTES LES IMAGES DONT ID_CREATION = Req.PARAMS.ID
+					// PUIS POST imagesModifiés + imagesAGarder
 
-				// let sqlAssocTagsCreations = `INSERT INTO asso_creations_tags (id_tag,id_creation) VALUES ${sqlListeAssoc}`;
+					let sql = `DELETE FROM images WHERE id_creation= '${req.params.id}'`;
+					con.query(sql, function (err, result) {
+						if (err) throw err;
+						console.log("SUPPRESSION DES IMAGES DE LA CREATION REUSSI");
+						let nouvelleListeImagesToUpload = [];
+						for (const iterator of imagesModifiés) {
+							nouvelleListeImagesToUpload.push(iterator);
+						}
+						for (const iterator of imagesAGarder) {
+							nouvelleListeImagesToUpload.push(iterator);
+						}
+						console.log(nouvelleListeImagesToUpload);
+						let sqlListeImages = "";
+						for (let i = 0; i < nouvelleListeImagesToUpload.length; i++) {
+							const element = nouvelleListeImagesToUpload[i];
+							sqlListeImages += `('${element}','${req.params.id}')`;
+							if (i < nouvelleListeImagesToUpload.length - 1) sqlListeImages += ",";
+						}
+						let sqlImages = `INSERT INTO images (url,id_creation) VALUES ${sqlListeImages}`;
+						con.query(sqlImages, function (err, result) {
+							if (err) throw err;
+							console.log("YOUYOUYOUYOUYOU");
+						});
+					});
 
-				// let sqlAssocTagsCreations = "UPDATE `asso_creations_tags` SET `id_tag` = ?,`id_creation` = ? WHERE `id_creation` = ? ";
-				// con.query(sqlAssocTagsCreations, function (err, result) {
-				// 	if (err) throw err;
-				// 	console.log("result");
-				// 	console.log(result);
-				// 	res.status(200).json(result);
-				// });
+					// for (let i = 0; i < imagesModifiés.length; i++) {
+					// const element = imagesModifiés[i];
+					// console.log("element")
+					// console.log(element)
+					// const id_imageAModifier = result.filter((e) => e.url != element)[0].id_image;
+					// console.log("id_creations to modify " + req.params.id);
+					// console.log("id_images to modify " + id_imageAModifier);
+					// let sqlImages = `UPDATE images SET url = '${element}' WHERE id_creation = '${req.params.id}' AND id_image = '${id_imageAModifier}'`;
+					// con.query(sqlImages, function (err, result) {
+					// 	if (err) throw err;
+					// 	console.log("modificiation de l'image a fonctionné!!!");
+					// });
+					// }
+				});
 			});
 
 			// res.status(200).send(result);

@@ -4,7 +4,6 @@ var path = require('path');
 
 let router = express.Router();
 router.post("/", (req, res) => {
-	console.log("coucou");
 	try {
 		if (!req.files) {
 			res.send({

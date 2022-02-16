@@ -32,7 +32,7 @@ const AjoutCreation = () => {
 			console.log("state");
 			console.log("state");
 			console.log(state);
-		
+
 			setTitle(state.nom);
 			setDescription(state.description);
 			setPrix(state.prix);
@@ -88,6 +88,14 @@ const AjoutCreation = () => {
 		} else setTagTrouvés(null);
 	};
 	const handleImage = (e) => {
+		console.log("handleImage")
+		console.log("handleImage")
+		console.log("handleImage")
+		console.log(images)
+		console.log("e")
+		console.log("e")
+		console.log("e")
+		console.log(e)
 		setImages((images) => [...images, e]);
 	};
 	const handleTagSelectionné = (e) => {
@@ -98,7 +106,9 @@ const AjoutCreation = () => {
 		setTagChoisi((tagChoisi) => [...tagChoisi, e]);
 	};
 	const validerAjout = () => {
-		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name), tagChoisi };
+		console.log("images from valider")
+		console.log(images)
+		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name?image.name:image), tagChoisi };
 		if (prix == "") {
 			alert("il manque un prix !");
 		} else if (title == "") {
@@ -126,14 +136,20 @@ const AjoutCreation = () => {
 		}
 	};
 	const supprimerTagChoisi = (index) => {
-		console.log(tagChoisi)
-		console.log(index)
-		console.log(tagChoisi[index])
-		tagChoisi.splice(index,1)
-		console.log(tagChoisi)
-		setRefresh(refresh=>refresh+1)
-		setTagChoisi(tagChoisi)
+		console.log(tagChoisi);
+		console.log(index);
+		console.log(tagChoisi[index]);
+		tagChoisi.splice(index, 1);
+		console.log(tagChoisi);
+		setRefresh((refresh) => refresh + 1);
+		setTagChoisi(tagChoisi);
 	};
+	const onDelete=(img)=>{
+			console.log(images);
+		const copie = [...images];
+		copie.splice(img, 1);
+		setImages(copie);
+	}
 	return (
 		<div className={styles.main}>
 			<LoginSvg className={styles.svg1} />
@@ -152,13 +168,16 @@ const AjoutCreation = () => {
 					{tagTrouvés && <Tag tags={tagTrouvés} addTag={handleTagSelectionné} />}
 					<InputImage Recupererfile={handleImage} />
 				</div>
-				{!state && <ListeImages images={images} />}
-				{state && <ListeImagesModifiées images={state.url} />}
+				{/* {!state && */}
+				 <ListeImages images={images} onDelete={onDelete}/>
+				 
+				{/* {state && <ListeImagesModifiées images={state.url} />} */}
 				{tagChoisi && (
 					<div className={styles.tagChoisiContainer}>
-						{tagChoisi.map((e,i) => (
-							<div onClick={()=>supprimerTagChoisi(i)} key={i} className={styles.tagChoisi}>{e}</div>
-							// <div onClick={()=>supprimerTagChoisi(i)} key={i} className={styles.tagChoisi}>{state ? e : e.tag}</div>
+						{tagChoisi.map((e, i) => (
+							<div onClick={() => supprimerTagChoisi(i)} key={i} className={styles.tagChoisi}>
+								{e}
+							</div>
 						))}
 					</div>
 				)}
