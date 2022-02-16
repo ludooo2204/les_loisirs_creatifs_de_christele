@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,8 +9,15 @@ import image1 from "../../image/1.jpg";
 import image2 from "../../image/2.jpg";
 import image3 from "../../image/blog3.jpg";
 import DeleteAndModifyByAdmin from "./DeleteAndModifyByAdmin/DeleteAndModifyByAdmin";
+import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
+import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { gsap } from "gsap";
+
 import image4 from "../../image/4.jpg";
 import { Navigate } from "react-router-dom";
+import { Back } from "gsap/all";
+
 let images = [image1, image2, image3];
 
 // Modal.setAppElement("#root");
@@ -31,18 +38,31 @@ const customStyles = {
 	},
 };
 
-const Card = ({ isAdmin, data,refresh }) => {
-	const [modalIsOpen, setIsOpen] = React.useState(false);
+const Card = ({ isAdmin, data, refresh }) => {
+	const [modalIsOpen, setIsOpen] = useState(false);
+	const [liked, setLiked] = useState(false);
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
 	let navigate = useNavigate();
 
-	const modifierCreation=()=>{
-		console.log(data)
-		navigate("../../ajoutCreation",{state:data})
-	}
+	const modifierCreation = () => {
+		console.log(data);
+		navigate("../../ajoutCreation", { state: data });
+	};
 
+	const likeRef = useRef();
+	// useEffect(() => {
+	// 	gsap.from(likeRef.current, { translateX: "-=360", duration: 2 });
+	// });
+const animateLike=()=>{
+	gsap.to(likeRef.current, { scale: 1.2, duration: 0.3 ,ease:Back.easeOut.config(4)});
+
+}
+const animateLike2=()=>{
+	gsap.to(likeRef.current, { scale: 1, duration: 0.3,ease:Back.easeOut.config(4) });
+
+}
 	const settings = {
 		// customPaging: function(i) {
 		// 	return (
@@ -83,7 +103,6 @@ const Card = ({ isAdmin, data,refresh }) => {
 					X
 				</button>
 				<div className={styles.cardContainerModal}>
-			
 					<Slider {...settingsModal}>
 						<div className={styles.divCardContainerModal}>
 							<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
@@ -98,8 +117,13 @@ const Card = ({ isAdmin, data,refresh }) => {
 				</div>
 			</Modal>
 			<div className={styles.divCardContainer}>
-					<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
+				<div className={styles.likeCommentContainer}>
+					{!liked && <FavoriteBorderOutlinedIcon onMouseEnter={animateLike} onMouseLeave={animateLike2} ref={likeRef} onClick={() => setLiked(true)} style={{ color: "black" }} />}
+					{liked && <FavoriteRoundedIcon style={{ color: "red" }} />}
+					<InsertCommentOutlinedIcon style={{ color: "black" }} />
 				</div>
+				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
+			</div>
 			{/* <Slider {...settings}>
 				<div className={styles.divCardContainer}>
 					<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
@@ -115,7 +139,7 @@ const Card = ({ isAdmin, data,refresh }) => {
 				<div className={styles.priceTag}>{data.prix}€</div>
 				<div className={styles.title}>{data.nom}</div>
 				<div className={styles.description}> {data.description}</div>
-				{isAdmin && <DeleteAndModifyByAdmin id={data.id_creation} refresh={refresh} modifierCreation={modifierCreation}/>}
+				{isAdmin && <DeleteAndModifyByAdmin id={data.id_creation} refresh={refresh} modifierCreation={modifierCreation} />}
 			</div>
 		</div>
 	);
