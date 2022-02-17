@@ -11,5 +11,6 @@
     "build": "cd client && yarn build",
     "testClient": "cd client && yarn test",
     "testBack": "cd back && yarn test"
-  }
+  },
+  "dependencies": {}
 }
