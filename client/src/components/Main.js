@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import ciseau1 from'../image/ciseau1.png'
 import ciseau2 from'../image/ciseau2.png'
 import bobineFil from'../image/bobine.png'
+import axios from 'axios'
 
 const Main = () => {
 
@@ -14,6 +15,14 @@ const Main = () => {
 	const ciseau2Ref = useRef();
 	const ciseauRef = useRef();
 	const bobineRef = useRef();
+	useEffect(()=>{
+axios.get("/test")
+.then(data=>console.log(data))
+.catch(err=>console.log(err))
+axios.get("/api/test/all")
+.then(data=>console.log(data))
+.catch(err=>console.log(err))
+	})
 	useEffect(() => {
 		gsap.from(fleurLeftRef.current, { translateX: "-=360",duration:2	 });
 		gsap.from(fleurRightRef.current, { translateX: "+=360",duration:2	 });
