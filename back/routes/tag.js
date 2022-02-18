@@ -16,6 +16,8 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
 		let data = req.body;
+		console.log("data")
+		console.log(data)
 	try {
 		let sqlTag = `INSERT INTO tags (tag) VALUES ("${data.tag}")`;
 			con.query(sqlTag, function (err, result) {
