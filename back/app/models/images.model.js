@@ -1,5 +1,5 @@
 module.exports =(sequelize,Sequelize)=>{
-    const Images = sequelize.define("Images",{
+    const Image = sequelize.define("image",{
         id_image:{
             type: Sequelize.INTEGER,
             allowNull: false,
@@ -18,5 +18,5 @@ module.exports =(sequelize,Sequelize)=>{
 
         }
     });
-    return Images
+    return Image
 }

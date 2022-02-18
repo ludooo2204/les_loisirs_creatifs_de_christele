@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
-	const Tag = sequelize.define("tags", {
-		id_tagTest: {
+	const Tag = sequelize.define("tag", {
+		id_tag: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
 			autoIncrement: true
