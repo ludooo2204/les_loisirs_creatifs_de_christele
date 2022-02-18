@@ -1,14 +1,91 @@
 let express = require("express");
 let router = express.Router();
-let con = require("../initBDD");
+// let con = require("../initBDD");
+const db = require("../models");
+const Creation = db.creations;
 const fs = require("fs");
 const sharp = require("sharp");
-function getCurrentFilenames() {
-	console.log("Current filenames:");
-	fs.readdirSync(__dirname).forEach((file) => {
-		console.log(file);
+// function getCurrentFilenames() {
+// 	console.log("Current filenames:");
+// 	fs.readdirSync(__dirname).forEach((file) => {
+// 		console.log(file);
+// 	});
+// }
+
+
+router.get("/", (req, res) => {
+	con.query("SELECT * FROM creations JOIN asso_creations_tags ON asso_creations_tags.id_creation = creations.id_creation JOIN tags ON asso_creations_tags.id_tag = tags.id_tag LEFT JOIN images ON creations.id_creation = images.id_creation ", function (err, result) {
+		if (err) throw err;
+
+		//traitement peut etre evitable avec une requete SQL adéquate
+		let listeIDCreations = [];
+		let listeCreations = [];
+		for (const iterator of result) {
+			listeIDCreations.push(iterator.id_creation);
+		}
+		let creationsUnique = [...new Set(listeIDCreations)];
+
+		for (const iterator of creationsUnique) {
+			// const créations retourne tous les objets pour chaque création unique
+			const créations = result.filter((e) => iterator == e.id_creation);
+			// console.log(créations)
+			let créationTemp = créations[0];
+			créationTemp.url = [...new Set(créations.map((e) => e.url))];
+			créationTemp.tags = [...new Set(créations.map((e) => e.tag))];
+			delete créationTemp.id_image;
+			delete créationTemp.tag;
+			delete créationTemp.id_tag;
+			// delete créationTemp.id_assoc;
+			listeCreations.push(créationTemp);
+		}
+		// console.log(listeCreations);
+		res.status(200).json(listeCreations);
 	});
-}
+});
+router.post("/", (req, res) => {
+	console.log("POST TAG !!");
+	const test = "test " + Math.round(Math.random() * 100) / 10;
+	console.log(test);
+	Tag.create({
+		tag: test,
+	}).then(res.status(200).send(test + " creeé"));
+});
+module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 router.post("/", (req, res) => {
 	console.log("post product!");
 	try {
@@ -16,7 +93,7 @@ router.post("/", (req, res) => {
 		let data = req.body;
 		const rnd = +new Date();
 		let dataModified = [];
-		getCurrentFilenames();
+		// getCurrentFilenames();
 		console.log("data.images");
 		console.log(data);
 		for (let i = 0; i < data.images.length; i++) {

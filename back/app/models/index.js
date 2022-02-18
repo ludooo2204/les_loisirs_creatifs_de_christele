@@ -35,6 +35,11 @@ db.user.belongsToMany(db.role, {
   foreignKey: "userId",
   otherKey: "roleId"
 });
+db.creation.belongsToMany(db.tag, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId"
+});
 // db.tag.(db.role, {
 //   through: "user_roles",
 //   foreignKey: "userId",
