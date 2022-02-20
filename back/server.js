@@ -13,7 +13,7 @@ app.use(
 	})
 );
 var corsOptions = {
-  origin: "http://localhost:7001"
+  origin: "http://localhost:3000"
 };
 
 app.use(bodyParser.json());

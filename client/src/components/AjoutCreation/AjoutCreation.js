@@ -48,7 +48,7 @@ const AjoutCreation = () => {
 
 	useEffect(() => {
 		// console.log("fetch tags");
-		axios.get("/tag").then((tags) => {
+		axios.get("/api/tags").then((tags) => {
 			// console.log(tags.data);
 			setBddTag(tags.data);
 		});
@@ -122,15 +122,15 @@ const AjoutCreation = () => {
 		} else {
 			console.log(nouvelleCreation);
 			if (state) {
-				axios.patch("/products/" + state.id_creation, nouvelleCreation).then(navigate("../Creations"));
-			} else axios.post("/products", nouvelleCreation).then(navigate("../Creations"));
+				axios.patch("/api/creations/" + state.id_creation, nouvelleCreation).then(navigate("../Creations"));
+			} else axios.post("/api/creations", nouvelleCreation).then(navigate("../Creations"));
 		}
 	};
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
 			console.log("do validate");
 			axios
-				.post("/tag", { tag })
+				.post("/api/tags", { tag })
 				.then(setNewTag(newTag + 1))
 				.catch((err) => console.log(err));
 		}

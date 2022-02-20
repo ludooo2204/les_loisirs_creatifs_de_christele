@@ -40,7 +40,7 @@ const InputImage = ({ Recupererfile }) => {
 		// formData.append("name", name);
 		formData.append("file", selectedFile);
 		axios
-			.post("/image", formData)
+			.post("/api/images", formData)
 			.then((res) => {
 				// alert("File Upload success");
 				// console.log("res");

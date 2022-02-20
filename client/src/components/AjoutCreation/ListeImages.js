@@ -10,7 +10,7 @@ const ListeImages = ({ images,onDelete }) => {
 	console.log("ListeImages");
 	console.log("ListeImages");
 	console.log("images");
-	console.log("images");
+	console.log(images);
 	console.log("typeof images[0");
 	console.log(typeof images[0]);
 	console.log(images[0]);
@@ -32,7 +32,7 @@ const ListeImages = ({ images,onDelete }) => {
 							{/* <img className={styles.image} src={require("../../uploads/" + image)} /> */}
 
 							{/* CA CA MARCHE POUR L'UPLOAD */}
-							<img className={styles.image} src={typeof image=='string'?require("../../uploads/" + image):URL.createObjectURL(image)} />
+							<img className={styles.image} src={typeof image.url=='string'?require("../../uploads/" + image):URL.createObjectURL(image)} />
 
 							<HighlightOffIcon className={styles.iconeDelete} onClick={() => onDelete(i)} />
 						</div>

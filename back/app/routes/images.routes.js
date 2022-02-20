@@ -1,10 +1,14 @@
     
 let express = require('express');
 var path = require('path');
+const db = require("../models");
+const Image = db.image;
 
 let router = express.Router();
 router.post("/", (req, res) => {
-	try {
+	console.log("post images")
+	console.log("post images")
+	console.log("post images")
 		if (!req.files) {
 			res.send({
 				status: false,
@@ -32,9 +36,6 @@ router.post("/", (req, res) => {
 				},
 			});
 		}
-	} catch (err) {
-		res.status(500).send(err);
-	}
 });
 router.get('/', function (req, res) {
 	res.sendFile(path.resolve('uploads/_1644440034411bad.jpg'));  

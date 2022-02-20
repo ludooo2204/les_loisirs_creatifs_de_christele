@@ -15,11 +15,11 @@ const sharp = require("sharp");
 // }
 
 router.get("/", (req, res) => {
-	Creation.findAll({include:[Tag,Image]})
+	Creation.findAll({ include: [Tag, Image] })
 		.then((e) => {
-			console.log(JSON.stringify(e,null,2))
-			console.log(e.length)
-			res.status(200).send(JSON.stringify(e));
+			console.log(JSON.stringify(e, null, 2));
+			res.status(200).send(e);
+			// res.status(200).send(JSON.stringify(e));
 		})
 		.catch((err) => res.status(500).send("ca bug"));
 	// con.query("SELECT * FROM creations JOIN asso_creations_tags ON asso_creations_tags.id_creation = creations.id_creation JOIN tags ON asso_creations_tags.id_tag = tags.id_tag LEFT JOIN images ON creations.id_creation = images.id_creation ", function (err, result) {
@@ -51,40 +51,52 @@ router.get("/", (req, res) => {
 	// });
 });
 router.post("/", (req, res) => {
-	// console.log("POST TAG !!");
-	// const test = "test " + Math.round(Math.random() * 100) / 10;
-	// console.log(test);
-	// Tag.create({
-	// 	tag: test,
-	// }).then(res.status(200).send(test + " creeé"));
+	console.log(req.body);
+	//pour chaque image uploadé, on crée une copie minifiée en taille puis on renomme les 2 avec une rnd pour eviter les noms de fichiers en doublons
+	let data = req.body;
+	const rnd = +new Date();
+	let dataModified = [];
+	// getCurrentFilenames();
+	console.log("data.images");
+	console.log(data);
+	for (let i = 0; i < data.images.length; i++) {
+		sharp(__dirname + "/../../../client/src/uploads/" + data.images[i])
+			.resize(200, 200)
+			.toFile(__dirname + "/../../../client/src/uploads/min_" + data.images[i])
+			.then((info) => {
+				//rename fichier
+				console.log("coucou");
+				fs.rename(__dirname + "/../../../client/src/uploads/" + data.images[i], __dirname + "/../../../client/src/uploads/" + rnd + "_" + data.images[i], (err) => {
+					if (err) throw err;
+					else {
+						console.log("REname complete");
+					}
+				});
+				//rename fichier min
+				fs.rename(__dirname + "/../../../client/src/uploads/min_" + data.images[i], __dirname + "/../../../client/src/uploads/min_" + rnd + "_" + data.images[i], (err) => {
+					if (err) throw err;
+					else {
+						console.log("rename min complete");
+					}
+				});
+			})
+			.catch((err) => console.log(err));
+		dataModified[i] = rnd + "_" + data.images[i];
+	}
+	console.log("dataModified");
+	console.log(dataModified);
+	// res.status(200).json(dataModified);
+	let dataToStore = { ...data };
+	dataToStore.images = dataModified.map(image=>{return {url:image}});
+	console.log("dataToStore")
+	console.log("dataToStore")
+	console.log("dataToStore")
+	console.log(dataToStore)
+	Creation.create({ nom: dataToStore.title, prix: dataToStore.prix, description: dataToStore.description, images: dataToStore.images, tags: [{ tag: "tag1" }, { tag: "tag2" }, { tag: "tag3" }] }, { include: [Image, Tag] })
+		.then(res.status(200).send("nouvel entrée creeé"))
+		.catch((err) => console.lof("loupé", err));
 });
 module.exports = router;
-
-// router.post("/", (req, res) => {
-// 	console.log("post product!");
-// 	try {
-// 		//pour chaque image uploadé, on crée une copie minifiée en taille puis on renomme les 2 avec une rnd pour eviter les noms de fichiers en doublons
-// 		let data = req.body;
-// 		const rnd = +new Date();
-// 		let dataModified = [];
-// 		// getCurrentFilenames();
-// 		console.log("data.images");
-// 		console.log(data);
-// 		for (let i = 0; i < data.images.length; i++) {
-// 			sharp(__dirname + "/../../client/src/uploads/" + data.images[i])
-// 				.resize(200, 200)
-// 				.toFile(__dirname + "/../../client/src/uploads/min_" + data.images[i])
-// 				.then((info) => {
-// 					//rename fichier
-// 					console.log("coucou");
-// 					fs.rename(__dirname + "/../../client/src/uploads/" + data.images[i], __dirname + "/../../client/src/uploads/" + rnd + "_" + data.images[i], (err) => {
-// 						if (err) throw err;
-// 						else {
-// 							console.log("REname complete");
-// 						}
-// 					});
-// 					//rename fichier min
-// 					fs.rename(__dirname + "/../../client/src/uploads/min_" + data.images[i], __dirname + "/../../client/src/uploads/min_" + rnd + "_" + data.images[i], (err) => {
 // 						if (err) throw err;
 // 						else {
 // 							console.log("rename min complete");

@@ -15,10 +15,6 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
 	console.log("POST TAG !!");
-	const test = "test " + Math.round(Math.random() * 100) / 10;
-	console.log(test);
-	Tag.create({
-		tag: test,
-	}).then(res.status(200).send(test + " creeé"));
+	Tag.create(req.body).then(res.status(200).send(test + " creeé"));
 });
 module.exports = router;

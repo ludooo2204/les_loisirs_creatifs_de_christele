@@ -10,9 +10,19 @@ const Creations = ({ isAdmin }) => {
 	const [refreshProp, setRefresh] = React.useState(0);
 
 	useEffect(() => {
-		axios.get("/products").then((e) => {
+		axios.get("/api/creations").then((e) => {
+			console.log("products fecth");
+			console.log("products fecth");
 			console.log("products fecth");
 			console.log(e);
+			const temp = { ...e.data[0] };
+			console.log("temp");
+			console.log("temp");
+			console.log(temp);
+			temp.url = temp.images.map((e) => e.url);
+			delete temp.images;
+			console.log("temp");
+			console.log(temp);
 			if (e.data) setBddCréation(e.data);
 		});
 	}, [refreshProp]);
@@ -24,7 +34,7 @@ const Creations = ({ isAdmin }) => {
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
-			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e}  refresh={refresh} />)}
+			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} refresh={refresh} />)}
 
 			<ReactTooltip className="" globalEventOff="click" place="bottom" type="light" effect="float" id="add">
 				<h3>Ajouter une création</h3>

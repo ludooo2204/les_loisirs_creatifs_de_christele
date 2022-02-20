@@ -16,10 +16,8 @@ const Main = () => {
 	const ciseauRef = useRef();
 	const bobineRef = useRef();
 	useEffect(()=>{
-axios.get("/test")
-.then(data=>console.log(data))
-.catch(err=>console.log(err))
-axios.get("/api/test/all")
+
+axios.get("/api/creations")
 .then(data=>console.log(data))
 .catch(err=>console.log(err))
 	})

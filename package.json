@@ -5,6 +5,8 @@
   "repository": "https://github.com/ludooo2204/les_loisirs_creatifs_de_christele.git",
   "author": "ludovic Vachon <vachon.ludovic@gmail.com>",
   "license": "MIT",
+  "proxy": "http://localhost:7000/",
+
   "scripts": {
     "back": "cd back && nodemon -r dotenv/config server.js",
     "client": "cd client && yarn start",
