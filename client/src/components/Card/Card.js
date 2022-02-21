@@ -17,6 +17,7 @@ import { gsap } from "gsap";
 import image4 from "../../image/4.jpg";
 import { Navigate } from "react-router-dom";
 import { Back } from "gsap/all";
+import axios from "axios";
 
 let images = [image1, image2, image3];
 
@@ -95,6 +96,18 @@ const animateLike2=()=>{
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
+	const liker=()=>{
+		if(!liked){
+
+			setLiked(true);
+			axios.post("/api/likes/",{userId:2,id_creation : data.id_creation,operation:"like"})
+		}
+		else if(liked){
+
+			setLiked(false);
+			axios.post("/api/likes/",{userId:2,id_creation : data.id_creation,operation:"dislike"})
+		}
+	}
 	return (
 		<div className={styles.cardContainer}>
 			{/* <img src={image1} /> */}
@@ -122,8 +135,9 @@ const animateLike2=()=>{
 			</Modal>
 			<div className={styles.divCardContainer}>
 				<div className={styles.likeCommentContainer}>
-					{!liked && <FavoriteBorderOutlinedIcon onMouseEnter={animateLike} onMouseLeave={animateLike2} ref={likeRef} onClick={() => setLiked(true)} style={{ color: "black" }} />}
-					{liked && <FavoriteRoundedIcon style={{ color: "red" }} />}
+					{!liked && <FavoriteBorderOutlinedIcon onMouseEnter={animateLike} onMouseLeave={animateLike2} ref={likeRef} onClick={liker} style={{ color: "black" }} />}
+					{liked && <FavoriteRoundedIcon onClick={liker} style={{ color: "red" }} />}
+					{1}
 					<InsertCommentOutlinedIcon style={{ color: "black" }} />
 				</div>
 				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />

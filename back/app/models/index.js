@@ -24,7 +24,8 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.tag = require("../models/tag.model.js")(sequelize, Sequelize);
 db.creation = require("../models/creation.model.js")(sequelize, Sequelize);
 db.image = require("../models/images.model.js")(sequelize, Sequelize);
-db.creation_tag = require("../models/asso_creations_tags.model.js")(sequelize, Sequelize);
+// db.creation_tag = require("../models/asso_creations_tags.model.js")(sequelize, Sequelize);
+// db.userlike_creation = require("../models/asso_userlike_creation.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -35,6 +36,16 @@ db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
   otherKey: "roleId"
+});
+db.user.belongsToMany(db.creation, {
+  through: "userLike_creation",
+  foreignKey: "userId",
+  otherKey: "id_creation"
+});
+db.creation.belongsToMany(db.user, {
+  through: "userLike_creation",
+  foreignKey: "id_creation",
+  otherKey: "userId"
 });
 db.creation.hasMany(db.image, {
   foreignKey: "id_creation",

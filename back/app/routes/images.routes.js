@@ -2,7 +2,7 @@
 let express = require('express');
 var path = require('path');
 const db = require("../models");
-const Image = db.image;
+const creation = db.image;
 
 let router = express.Router();
 router.post("/", (req, res) => {

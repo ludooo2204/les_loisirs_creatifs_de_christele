@@ -4,10 +4,7 @@ let router = express.Router();
 const db = require("../models");
 const Creation = db.creation;
 const Creation_Tag = db.creation_tag;
-console.log("Creation");
-console.log(Creation);
-console.log("Creation_Tag");
-console.log(Creation_Tag);
+
 const Image = db.image;
 const Tag = db.tag;
 const fs = require("fs");
