@@ -5,14 +5,16 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useNavigate } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import axios from "axios";
+
+//AJOUTER PROPS OU STATE USER (POUR RECUPERER LES LIKES/ COMMENTS)
+const userId=1
 const Creations = ({ isAdmin }) => {
 	const [bddCréation, setBddCréation] = useState(null);
-	const [refreshProp, setRefresh] = React.useState(0);
+	const [refreshProp, setRefresh] = useState(0);
+	const [liked, setLiked] = useState(null);
 
 	useEffect(() => {
 		axios.get("/api/creations").then((e) => {
-			console.log("products fecth");
-			console.log("products fecth");
 			console.log("products fecth");
 			console.log(e);
 			const temp = [...e.data];
@@ -26,6 +28,18 @@ const Creations = ({ isAdmin }) => {
 			if (e.data) setBddCréation(temp);
 		});
 	}, [refreshProp]);
+	console.log("bdbddCréationd")
+	console.log("bdbddCréationd")
+	console.log("bdbddCréationd")
+	console.log("bdbddCréationd")
+	console.log(bddCréation)
+	useEffect(() => {
+		axios.get("/api/liked/"+userId).then((e) => {
+			console.log("fetch liked")
+		const likedTemp=e.data.map(like=>like.id_creation)
+		setLiked(likedTemp)
+		});
+	}, []);
 
 	const refresh = () => {
 		console.log("refresh from creation");
@@ -34,7 +48,7 @@ const Creations = ({ isAdmin }) => {
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
-			{bddCréation && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} refresh={refresh} />)}
+			{bddCréation && liked && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} refresh={refresh} likee={liked.includes(e.id_creation)} />)}
 
 			<ReactTooltip className="" globalEventOff="click" place="bottom" type="light" effect="float" id="add">
 				<h3>Ajouter une création</h3>

@@ -39,9 +39,21 @@ const customStyles = {
 	},
 };
 
-const Card = ({ isAdmin, data, refresh }) => {
+const Card = ({ isAdmin, data, refresh,likee }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [liked, setLiked] = useState(false);
+	const [nbrLike, setNbrLike] = useState(0);
+	useEffect(()=>{
+		if (likee) setLiked(true)
+
+		
+	},[])
+	useEffect(()=>{
+		axios.get('/api/likes/'+data.id_creation)
+		.then(result=>setNbrLike(result.data.length))
+
+		
+	},[liked])
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
@@ -56,14 +68,12 @@ const Card = ({ isAdmin, data, refresh }) => {
 	// useEffect(() => {
 	// 	gsap.from(likeRef.current, { translateX: "-=360", duration: 2 });
 	// });
-const animateLike=()=>{
-	gsap.to(likeRef.current, { scale: 1.2, duration: 0.3 ,ease:Back.easeOut.config(4)});
-
-}
-const animateLike2=()=>{
-	gsap.to(likeRef.current, { scale: 1, duration: 0.3,ease:Back.easeOut.config(4) });
-
-}
+	const animateLike = () => {
+		gsap.to(likeRef.current, { scale: 1.2, duration: 0.3, ease: Back.easeOut.config(4) });
+	};
+	const animateLike2 = () => {
+		gsap.to(likeRef.current, { scale: 1, duration: 0.3, ease: Back.easeOut.config(4) });
+	};
 	const settings = {
 		// customPaging: function(i) {
 		// 	return (
@@ -79,7 +89,6 @@ const animateLike2=()=>{
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
-	console.log(data);
 	const settingsModal = {
 		customPaging: function (i) {
 			return (
@@ -96,18 +105,15 @@ const animateLike2=()=>{
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
-	const liker=()=>{
-		if(!liked){
-
-			setLiked(true);
-			axios.post("/api/likes/",{userId:2,id_creation : data.id_creation,operation:"like"})
+	const liker = () => {
+		if (!liked) {
+			
+			axios.post("/api/likes/", { userId: 1, id_creation: data.id_creation, operation: "like" }).then((result) => setLiked(true));
+		} else if (liked) {
+			
+			axios.post("/api/likes/", { userId: 1, id_creation: data.id_creation, operation: "dislike" }).then((result) => setLiked(false));
 		}
-		else if(liked){
-
-			setLiked(false);
-			axios.post("/api/likes/",{userId:2,id_creation : data.id_creation,operation:"dislike"})
-		}
-	}
+	};
 	return (
 		<div className={styles.cardContainer}>
 			{/* <img src={image1} /> */}
@@ -118,10 +124,6 @@ const animateLike2=()=>{
 				<div className={styles.cardContainerModal}>
 					<Slider {...settingsModal}>
 						<div className={styles.divCardContainerModal}>
-							{console.log("data")}
-							{console.log("data")}
-							{console.log("data")}
-							{console.log(data)}
 							<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
@@ -137,7 +139,7 @@ const animateLike2=()=>{
 				<div className={styles.likeCommentContainer}>
 					{!liked && <FavoriteBorderOutlinedIcon onMouseEnter={animateLike} onMouseLeave={animateLike2} ref={likeRef} onClick={liker} style={{ color: "black" }} />}
 					{liked && <FavoriteRoundedIcon onClick={liker} style={{ color: "red" }} />}
-					{1}
+					{nbrLike}
 					<InsertCommentOutlinedIcon style={{ color: "black" }} />
 				</div>
 				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
