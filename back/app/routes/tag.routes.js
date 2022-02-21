@@ -15,6 +15,8 @@ router.get("/", (req, res) => {
 });
 router.post("/", (req, res) => {
 	console.log("POST TAG !!");
-	Tag.create(req.body).then(res.status(200).send(test + " creeé"));
+	console.log("req.body")
+	console.log(req.body)
+	Tag.create(req.body).then(res.status(200).send("tag creeé"));
 });
 module.exports = router;

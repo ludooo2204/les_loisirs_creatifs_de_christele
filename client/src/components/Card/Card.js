@@ -109,10 +109,10 @@ const animateLike2=()=>{
 							{console.log("data")}
 							{console.log("data")}
 							{console.log(data)}
-							<img src={require("../../uploads/" + data.images[0].url)} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
+							<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
-							<img src={require("../../uploads/" + data.images[1].url)} className={styles.cardImageModal} />
+							<img src={require("../../uploads/" + data.url[1])} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
 							<img src={image2} className={styles.cardImageModal} />
@@ -126,7 +126,7 @@ const animateLike2=()=>{
 					{liked && <FavoriteRoundedIcon style={{ color: "red" }} />}
 					<InsertCommentOutlinedIcon style={{ color: "black" }} />
 				</div>
-				<img src={require("../../uploads/" + data.images[0].url)} onClick={() => toggleModalImage()} className={styles.cardImage} />
+				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
 			</div>
 			{/* <Slider {...settings}>
 				<div className={styles.divCardContainer}>

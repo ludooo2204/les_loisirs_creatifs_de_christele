@@ -38,7 +38,10 @@ const AjoutCreation = () => {
 			setPrix(state.prix);
 			setImages(state.url);
 			// setTagTrouvés(state.tags);
-			setTagChoisi(state.tags);
+			console.log("state");
+			console.log(state.tags);
+			console.log(state.tags.map(e=>e.tag));
+			setTagChoisi(state.tags.map(e=>e.tag));
 		}
 	}, [state]);
 	useEffect(() => {

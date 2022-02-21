@@ -6,7 +6,7 @@ import axios from "axios";
 const DeleteAndModifyByAdmin = ({id,refresh,modifierCreation}) => {
 
     const handleDelete=()=>{
-        axios.delete('/products/'+id)
+        axios.delete('/api/creations/'+id)
         .then(e=>console.log(e))
         .then(refresh())
     }

@@ -15,15 +15,15 @@ const Creations = ({ isAdmin }) => {
 			console.log("products fecth");
 			console.log("products fecth");
 			console.log(e);
-			const temp = { ...e.data[0] };
-			console.log("temp");
+			const temp = [...e.data];
+			for (const iterator of temp) {
+				iterator.url = iterator.images.map((e) => e.url);
+				delete iterator.images;
+			}
+
 			console.log("temp");
 			console.log(temp);
-			temp.url = temp.images.map((e) => e.url);
-			delete temp.images;
-			console.log("temp");
-			console.log(temp);
-			if (e.data) setBddCréation(e.data);
+			if (e.data) setBddCréation(temp);
 		});
 	}, [refreshProp]);
 
