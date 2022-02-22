@@ -4,11 +4,12 @@ const sendMail = require('../utils/email/sendMail');
 
 router.get("/", (req, res) => {
     console.log("j'envoi le mail")
-	sendMail(
-        "vachon.ludovic@gmail.com",
-        "Email subject",
-        { name: "Eze" },
-        "./template/requestResetPassword.handlebars"
-      );
+    console.log(req.userId)
+	// sendMail(
+  //       "vachon.ludovic@gmail.com",
+  //       "Email subject",
+  //       { name: "Eze" },
+  //       "./template/requestResetPassword.handlebars"
+  //     );
 });
 module.exports = router;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -9,6 +9,7 @@ import ReactTooltip from "react-tooltip";
 import Modal from "react-modal";
 import styles from "./Navbar.module.css";
 import LoginForm from "../LoginForm/LoginForm";
+import axios from "axios";
 const customStyles = {
 	content: {
 		top: "50%",
@@ -34,13 +35,36 @@ const Navbar = ({ isAdmin }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [adminConnected, setAdminConnected] = useState(false);
 	const [userConnected, setUserConnected] = useState(null);
+	// const [userConnected, setUserConnected] = useState(null);
+	useEffect(() => {
+		console.log("allez c parti")
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
+		axios
+			.get("/api/signinAuto",header)
+			// .get("/api/sendmail")
+			.then((e) => setUserConnected(e.data))
+			.catch((err) => console.log("bye",err));
+	
+	
+	 
+	}, [])
+	
 	const seConnecter = (user) => {
 		console.log(user);
-		if (user === "ludo") {
+		// setUsername(user.username)
+		if (user.roles.includes("ROLE_ADMIN")) {
+			console.log("ROLE ADMIN")
+
+			//A REVOIR
 			setAdminConnected(true);
 			isAdmin(true);
 		}
-		setUserConnected(user);
+		setUserConnected(user.username);
 	};
 	function openModal() {
 		setIsOpen(true);
@@ -91,7 +115,7 @@ const Navbar = ({ isAdmin }) => {
 				</ReactTooltip>
 				<div data-testid="connexion" onClick={openModal} className={`${styles.text}  ${styles.connexionButton}`}>
 					{userConnected ? (
-						"Christele Vachon"
+						userConnected
 					) : (
 						<>
 							<AccountCircleIcon

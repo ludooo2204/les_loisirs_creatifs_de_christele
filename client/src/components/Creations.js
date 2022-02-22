@@ -28,11 +28,7 @@ const Creations = ({ isAdmin }) => {
 			if (e.data) setBddCréation(temp);
 		});
 	}, [refreshProp]);
-	console.log("bdbddCréationd")
-	console.log("bdbddCréationd")
-	console.log("bdbddCréationd")
-	console.log("bdbddCréationd")
-	console.log(bddCréation)
+
 	useEffect(() => {
 		axios.get("/api/liked/"+userId).then((e) => {
 			console.log("fetch liked")

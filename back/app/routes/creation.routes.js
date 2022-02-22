@@ -3,7 +3,7 @@ let router = express.Router();
 // let con = require("../initBDD");
 const db = require("../models");
 const Creation = db.creation;
-const Creation_Tag = db.creation_tag;
+const Creation_Tag = db.sequelize.models.creation_tag;
 
 const Image = db.image;
 const Tag = db.tag;
@@ -99,6 +99,11 @@ router.patch("/:id", (req, res) => {
 	console.log("patch products!!");
 	console.log(req.params);
 	console.log(req.body);
+	console.log(Creation_Tag)
+	console.log(Creation_Tag)
+	console.log(Creation_Tag)
+	console.log(Creation_Tag)
+	console.log(Creation_Tag)
 	let dataToModify = { ...req.body };
 	let imagesModifiés = [];
 	let imagesAGarder = [];

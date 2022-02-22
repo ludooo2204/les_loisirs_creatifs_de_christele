@@ -43,30 +43,33 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 						window.alert(e.data.message);
 						return;
 					}
-					window.alert(e.data.message);
+					window.alert(e.data);
 					closeModal();
 				})
 				.catch((err) => console.log(err));
 		} else window.alert("les mdp se sont pas les mêmes !");
-		// seConnecter("ludo");
 	};
 	const validerConnexion = () => {
 		axios
-			.post("/api/auth/signin", { username: identifiant, password: MDP })
-			.then((e) => {
-				if (e.data.message == "Cet identifiant n'existe pas !") {
-					window.alert(e.data.message);
-					return;
-				}
-				if (e.data.message == "Mot de passe erroné!") {
-					window.alert(e.data.message);
-					return;
-				}
+		.post("/api/auth/signin", { username: identifiant, password: MDP })
+		.then((e) => {
+			if (e.data.message == "Cet identifiant n'existe pas !") {
 				window.alert(e.data.message);
+				return;
+			}
+			if (e.data.message == "Mot de passe erroné!") {
+					window.alert(e.data.message);
+					return;
+				}
+				console.log(e.data);
+				window.localStorage.setItem("token", e.data.accessToken);
+
+			seConnecter(e.data);
+
 				closeModal();
 			})
 			.catch((err) => console.log(err));
-		// seConnecter("ludo");
+			// seConnecter("ludo");
 	};
 
 	const handleEmail = (e) => {
@@ -83,8 +86,15 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	};
 	const handleSendmail = () => {
 		console.log("clickSendMail")
+		const header = {
+			headers: {
+				"x-access-Token": window.localStorage.getItem("token"),
+				"content-type": "application/json",
+			},
+		};
 		axios
-			.get("/api/sendmail")
+			.get("/api/sendmail",header)
+			// .get("/api/sendmail")
 			.then((e) => console.log("hello",e))
 			.catch((err) => console.log("bye",err));
 	};
