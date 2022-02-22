@@ -23,13 +23,13 @@ exports.signup = (req, res) => {
           }
         }).then(roles => {
           user.setRoles(roles).then(() => {
-            res.send({ message: "User was registered successfully!" });
+            res.send({ message: "Le compte a bien été enregistré !" });
           });
         });
       } else {
         // user role = 1
         user.setRoles([1]).then(() => {
-          res.send({ message: "User was registered successfully!" });
+          res.send({ message: "Le compte a bien été enregistré !" });
         });
       }
     })
@@ -47,16 +47,18 @@ exports.signin = (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+        // return res.status(404).send({ message: "Cet identifiant n'existe pas !" });
+        return res.send({ message: "Cet identifiant n'existe pas !" });
       }
       var passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
       );
       if (!passwordIsValid) {
-        return res.status(401).send({
+        // return res.status(401).send({
+        return res.send({
           accessToken: null,
-          message: "Invalid Password!"
+          message: "Mot de passe erroné!"
         });
       }
       var token = jwt.sign({ id: user.id }, config.secret, {

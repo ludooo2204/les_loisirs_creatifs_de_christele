@@ -6,7 +6,6 @@
   "author": "ludovic Vachon <vachon.ludovic@gmail.com>",
   "license": "MIT",
   "proxy": "http://localhost:7000/",
-
   "scripts": {
     "back": "cd back && nodemon -r dotenv/config server.js",
     "client": "cd client && yarn start",
@@ -14,5 +13,7 @@
     "testClient": "cd client && yarn test",
     "testBack": "cd back && yarn test"
   },
-  "dependencies": {}
+  "dependencies": {
+    "handlebars": "^4.7.7"
+  }
 }

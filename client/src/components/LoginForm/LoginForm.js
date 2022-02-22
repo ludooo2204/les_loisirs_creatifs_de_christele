@@ -3,13 +3,17 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import ReactTooltip from "react-tooltip";
 import isEmail from "validator/lib/isEmail";
-import {ReactComponent as LoginSvg} from '../../image/svg/Black-And-White-Flowers.svg'
+import { ReactComponent as LoginSvg } from "../../image/svg/Black-And-White-Flowers.svg";
 import styles from "./LoginForm.module.css";
-
+import axios from "axios";
 
 const LoginForm = ({ closeModal, seConnecter }) => {
 	const [isChoixInscriptionActif, setIsChoixInscriptionActif] = useState(true);
 	const [passwordShown, setPasswordShown] = useState(false);
+	const [MDP, setMDP] = useState("");
+	const [MDP2, setMDP2] = useState("");
+	const [identifiant, setIdentifiant] = useState("");
+	const [email, setEmail] = useState("");
 
 	// Password toggle handler
 	const togglePassword = () => {
@@ -26,11 +30,64 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const validerForm = () => {
 		closeModal();
 	};
-	const validerFormFake = () => {
-		closeModal();
-		seConnecter("ludo");
+	const validerInscription = () => {
+		if (MDP === MDP2) {
+			axios
+				.post("/api/auth/signup", { username: identifiant, email, password: MDP, roles: ["user", "admin"] })
+				.then((e) => {
+					if (e.data.message == "Erreur! l'identifiant est déja utilisé!") {
+						window.alert(e.data.message);
+						return;
+					}
+					if (e.data.message == "Erreur! l'email est déja utilisé!") {
+						window.alert(e.data.message);
+						return;
+					}
+					window.alert(e.data.message);
+					closeModal();
+				})
+				.catch((err) => console.log(err));
+		} else window.alert("les mdp se sont pas les mêmes !");
+		// seConnecter("ludo");
+	};
+	const validerConnexion = () => {
+		axios
+			.post("/api/auth/signin", { username: identifiant, password: MDP })
+			.then((e) => {
+				if (e.data.message == "Cet identifiant n'existe pas !") {
+					window.alert(e.data.message);
+					return;
+				}
+				if (e.data.message == "Mot de passe erroné!") {
+					window.alert(e.data.message);
+					return;
+				}
+				window.alert(e.data.message);
+				closeModal();
+			})
+			.catch((err) => console.log(err));
+		// seConnecter("ludo");
 	};
 
+	const handleEmail = (e) => {
+		setEmail(e.target.value);
+	};
+	const handleId = (e) => {
+		setIdentifiant(e.target.value);
+	};
+	const handleMDP = (e) => {
+		setMDP(e.target.value);
+	};
+	const handleMDP2 = (e) => {
+		setMDP2(e.target.value);
+	};
+	const handleSendmail = () => {
+		console.log("clickSendMail")
+		axios
+			.get("/api/sendmail")
+			.then((e) => console.log("hello",e))
+			.catch((err) => console.log("bye",err));
+	};
 	return (
 		<div className="LoginForm">
 			{/* <button className="buttonConnexionDansModal">Se connecter</button> */}
@@ -50,10 +107,10 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					<span>S'inscrire</span>
 				</button>
 			</div>
-			<LoginSvg className={styles.LoginSvg1}/>
-			<LoginSvg className={styles.LoginSvg2}/>
-			<LoginSvg className={styles.LoginSvg3}/>
-			<LoginSvg className={styles.LoginSvg4}/>
+			<LoginSvg className={styles.LoginSvg1} />
+			<LoginSvg className={styles.LoginSvg2} />
+			<LoginSvg className={styles.LoginSvg3} />
+			<LoginSvg className={styles.LoginSvg4} />
 			<div className="labelGroupModal">
 				<span>
 					<label data-tip data-for="identifiant">
@@ -65,19 +122,20 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					</ReactTooltip>
 					<HelpOutlineOutlinedIcon style={{ position: "relative", top: "10" }} sx={{ fontSize: 15 }} />
 				</span>
-				<input type="text" />
+				<input type="text" onChange={handleId} value={identifiant} />
 				<span>
 					<label>Mot de passe</label>
 					<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 				</span>
-				<input type={passwordShown ? "text" : "password"} />
+				<input type={passwordShown ? "text" : "password"} onChange={handleMDP} value={MDP} />
+				{isChoixInscriptionActif && <button onClick={handleSendmail}> mot de passe oublié ?</button>}
 				{!isChoixInscriptionActif && (
 					<span>
 						<label>Confirmation mot de passe</label>
 						<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 					</span>
 				)}
-				{!isChoixInscriptionActif && <input type={passwordShown ? "text" : "password"} />}
+				{!isChoixInscriptionActif && <input type={passwordShown ? "text" : "password"} onChange={handleMDP2} value={MDP2} />}
 				{!isChoixInscriptionActif && (
 					<span>
 						<label data-tip data-for="mail">
@@ -91,12 +149,12 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					</span>
 				)}
 				{/* console.log(isEmail('foo@bar.com')); pour verifier si mail ok */}
-				{!isChoixInscriptionActif && <input type="email" />}
+				{!isChoixInscriptionActif && <input type="email" onChange={handleEmail} value={email} />}
 			</div>
-				<button className={styles.buttonValidation} onClick={validerFormFake}>
-					valider
-				</button>
-				{/* <button className={styles.dev } data-testid="devAdmin" onClick={validerFormFake}>
+			<button className={styles.buttonValidation} onClick={!isChoixInscriptionActif ? validerInscription : validerConnexion}>
+				valider
+			</button>
+			{/* <button className={styles.dev } data-testid="devAdmin" onClick={validerFormFake}>
 					se connecter pour developpement
 				</button> */}
 		</div>

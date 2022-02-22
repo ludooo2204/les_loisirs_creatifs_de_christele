@@ -1,1 +1,4 @@
-voir comment lors de la modif, de choisir quelle image sera en premiere.pas sur ===> pour le moment c'est celle la plus a gauche
+1-voir comment lors de la modif, de choisir quelle image sera en premiere.pas sur ===> pour le moment c'est celle la plus a gauche
+2- revoir le systeme de gestion des erreur express login
+3- revoir le systeme de mailing en cas de mot de passe oublier www.blog.logrocket.com/implementign-a-secure-password-reset-in-node-js/
+3- avec oAuth2 sending emails securely using node.js, nodemailer,SMTP,Gmail and oAuth2 chandra pantra chhetri
