@@ -40,19 +40,17 @@ const AjoutCreation = () => {
 			// setTagTrouvés(state.tags);
 			console.log("state");
 			console.log(state.tags);
-			console.log(state.tags.map(e=>e.tag));
-			setTagChoisi(state.tags.map(e=>e.tag));
+			// console.log(state.tags.map((e) => e.tag));
+			setTagChoisi(state.tags);
 		}
 	}, [state]);
-	useEffect(() => {
-		console.log("tagChoisi");
-		console.log(tagChoisi);
-	}, [tagChoisi]);
+
 
 	useEffect(() => {
 		// console.log("fetch tags");
 		axios.get("/api/tags").then((tags) => {
-			// console.log(tags.data);
+			console.log("tags.data");
+			console.log(tags.data);
 			setBddTag(tags.data);
 		});
 	}, [newTag]);
@@ -87,18 +85,20 @@ const AjoutCreation = () => {
 			for (const iterator of resultatDeRecherche) {
 				temp.push(bddTag.filter((e) => e.tag == iterator)[0]);
 			}
+			console.log("temp");
+			console.log(temp);
 			setTagTrouvés(temp);
 		} else setTagTrouvés(null);
 	};
 	const handleImage = (e) => {
-		console.log("handleImage")
-		console.log("handleImage")
-		console.log("handleImage")
-		console.log(images)
-		console.log("e")
-		console.log("e")
-		console.log("e")
-		console.log(e)
+		console.log("handleImage");
+		console.log("handleImage");
+		console.log("handleImage");
+		console.log(images);
+		console.log("e");
+		console.log("e");
+		console.log("e");
+		console.log(e);
 		setImages((images) => [...images, e]);
 	};
 	const handleTagSelectionné = (e) => {
@@ -109,9 +109,9 @@ const AjoutCreation = () => {
 		setTagChoisi((tagChoisi) => [...tagChoisi, e]);
 	};
 	const validerAjout = () => {
-		console.log("images from valider")
-		console.log(images)
-		const nouvelleCreation = { title, description, prix, images: images.map((image) => image.name?image.name:image), tagChoisi };
+		console.log("images from valider");
+		console.log(images);
+		const nouvelleCreation = { title, description, prix, images: images.map((image) => (image.name ? image.name : image)), tagChoisi };
 		if (prix == "") {
 			alert("il manque un prix !");
 		} else if (title == "") {
@@ -125,8 +125,16 @@ const AjoutCreation = () => {
 		} else {
 			console.log(nouvelleCreation);
 			if (state) {
+				console.log("maj de la creation");
+				console.log("maj de la creation");
+				console.log("maj de la creation");
 				axios.patch("/api/creations/" + state.id_creation, nouvelleCreation).then(navigate("../Creations"));
-			} else axios.post("/api/creations", nouvelleCreation).then(navigate("../Creations"));
+			} else {
+				console.log("nouvelle creation");
+				console.log("nouvelle creation");
+				console.log("nouvelle creation");
+				axios.post("/api/creations", nouvelleCreation).then(navigate("../Creations"));
+			}
 		}
 	};
 	const handleKeyDown = (event) => {
@@ -147,12 +155,12 @@ const AjoutCreation = () => {
 		setRefresh((refresh) => refresh + 1);
 		setTagChoisi(tagChoisi);
 	};
-	const onDelete=(img)=>{
-			console.log(images);
+	const onDelete = (img) => {
+		console.log(images);
 		const copie = [...images];
 		copie.splice(img, 1);
 		setImages(copie);
-	}
+	};
 	return (
 		<div className={styles.main}>
 			<LoginSvg className={styles.svg1} />
@@ -172,14 +180,16 @@ const AjoutCreation = () => {
 					<InputImage Recupererfile={handleImage} />
 				</div>
 				{/* {!state && */}
-				 <ListeImages images={images} onDelete={onDelete}/>
-				 
+				<ListeImages images={images} onDelete={onDelete} />
+
 				{/* {state && <ListeImagesModifiées images={state.url} />} */}
+				{console.log("tagChoisi")}
+				{console.log(tagChoisi)}
 				{tagChoisi && (
 					<div className={styles.tagChoisiContainer}>
 						{tagChoisi.map((e, i) => (
 							<div onClick={() => supprimerTagChoisi(i)} key={i} className={styles.tagChoisi}>
-								{e}
+								{e.tag}
 							</div>
 						))}
 					</div>

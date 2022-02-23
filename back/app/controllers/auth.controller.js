@@ -46,7 +46,7 @@ exports.signin = (req, res) => {
     }
   })
     .then(user => {
-      console.log("user trouveé")
+      // console.log("user trouveé")
       if (!user) {
         // return res.status(404).send({ message: "Cet identifiant n'existe pas !" });
         return res.send({ message: "Cet identifiant n'existe pas !" });
@@ -66,8 +66,8 @@ exports.signin = (req, res) => {
         expiresIn: 86400 // 24 hours
       });
       var authorities = [];
-      console.log("user")
-      console.log(user)
+      // console.log("user")
+      // console.log(user)
       // res.setHeader('x-access-token', 'Bearer '+ token);
       // res.setHeader('x-access-token', token);
       user.getRoles().then(roles => {

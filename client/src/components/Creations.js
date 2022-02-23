@@ -32,6 +32,7 @@ const Creations = ({ isAdmin }) => {
 	useEffect(() => {
 		axios.get("/api/liked/"+userId).then((e) => {
 			console.log("fetch liked")
+			console.log(e)
 		const likedTemp=e.data.map(like=>like.id_creation)
 		setLiked(likedTemp)
 		});

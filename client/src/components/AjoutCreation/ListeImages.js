@@ -7,16 +7,16 @@ const ListeImages = ({ images,onDelete }) => {
 		setimagesState(images);
 	}, [images]);
 
-	console.log("ListeImages");
-	console.log("ListeImages");
-	console.log("images");
-	console.log(images);
-	console.log("typeof images[0");
-	console.log(typeof images[0]);
-	console.log(images[0]);
-	console.log("imagesState")
-	console.log("imagesState")
-	console.log(imagesState)
+	// console.log("ListeImages");
+	// console.log("ListeImages");
+	// console.log("images");
+	// console.log(images);
+	// console.log("typeof images[0");
+	// console.log(typeof images[0]);
+	// console.log(images[0]);
+	// console.log("imagesState")
+	// console.log("imagesState")
+	// console.log(imagesState)
 	// const onDelete = (i) => {
 	// 	console.log(imagesState);
 	// 	const copie = [...imagesState];
@@ -29,8 +29,8 @@ const ListeImages = ({ images,onDelete }) => {
 				imagesState.map((image, i) => {
 					return (
 						<div key={i} className={styles.imageGroup}>
-							{console.log("image ooooooo")}
-							{console.log(image)}
+							{/* {console.log("image ooooooo")}
+							{console.log(image)} */}
 							{/* CA CA MARCHE POUR LE CHARGMENT VIA LA MODIFICATION */}
 							{/* <img className={styles.image} src={require("../../uploads/" + image)} /> */}
 

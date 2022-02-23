@@ -9,7 +9,7 @@ const Tag = ({ tags, addTag }) => {
 			<div className={styles.tags}>
 				{tags &&
 					tags.map((tag, i) => (
-						<div className={styles.tag} key={i} onClick={() => addTag(tags[i].tag)}>
+						<div className={styles.tag} key={i} onClick={() => addTag(tags[i])}>
 							{tag.tag}
 						</div>
 					))}
