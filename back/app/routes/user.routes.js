@@ -23,7 +23,7 @@ module.exports = function (app) {
 	app.use("/api/sendmail", [authJwt.verifyToken], sendMail_route);
 
 	// partie utilisateur connecté
-	app.use("/api/signinAuto", [authJwt.verifyToken], signinAuto_route);
+	app.use("/api/signinAuto", [authJwt.verifyToken, authJwt.isAdmin], signinAuto_route);
 
 	// partie Admin
 	// app.use("/api/admin/tags", [authJwt.verifyToken, authJwt.isAdmin], tag_route);

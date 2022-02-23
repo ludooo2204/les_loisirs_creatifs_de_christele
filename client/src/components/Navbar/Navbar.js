@@ -33,11 +33,11 @@ Modal.setAppElement("body");
 
 const Navbar = ({ isAdmin }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
-	const [adminConnected, setAdminConnected] = useState(false);
+	// const [adminConnected, setAdminConnected] = useState(false);
 	const [userConnected, setUserConnected] = useState(null);
 	// const [userConnected, setUserConnected] = useState(null);
 	useEffect(() => {
-		console.log("allez c parti")
+		console.log("allez c parti");
 		const header = {
 			headers: {
 				"x-access-Token": window.localStorage.getItem("token"),
@@ -45,23 +45,25 @@ const Navbar = ({ isAdmin }) => {
 			},
 		};
 		axios
-			.get("/api/signinAuto",header)
+			.get("/api/signinAuto", header)
 			// .get("/api/sendmail")
-			.then((e) => setUserConnected(e.data))
-			.catch((err) => console.log("bye",err));
-	
-	
-	 
-	}, [])
-	
+			.then((e) => {
+				console.log("signinauto")
+				console.log(e.data)
+				setUserConnected(e.data);
+				isAdmin(true)
+			})
+			.catch((err) => console.log("bye", err));
+	}, []);
+
 	const seConnecter = (user) => {
 		console.log(user);
 		// setUsername(user.username)
 		if (user.roles.includes("ROLE_ADMIN")) {
-			console.log("ROLE ADMIN")
+			console.log("ROLE ADMIN");
 
 			//A REVOIR
-			setAdminConnected(true);
+			// setAdminConnected(true);
 			isAdmin(true);
 		}
 		setUserConnected(user.username);
@@ -143,4 +145,3 @@ const Navbar = ({ isAdmin }) => {
 };
 
 export default Navbar;
-
