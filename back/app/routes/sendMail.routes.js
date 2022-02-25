@@ -1,10 +1,13 @@
 let express = require("express");
 let router = express.Router();
-const sendMail = require('../utils/email/sendMail');
-
+const sendEMail = require('../utils/email/sendMail');
+console.log("sendEMail")
+console.log(sendEMail)
 router.get("/", (req, res) => {
     console.log("j'envoi le mail")
-    console.log(req.userId)
+    console.log("sendEMail")
+// console.log(sendEMail())
+
 	// sendMail(
   //       "vachon.ludovic@gmail.com",
   //       "Email subject",

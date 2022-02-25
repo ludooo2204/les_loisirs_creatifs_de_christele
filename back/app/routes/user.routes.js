@@ -20,7 +20,8 @@ module.exports = function (app) {
 	app.use("/api/images", images_route);
 	app.use("/api/likes", likes_route);
 	app.use("/api/liked", liked_route);
-	app.use("/api/sendmail", [authJwt.verifyToken], sendMail_route);
+	app.use("/api/sendmail", sendMail_route);
+	// app.use("/api/sendmail", [authJwt.verifyToken], sendMail_route);
 
 	// partie utilisateur connecté
 	app.use("/api/signinAuto", [authJwt.verifyToken, authJwt.isAdmin], signinAuto_route);
