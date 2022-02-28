@@ -56,7 +56,7 @@ router.post("/", async function (req, res, next) {
 		from: process.env.EMAIL,
 		to: req.body.email,
 		subject: "Réinitialisation Mot de Passe",
-		text: "To reset your password, please click the link below.\n\nhttp://localhost:3000/reset-password?token=" + encodeURIComponent(RNDtoken) + "&email=" + req.body.email,
+		text: "Pour réinitialiser votre mot de passe, merci de cliquer sur ce lien avant "+new Date(new Date().getTime() + 60 * 60 * 1000).toLocaleTimeString()+".\n\nhttp://localhost:3000/reset-password?token=" + encodeURIComponent(RNDtoken) + "&email=" + req.body.email,
 	};
 
 	//send email

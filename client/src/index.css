@@ -24,6 +24,18 @@ code {
 	padding-left: 5%;
 	padding-right: 5%;
 }
+.forgottenPasswordForm {
+	background-color: #f5dfca;
+
+	width: auto;
+	display: flex;
+	height: 95VH;
+
+	flex-direction: column;
+	justify-content: space-around;
+	padding-left: 25%;
+	padding-right: 25%;
+}
 
 .button {
 	pointer-events: auto;

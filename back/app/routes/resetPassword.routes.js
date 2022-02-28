@@ -10,7 +10,9 @@ console.log(__dirname)
 const Sequelize = require('sequelize')
 const Op= Sequelize.Op
 const db = require("../models");
+const User = db.user;
 const ResetToken = db.ResetTokens;
+var bcrypt = require("bcryptjs");
 
 
 // router.post("/", controller.postLike);
@@ -21,6 +23,9 @@ router.get('/', async function(req, res, next) {
      * big site. We just include this in here as a
      * demonstration.
      **/
+    console.log("ROUTER.GET IN RESET-password ")
+    console.log("ROUTER.GET IN RESET-password ")
+    console.log("ROUTER.GET IN RESET-password ")
     await ResetToken.destroy({
       where: {
         expiration: { [Op.lt]: Sequelize.fn('CURDATE')},
@@ -40,12 +45,13 @@ router.get('/', async function(req, res, next) {
     if (record == null) {
       return res.send('Token has expired. Please try password reset again.')    
     }
-   
+   console.log("record")
+   console.log(record)
     // res.json({record})
-    res.render('resetPassword', {
-      showForm: true,
-      record: record
-    });
+    // res.render('resetPassword', {
+    //   showForm: true,
+    //   record: record
+    // });
   });
 
 
@@ -55,9 +61,14 @@ router.get('/', async function(req, res, next) {
 
 
 
-  router.post('/reset-password', async function(req, res, next) {
+  router.post('/', async function(req, res, next) {
+    console.log("req.body")
+    console.log("req.body")
+    console.log("req.body")
+    console.log("req.body")
+    console.log(req.body)
     //compare passwords
-    if (req.body.password1 !== req.body.password2) {
+    if (req.body.MDP1 !== req.body.MDP2) {
       return res.json({status: 'error', message: 'Passwords do not match. Please try again.'});
     }
    
@@ -66,9 +77,14 @@ router.get('/', async function(req, res, next) {
     * function checks if password is >= 8 chars, alphanumeric,
     * has special chars, etc)
     **/
-    if (!isValidPassword(req.body.password1)) {
-      return res.json({status: 'error', message: 'Password does not meet minimum requirements. Please try again.'});
-    }
+  //  TODO
+  //  TODO
+  //  TODO
+  //  TODO
+  //  TODO
+    // if (!isValidPassword(req.body.password1)) {
+    //   return res.json({status: 'error', message: 'Password does not meet minimum requirements. Please try again.'});
+    // }
    
     var record = await ResetToken.findOne({
       where: {
@@ -92,12 +108,9 @@ router.get('/', async function(req, res, next) {
         }
     });
    
-    var newSalt = crypto.randomBytes(64).toString('hex');
-    var newPassword = crypto.pbkdf2Sync(req.body.password1, newSalt, 10000, 64, 'sha512').toString('base64');
    
     await User.update({
-      password: newPassword,
-      salt: newSalt
+      password: bcrypt.hashSync(req.body.MDP1, 8),
     },
     {
       where: {

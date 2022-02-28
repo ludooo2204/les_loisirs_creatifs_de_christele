@@ -31,11 +31,14 @@ const customStyles = {
 
 Modal.setAppElement("body");
 
-const Navbar = ({ isAdmin }) => {
+const Navbar = ({ isAdmin, defaultIsOpen }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	// const [adminConnected, setAdminConnected] = useState(false);
 	const [userConnected, setUserConnected] = useState(null);
 	// const [userConnected, setUserConnected] = useState(null);
+	useEffect(() => {
+		if (defaultIsOpen) setIsOpen(true)
+	}, []);
 	useEffect(() => {
 		console.log("allez c parti");
 		const header = {
@@ -48,10 +51,10 @@ const Navbar = ({ isAdmin }) => {
 			.get("/api/signinAuto", header)
 			// .get("/api/sendmail")
 			.then((e) => {
-				console.log("signinauto")
-				console.log(e.data)
+				console.log("signinauto");
+				console.log(e.data);
 				setUserConnected(e.data);
-				isAdmin(true)
+				isAdmin(true);
 			})
 			.catch((err) => console.log("bye", err));
 	}, []);

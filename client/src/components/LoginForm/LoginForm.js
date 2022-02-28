@@ -114,7 +114,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 			window.alert("veuillez entrer votre email !");
 		}
 	};
-	return (
+	return (	
 		<div className="LoginForm">
 			{/* <button className="buttonConnexionDansModal">Se connecter</button> */}
 			<div className="buttonLoginGroupDansModal">
