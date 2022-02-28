@@ -14,6 +14,8 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const [MDP2, setMDP2] = useState("");
 	const [identifiant, setIdentifiant] = useState("");
 	const [email, setEmail] = useState("");
+	const [emailForNewPassword, setEmailForNewPassword] = useState(null);
+	const [emailVisibleforNewPassword, setEmailVisibleforNewPassword] = useState(false);
 
 	// Password toggle handler
 	const togglePassword = () => {
@@ -51,25 +53,25 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	};
 	const validerConnexion = () => {
 		axios
-		.post("/api/auth/signin", { username: identifiant, password: MDP })
-		.then((e) => {
-			if (e.data.message == "Cet identifiant n'existe pas !") {
-				window.alert(e.data.message);
-				return;
-			}
-			if (e.data.message == "Mot de passe erroné!") {
+			.post("/api/auth/signin", { username: identifiant, password: MDP })
+			.then((e) => {
+				if (e.data.message == "Cet identifiant n'existe pas !") {
+					window.alert(e.data.message);
+					return;
+				}
+				if (e.data.message == "Mot de passe erroné!") {
 					window.alert(e.data.message);
 					return;
 				}
 				console.log(e.data);
 				window.localStorage.setItem("token", e.data.accessToken);
 
-			seConnecter(e.data);
+				seConnecter(e.data);
 
 				closeModal();
 			})
 			.catch((err) => console.log(err));
-			// seConnecter("ludo");
+		// seConnecter("ludo");
 	};
 
 	const handleEmail = (e) => {
@@ -84,19 +86,33 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const handleMDP2 = (e) => {
 		setMDP2(e.target.value);
 	};
+	const retrievePassword = () => {
+		setEmailVisibleforNewPassword(true);
+	};
+	const handleEmailForNewPasswordInput = (e) => {
+		setEmailForNewPassword(e.target.value);
+	};
+
 	const handleSendmail = () => {
-		console.log("clickSendMail")
-		const header = {
-			headers: {
-				"x-access-Token": window.localStorage.getItem("token"),
-				"content-type": "application/json",
-			},
-		};
-		axios
-			.get("/api/sendmail",header)
-			// .get("/api/sendmail")
-			.then((e) => console.log("hello",e))
-			.catch((err) => console.log("bye",err));
+		if (emailForNewPassword) {
+			console.log("clickSendMail");
+			// const header = {
+			// 	headers: {
+			// 		"x-access-Token": window.localStorage.getItem("token"),
+			// 		"content-type": "application/json",
+			// 	},
+			// };
+			axios
+				.post("/api/forgot-password", { email: emailForNewPassword })
+				// .get("/api/sendmail")
+				.then((e) => {
+					console.log("ca marche !", e);
+					window.alert("Un mail de réinitialisation a été envoyé à "+emailForNewPassword+" .\n\n merci de consulter vos mails")
+				})
+				.catch((err) => console.log("bye", err));
+		} else {
+			window.alert("veuillez entrer votre email !");
+		}
 	};
 	return (
 		<div className="LoginForm">
@@ -138,7 +154,14 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 				</span>
 				<input type={passwordShown ? "text" : "password"} onChange={handleMDP} value={MDP} />
-				{isChoixInscriptionActif && <button onClick={handleSendmail}> mot de passe oublié ?</button>}
+				{isChoixInscriptionActif && <button onClick={retrievePassword}> mot de passe oublié ?</button>}
+				{isChoixInscriptionActif && emailVisibleforNewPassword && (
+					<>
+						<label>Email pour renouveller le mot de passe</label>
+						<input onChange={handleEmailForNewPasswordInput} value={emailForNewPassword} type="text" />
+						<button onClick={handleSendmail}>Valider</button>
+					</>
+				)}
 				{!isChoixInscriptionActif && (
 					<span>
 						<label>Confirmation mot de passe</label>

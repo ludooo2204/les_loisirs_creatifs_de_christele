@@ -2,67 +2,114 @@ const nodemailer = require("nodemailer");
 const handlebars = require("handlebars");
 const fs = require("fs");
 const path = require("path");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
+// const { google } = require("googleapis");
+// const OAuth2 = google.auth.OAuth2;
 require("dotenv").config();
 
+console.log('coucou from sendmail')
 
-const createTransporter = async () => {
-	const oauth2Client = new OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, "https://developers.google.com/oauthplayground");
 
-	oauth2Client.setCredentials({
-		refresh_token: process.env.REFRESH_TOKEN,
-	});
-// console.log("oauth2Client")
-// console.log(oauth2Client)
-	const accessToken = "ya29.A0ARrdaM_9pJVC16IVAeq3KWe4qhMrD_xSA8Yd_Cp_SxAkhd9LEbxjbZuzUoMEnqrpZfWGKC9Z0QoyIJH-PmKLmZxmhTo5HwgfhDahyth-sUajwgj_cZbI7QjjKsrW7qmkay7E5FrfrkHxX5ZCthgWiE6EFcTj"
-	// const accessToken = await new Promise((resolve, reject) => {
-	// 	oauth2Client.getAccessToken((err, token) => {
-	// 		if (err) {
-  //       console.log("err")
-  //       // console.log(err)
-	// 		  reject("Failed to create access token :(");
-	// 		}
-	// 		resolve(token);
-	// 	});
-	// });
-// console.log("accessToken")
-// console.log(accessToken)
-	const transporter = nodemailer.createTransport({
-		service: "gmail",
-		auth: {
-			type: "OAuth2",
-			user: process.env.EMAIL,
-			accessToken,
-			clientId: process.env.CLIENT_ID,
-			clientSecret: process.env.CLIENT_SECRET,
-			refreshToken: process.env.REFRESH_TOKEN,
+const sendEMail = async (message)=>{
+	const options = {
+		host:"node183-eu.n0c.com",
+		port:465,
+		secure:true,
+		auth:{
+			user:process.env.EMAIL,
+			pass:process.env.PASSWORD,
 		},
-    tls: {
-      rejectUnauthorized: false
-    }
-	});
+	tls:{
+		rejectUnauthorized :false
+	}
+	
+	}
+	let transporter = nodemailer.createTransport(options)
+	transporter.verify((err,success)=>{
+		if (err) {
+			console.log("err")
+			console.log(err)
+		} else {
+			console.log("serveur pret a prendre les messages !")
+		}
+	})
 
-	return transporter;
-};
 
-const sendEmail = async (emailOptions,err) => {
-  try{
-  let emailTransporter = await createTransporter();
-  await emailTransporter.sendMail(emailOptions);
-  console.log("ca a marché !! ")
+	// let info = await transporter.sendMail({
+	// 	from :'christele@lomano.fr',
+	// 	to:"vachon.ludovic@gmail.com",
+	// 	subject:"hello world",
+	// 	text:"coucou le monde !"
+	// })
+	let info = await transporter.sendMail(message)
+	console.log("message envoyé")
+	console.log(info.messageId)
 }
-catch {
-  console.log("erreur from cotaclaefa",emailOptions)
-}
-};
 
-sendEmail({
-  subject: "Test",
-  text: "I am sending an email from nodemailer!",
-  to: "vachon.ludovic@gmail.com",
-  from: process.env.EMAIL
-});
+
+
+// sendEMail().catch(console.error)
+
+
+
+
+
+// const createTransporter = async () => {
+// 	const oauth2Client = new OAuth2(process.env.CLIENT_ID, process.env.CLIENT_SECRET, "https://developers.google.com/oauthplayground");
+
+// 	oauth2Client.setCredentials({
+// 		refresh_token: process.env.REFRESH_TOKEN,
+// 	});
+// // console.log("oauth2Client")
+// // console.log(oauth2Client)
+// 	const accessToken = "ya29.A0ARrdaM-XGR0UdHh9B0Qd1QUX9jiH5FSnCdeVcPCEe2ODNB25rFlpSamSYnytd84K8h1LDDSODyT2ySTQzsT6VFRDTnIDHsKraTK8axKUBbnfUTvdhLW9ZbJl0maRwzvVG6g1y1Vo99FbdJiwvMCjHdnyM0ZV"
+// 	// const accessToken = await new Promise((resolve, reject) => {
+// 	// 	oauth2Client.getAccessToken((err, token) => {
+// 	// 		if (err) {
+//   //       console.log("err")
+//   //       // console.log(err)
+// 	// 		  reject("Failed to create access token :(");
+// 	// 		}
+// 	// 		resolve(token);
+// 	// 	});
+// 	// });
+// // console.log("accessToken")
+// // console.log(accessToken)
+// 	const transporter = nodemailer.createTransport({
+// 		service: "gmail",
+// 		auth: {
+// 			type: "OAuth2",
+// 			user: process.env.EMAIL,
+// 			accessToken,
+// 			clientId: process.env.CLIENT_ID,
+// 			clientSecret: process.env.CLIENT_SECRET,
+// 			refreshToken: process.env.REFRESH_TOKEN,
+// 		},
+//     tls: {
+//       rejectUnauthorized: false
+//     }
+// 	});
+
+// 	return transporter;
+// };
+// //  console.log("transporter")
+// //  console.log(transporter)
+// const sendEmail = async (emailOptions,err) => {
+//   try{
+//   let emailTransporter = await createTransporter();
+//   await emailTransporter.sendMail(emailOptions);
+//   console.log("ca a marché !! ")
+// }
+// catch {
+//   console.log("erreur from cotaclaefa",emailOptions,err)
+// }
+// };
+
+// sendEmail({
+//   subject: "Renouvellement mot de passe",
+//   text: "Vous avez perdiu votre mot de passe ?",
+//   to: "vachon.ludovic@gmail.com",
+//   from: process.env.EMAIL
+// });
 
 
 // const sendEmail = async (email, subject, payload, template) => {
@@ -126,4 +173,4 @@ sendEmail(
 );
 */
 
-module.exports = sendEmail;
+module.exports = sendEMail;

@@ -5,6 +5,7 @@ import Creations from "./Creations";
 import QuiSuisJe from "./QuiSuisJe/QuiSuisJe";
 import Contact from "./Contact/Contact";
 import Evenements from "./Evenements/Evenements";
+import RenouvellerPassword from "./RenouvellerPassword/RenouvellerPassword";
 import AjoutCreation from "./AjoutCreation/AjoutCreation";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 const Home = () => {
@@ -23,6 +24,7 @@ const Home = () => {
 				<Route path="Contact" element={<Contact />} />
 				<Route path="Evenements" element={<Evenements />} />
 				<Route path="ajoutCreation" element={<AjoutCreation />} />
+				<Route path="reset-password" element={<RenouvellerPassword />} />
 			</Routes>
 		</Router>
 	);

@@ -24,6 +24,7 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.tag = require("../models/tag.model.js")(sequelize, Sequelize);
 db.creation = require("../models/creation.model.js")(sequelize, Sequelize);
 db.image = require("../models/images.model.js")(sequelize, Sequelize);
+db.ResetTokens = require("../models/ResetTokens.model.js")(sequelize, Sequelize);
 // db.creation_tag = require("../models/asso_creations_tags.model.js")(sequelize, Sequelize);
 // db.userlike_creation = require("../models/asso_userlike_creation.model.js")(sequelize, Sequelize);
 

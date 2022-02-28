@@ -6,6 +6,8 @@ let images_route = require("./images.routes");
 let likes_route = require("./like.routes");
 let liked_route = require("./liked.routes");
 let sendMail_route = require("./sendMail.routes");
+let forgotPassword = require("./forgotPassword.routes");
+let resetPassword = require("./resetPassword.routes");
 let signinAuto_route = require("./signinAuto.routes");
 
 module.exports = function (app) {
@@ -21,6 +23,8 @@ module.exports = function (app) {
 	app.use("/api/likes", likes_route);
 	app.use("/api/liked", liked_route);
 	app.use("/api/sendmail", sendMail_route);
+	app.use("/api/forgot-password", forgotPassword);
+	app.use("/api/reset-password", resetPassword);
 	// app.use("/api/sendmail", [authJwt.verifyToken], sendMail_route);
 
 	// partie utilisateur connecté

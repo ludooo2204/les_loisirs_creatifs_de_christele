@@ -4,7 +4,7 @@ const fileUpload = require("express-fileupload");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const app = express();
-// const path = require("path");
+const path = require("path");
 
 // enable files upload
 app.use(
@@ -18,6 +18,9 @@ var corsOptions = {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set("view engine","pug")
+app.set("views",path.join(__dirname,"app/views"))
 
 // app.use(cors());
 app.use(cors(corsOptions));
