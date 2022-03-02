@@ -30,7 +30,7 @@ const Main = () => {
 		gsap.from(ciseauRef.current, { opacity: 0, duration: 40, repeat: -1 });
 		// gsap.to(ciseauRef.current, { translateY: "-=80VH",translateX: "-=80VW",duration:90,repeat:-1 });
 		// gsap.to(ciseau2Ref.current, { translateY: "-500",duration:5,repeat:-1	 });
-	});
+	},[]);
 	return (
 		// <div className={styles.tout}>
 		<main className={styles.main}>

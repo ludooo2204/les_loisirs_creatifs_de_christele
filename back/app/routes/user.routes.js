@@ -7,6 +7,7 @@ let likes_route = require("./like.routes");
 let liked_route = require("./liked.routes");
 let sendMail_route = require("./sendMail.routes");
 let forgotPassword = require("./forgotPassword.routes");
+let forgotLogin = require("./forgotLogin.routes");
 let resetPassword = require("./resetPassword.routes");
 let signinAuto_route = require("./signinAuto.routes");
 
@@ -24,6 +25,7 @@ module.exports = function (app) {
 	app.use("/api/liked", liked_route);
 	app.use("/api/sendmail", sendMail_route);
 	app.use("/api/forgot-password", forgotPassword);
+	app.use("/api/forgot-login", forgotLogin);
 	app.use("/api/reset-password", resetPassword);
 	// app.use("/api/sendmail", [authJwt.verifyToken], sendMail_route);
 

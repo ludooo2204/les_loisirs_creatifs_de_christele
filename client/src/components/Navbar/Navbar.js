@@ -31,13 +31,13 @@ const customStyles = {
 
 Modal.setAppElement("body");
 
-const Navbar = ({ isAdmin, defaultIsOpen }) => {
+const Navbar = ({ isAdmin, defaultIsOpen, setUser }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	// const [adminConnected, setAdminConnected] = useState(false);
 	const [userConnected, setUserConnected] = useState(null);
 	// const [userConnected, setUserConnected] = useState(null);
 	useEffect(() => {
-		if (defaultIsOpen) setIsOpen(true)
+		if (defaultIsOpen) setIsOpen(true);
 	}, []);
 	useEffect(() => {
 		console.log("allez c parti");
@@ -53,14 +53,17 @@ const Navbar = ({ isAdmin, defaultIsOpen }) => {
 			.then((e) => {
 				console.log("signinauto");
 				console.log(e.data);
-				setUserConnected(e.data);
+				setUserConnected(e.data.username);
+				setUser(e.data);
+
 				isAdmin(true);
 			})
 			.catch((err) => console.log("bye", err));
 	}, []);
 
 	const seConnecter = (user) => {
-		console.log(user);
+		console.log(user.username);
+		setUser(user);
 		// setUsername(user.username)
 		if (user.roles.includes("ROLE_ADMIN")) {
 			console.log("ROLE ADMIN");

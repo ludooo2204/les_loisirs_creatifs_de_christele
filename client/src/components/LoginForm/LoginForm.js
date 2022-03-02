@@ -15,7 +15,9 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const [identifiant, setIdentifiant] = useState("");
 	const [email, setEmail] = useState("");
 	const [emailForNewPassword, setEmailForNewPassword] = useState(null);
+	const [emailForLogin, setEmailForLogin] = useState(null);
 	const [emailVisibleforNewPassword, setEmailVisibleforNewPassword] = useState(false);
+	const [emailVisibleforLogin, setEmailVisibleforLogin] = useState(false);
 
 	// Password toggle handler
 	const togglePassword = () => {
@@ -45,7 +47,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 						window.alert(e.data.message);
 						return;
 					}
-					window.alert(e.data);
+					window.alert("Inscription Réussie");
 					closeModal();
 				})
 				.catch((err) => console.log(err));
@@ -66,7 +68,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				console.log(e.data);
 				window.localStorage.setItem("token", e.data.accessToken);
 
-				seConnecter(e.data);
+				seConnecter({userId:e.data.id,username:e.data.username,roles:e.data.roles});
 
 				closeModal();
 			})
@@ -88,14 +90,22 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	};
 	const retrievePassword = () => {
 		setEmailVisibleforNewPassword(true);
+		setEmailVisibleforLogin(false);
+	};
+	const retrieveLogin = () => {
+		setEmailVisibleforNewPassword(false);
+		setEmailVisibleforLogin(true);
 	};
 	const handleEmailForNewPasswordInput = (e) => {
 		setEmailForNewPassword(e.target.value);
 	};
+	const handleEmailForLoginInput = (e) => {
+		setEmailForLogin(e.target.value);
+	};
 
-	const handleSendmail = () => {
+	const handleSendmailForPassword = () => {
 		if (emailForNewPassword) {
-			console.log("clickSendMail");
+			console.log("clickSendMail for password");
 			// const header = {
 			// 	headers: {
 			// 		"x-access-Token": window.localStorage.getItem("token"),
@@ -108,6 +118,21 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				.then((e) => {
 					console.log("ca marche !", e);
 					window.alert("Un mail de réinitialisation a été envoyé à "+emailForNewPassword+" .\n\n merci de consulter vos mails")
+				})
+				.catch((err) => console.log("bye", err));
+		} else {
+			window.alert("veuillez entrer votre email !");
+		}
+	};
+	const handleSendmailForLogin = () => {
+		if (emailForLogin) {
+			console.log("clickSendMail for login");
+			axios
+				.post("/api/forgot-login", { email: emailForLogin })
+				// .get("/api/sendmail")
+				.then((e) => {
+					console.log("ca marche !", e);
+					window.alert("Un mail contenant votre login a été envoyé à "+emailForLogin+" .\n\n merci de consulter vos mails")
 				})
 				.catch((err) => console.log("bye", err));
 		} else {
@@ -154,12 +179,20 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 				</span>
 				<input type={passwordShown ? "text" : "password"} onChange={handleMDP} value={MDP} />
-				{isChoixInscriptionActif && <button onClick={retrievePassword}> mot de passe oublié ?</button>}
+				<span style={{margin:"auto"}}>{isChoixInscriptionActif && <button className={styles.buttonMotDePasseOublié} onClick={retrievePassword}> mot de passe oublié ?</button>}
+				{isChoixInscriptionActif && <button className={styles.buttonMotDePasseOublié} onClick={retrieveLogin}> Identifiant oublié ?</button>}</span>
 				{isChoixInscriptionActif && emailVisibleforNewPassword && (
 					<>
 						<label>Email pour renouveller le mot de passe</label>
 						<input onChange={handleEmailForNewPasswordInput} value={emailForNewPassword} type="text" />
-						<button onClick={handleSendmail}>Valider</button>
+						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForPassword}>Valider</button>
+					</>
+				)}
+				{isChoixInscriptionActif && emailVisibleforLogin && (
+					<>
+						<label>Email pour récupérer login</label>
+						<input onChange={handleEmailForLoginInput} value={emailForLogin} type="text" />
+						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForLogin}>Valider</button>
 					</>
 				)}
 				{!isChoixInscriptionActif && (

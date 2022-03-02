@@ -8,7 +8,7 @@ import axios from "axios";
 
 //AJOUTER PROPS OU STATE USER (POUR RECUPERER LES LIKES/ COMMENTS)
 const userId=1
-const Creations = ({ isAdmin }) => {
+const Creations = ({ isAdmin,user }) => {
 	const [bddCréation, setBddCréation] = useState(null);
 	const [refreshProp, setRefresh] = useState(0);
 	const [liked, setLiked] = useState(null);
@@ -45,7 +45,7 @@ const Creations = ({ isAdmin }) => {
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
-			{bddCréation && liked && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} refresh={refresh} likee={liked.includes(e.id_creation)} />)}
+			{bddCréation && liked && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} refresh={refresh} likee={liked.includes(e.id_creation)} user={user} />)}
 
 			<ReactTooltip className="" globalEventOff="click" place="bottom" type="light" effect="float" id="add">
 				<h3>Ajouter une création</h3>

@@ -39,7 +39,7 @@ const customStyles = {
 	},
 };
 
-const Card = ({ isAdmin, data, refresh,likee }) => {
+const Card = ({ isAdmin, data, refresh,likee,user }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [liked, setLiked] = useState(false);
 	const [nbrLike, setNbrLike] = useState(0);
@@ -106,12 +106,20 @@ const Card = ({ isAdmin, data, refresh,likee }) => {
 		slidesToScroll: 1,
 	};
 	const liker = () => {
+		console.log("data")
+		console.log(data)
+		console.log("user")
+		console.log("user")
+		console.log("user")
+		console.log("user")
+		console.log("user")
+		console.log(user)
 		if (!liked) {
 			
-			axios.post("/api/likes/", { userId: 1, id_creation: data.id_creation, operation: "like" }).then((result) => setLiked(true));
+			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "like" }).then((result) => setLiked(true));
 		} else if (liked) {
 			
-			axios.post("/api/likes/", { userId: 1, id_creation: data.id_creation, operation: "dislike" }).then((result) => setLiked(false));
+			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "dislike" }).then((result) => setLiked(false));
 		}
 	};
 	return (
