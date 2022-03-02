@@ -7,13 +7,67 @@ const Tag = db.tag;
 const fs = require("fs");
 const sharp = require("sharp");
 exports.getCreations = (req, res) => {
-	Creation.findAll({ include: [Tag, Image] })
-		.then((e) => {
-			// console.log(JSON.stringify(e, null, 2));
-			res.status(200).send(e);
-			// res.status(200).send(JSON.stringify(e));
-		})
+db.creation
+	.findAll({
+		where: { id_creation: 7 },
+		order: [
+			[{ model: db.Comments }, "comId", "ASC"],
+			// [ { model:db.Reply }, 'replyId','ASC']
+			[{ model: db.Comments }, { model: db.Reply }, "replyId", "ASC"],
+		],
+
+		include: [
+			{
+				model: db.Comments,
+				attributes: { exclude: ["userId", "creationId", "creationIdCreation"] },
+				include: [
+					{ model: db.Reply, attributes: { exclude: ["commentComId", "creationId", "comId", "userId"] }, include: [{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } }] },
+					{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } },
+				],
+			},Tag,Image
+		],
+		attributes: { exclude: ["createdAt", "updatedAt"] },
+	})
+	.then((data) => {
+
+		// console.log(e[0].dataValues)
+		console.log("#################################");
+		// console.log(JSON.stringify(data[0], null, 2));
+		let dataCopié=JSON.parse(JSON.stringify(data))
+		const Commentaires = dataCopié[0].comments;
+		// console.log(Commentaires);
+		for (const commentaire of Commentaires) {
+      commentaire.fullname=commentaire.user.username
+      commentaire.userId=commentaire.user.id
+      commentaire.avatarUrl= "https://ui-avatars.com/api/name="+commentaire.user.username+"&background=random" 
+      delete commentaire.user
+      for (const reponse of commentaire.replies){
+        reponse.fullname=reponse.user.username
+        reponse.userId=reponse.user.id
+        reponse.avatarUrl= "https://ui-avatars.com/api/name="+reponse.user.username+"&background=random" 
+        delete reponse.user
+      }
+		}
+		// console.log("Commentaires nettoyé");
+		// console.log(Commentaires);
+		dataCopié[0].comments=Commentaires
+		// console.log(JSON.stringify(test,null,2))
+		console.log("dataCopié")
+		console.log(dataCopié)
+		res.status(200).send(dataCopié);
+	})
 		.catch((err) => res.status(500).send("ca bug"));
+
+
+
+	
+	// Creation.findAll({ include: [Tag, Image] })
+	// 	.then((e) => {
+	// 		// console.log(JSON.stringify(e, null, 2));
+	// 		res.status(200).send(e);
+	// 		// res.status(200).send(JSON.stringify(e));
+	// 	})
+	// 	.catch((err) => res.status(500).send("ca bug"));
 };
 
 exports.postCreation = (req, res) => {
