@@ -11,6 +11,7 @@ let forgotLogin = require("./forgotLogin.routes");
 let resetPassword = require("./resetPassword.routes");
 let signinAuto_route = require("./signinAuto.routes");
 let comments = require("./comments.routes");
+let replies = require("./replies.routes");
 
 module.exports = function (app) {
 	app.use(function (req, res, next) {
@@ -29,6 +30,7 @@ module.exports = function (app) {
 	app.use("/api/forgot-login", forgotLogin);
 	app.use("/api/reset-password", resetPassword);
 	app.use("/api/comments", comments);
+	app.use("/api/reply", replies);
 	// app.use("/api/sendmail", [authJwt.verifyToken], sendMail_route);
 
 	// partie utilisateur connecté

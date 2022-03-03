@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from "react";
 // import uuid from 'react-uuid'
-import axios from 'axios'
+import axios from "axios";
 export const ActionContext = createContext();
-export const ActionProvider = ({ children, currentUser, setComment, comments, signinUrl, signupUrl, customInput }) => {
+export const ActionProvider = ({ children, currentUser, setComment, comments, signinUrl, signupUrl, customInput, creationId }) => {
 	const [replies, setReplies] = useState([]);
 	const [user, setUser] = useState();
 	const [editArr, setEdit] = useState([]);
@@ -31,17 +31,16 @@ export const ActionProvider = ({ children, currentUser, setComment, comments, si
 	};
 
 	const onSubmit = (text, parentId, child) => {
-	console.log("text, parentId, child")
-	console.log(text, parentId, child)
+		console.log("text, parentId, child");
+		console.log(text, parentId, child);
 		if (text.length > 0) {
-      //si nouveau commentaire
+			//si nouveau commentaire
 			if (!parentId && !child) {
-        console.log("new comment!!");
-        console.log("new comment!!");
-        console.log("new comment!!");
-        console.log("new comment!!");
-axios.post('/api/comments',{text,currentUser})
-.then(console.log("comment posté"))
+				console.log("new comment!!");
+				console.log("new comment!!");
+				console.log("new comment!!");
+				console.log("new comment!!");
+				axios.post("/api/comments", { text, currentUser, creationId }).then(console.log("comment posté"));
 				setComment([
 					...comments,
 					{
@@ -53,11 +52,9 @@ axios.post('/api/comments',{text,currentUser})
 					},
 				]);
 			} else if (parentId && child) {
-        //si reponse
-        console.log("reponse!!");
-        console.log("reponse!!");
-        console.log("reponse!!");
-        console.log("reponse!!");
+				//si reponse
+				console.log("reponse imbriqée!!");
+	
 				const newList = [...comments];
 				const index = newList.findIndex((x) => x.comId === parentId);
 				newList[index].replies.push({
@@ -67,8 +64,12 @@ axios.post('/api/comments',{text,currentUser})
 					fullName: currentUser.name,
 					text: text,
 				});
+				// axios.post("/api/reply", { text, currentUser, parentId }).then(console.log("reponse posté"));
+				
 				setComment(newList);
 			} else if (parentId && !child) {
+				console.log("reponse !");
+				
 				const newList = [...comments];
 				const index = newList.findIndex((x) => x.comId === parentId);
 				const newReplies = newList[index].replies === undefined ? [] : [...newList[index].replies];
@@ -80,6 +81,7 @@ axios.post('/api/comments',{text,currentUser})
 					text: text,
 				});
 				newList[index].replies = newReplies;
+				axios.post("/api/reply", { text, currentUser, parentId }).then(console.log("reponse posté"));
 				setComment(newList);
 			}
 		}

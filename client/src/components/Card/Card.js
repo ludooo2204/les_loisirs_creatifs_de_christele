@@ -60,6 +60,7 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 	const [modalCommentsOpen, setModalCommentsOpen] = useState(false);
 	const [liked, setLiked] = useState(false);
 	const [nbrLike, setNbrLike] = useState(0);
+	const [nbrComments, setNbrComments] = useState(0);
 
 	const [comment, setComment] = useState(null);
 	// const [comment, setComment] = useState(data)
@@ -80,8 +81,14 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 		console.log("data");
 		console.log("data");
 		console.log("data");
+		console.log(data);
 		console.log(data.comments);
+		let nbrReply=0
+		for (const iterator of data.comments) {
+			nbrReply+=iterator.replies.length
+		}
 		setComment(data.comments);
+		setNbrComments(data.comments.length+nbrReply);
 	}, []);
 	useEffect(() => {
 		axios.get("/api/likes/" + data.id_creation).then((result) => setNbrLike(result.data.length));
@@ -164,7 +171,7 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 					<h1 style={{ textAlign: "center" }}>{data.nom}</h1>
 					{/* </button> */}
 					{/* {comment && <CommentSection currentUser={userId && { userId: user.username, avatarUrl: avatarUrl, name: name }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} />} */}
-					{comment && <CommentSection currentUser={{ userId: user.userId, avatarUrl: "https://ui-avatars.com/api/name=" + user.username + "&background=random", name: user.username }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} />}
+					{comment && <CommentSection currentUser={{ userId: user.userId, avatarUrl: "https://ui-avatars.com/api/name=" + user.username + "&background=random", name: user.username }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} creationId={data.id_creation}/>}
 				</div>
 			</Modal>
 			<Modal isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} style={customStyles} contentLabel="Example Modal">
@@ -192,6 +199,7 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 					{liked && <FavoriteRoundedIcon onClick={liker} style={{ color: "red" }} />}
 					{nbrLike}
 					<InsertCommentOutlinedIcon style={{ color: "black" }} onClick={toggleModalComments} />
+					{nbrComments}
 				</div>
 				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
 			</div>

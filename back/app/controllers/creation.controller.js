@@ -38,12 +38,12 @@ exports.getCreations = (req, res) => {
 				const Commentaires = dataCopié[i].comments;
 
 				for (const commentaire of Commentaires) {
-					commentaire.fullname = commentaire.user.username;
+					commentaire.fullName = commentaire.user.username;
 					commentaire.userId = commentaire.user.id;
 					commentaire.avatarUrl = "https://ui-avatars.com/api/name=" + commentaire.user.username + "&background=random";
 					delete commentaire.user;
 					for (const reponse of commentaire.replies) {
-						reponse.fullname = reponse.user.username;
+						reponse.fullName = reponse.user.username;
 						reponse.userId = reponse.user.id;
 						reponse.avatarUrl = "https://ui-avatars.com/api/name=" + reponse.user.username + "&background=random";
 						delete reponse.user;
@@ -55,7 +55,7 @@ exports.getCreations = (req, res) => {
 			}
 			// console.log(JSON.stringify(test,null,2))
 			console.log("dataCopié");
-			console.log(dataCopié);
+			console.log(dataCopié);					
 			res.status(200).send(dataCopié);
 		})
 		.catch((err) => res.status(500).send("ca bug"));

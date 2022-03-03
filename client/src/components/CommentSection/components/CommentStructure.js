@@ -9,7 +9,6 @@ import { ActionContext } from "./ActionContext";
 const CommentStructure = ({ i, reply, parentId }) => {
 	const actions = useContext(ActionContext);
 	const edit = true;
-
 	return (
 		<div className={styles.halfDiv}>
 			<div className={styles.userInfo} style={reply && { marginLeft: 15, marginTop: "6px" }}>

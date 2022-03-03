@@ -5,9 +5,9 @@ const Comments = db.Comments
 exports.postNewComment = (req,res)=>{
 console.log("req.body")
 console.log(req.body)
-    // Comments.create({ userId, id_creation })
-	// 	.then(res.status(200).send())
-    //     .catch(err=>console.log("err",err))
+    Comments.create({ userId:req.body.currentUser.userId,text:req.body.text, creationId :req.body.creationId})
+		.then(res.status(200).send())
+        .catch(err=>console.log("err",err))
 
 }
 // exports.getLikes = (req,res)=>{

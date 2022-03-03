@@ -12,7 +12,7 @@ export const CommentSection = ({
   setComment,
   signinUrl,
   signupUrl,
-  customInput
+  customInput,creationId
 }) => {
   const [comments, setComments] = useState(commentsArray)
   useEffect(() => {
@@ -25,6 +25,7 @@ console.log(currentUser)
   return (
     <ActionProvider
       currentUser={currentUser}
+      creationId={creationId}
       setComment={setComment}
       comments={comments}
       signinUrl={signinUrl}
