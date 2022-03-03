@@ -13,6 +13,8 @@ import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { gsap } from "gsap";
+import { CommentSection } from "../CommentSection";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 import image4 from "../../image/4.jpg";
 import { Navigate } from "react-router-dom";
@@ -38,24 +40,57 @@ const customStyles = {
 		backgroundColor: "#fefff7",
 	},
 };
+const customStyles2 = {
+	content: {
+		top: "20%",
+		left: "30%",
+		right: "auto",
+		// width:'30%',
+		// height:"80%",
+		bottom: "auto",
+		// marginRight: "-50%",
+		// transform: "translate(-100%, -40%)",
+		borderRadius: "3rem",
+		background: "linear-gradient(180deg, rgba(240, 200, 163, 1) 0%, rgb(243, 238, 234) 70%, rgb(243, 238, 234) 100%)",
+	},
+};
 
-const Card = ({ isAdmin, data, refresh,likee,user }) => {
+const Card = ({ isAdmin, data, refresh, likee, user }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
+	const [modalCommentsOpen, setModalCommentsOpen] = useState(false);
 	const [liked, setLiked] = useState(false);
 	const [nbrLike, setNbrLike] = useState(0);
-	useEffect(()=>{
-		if (likee) setLiked(true)
 
-		
-	},[])
-	useEffect(()=>{
-		axios.get('/api/likes/'+data.id_creation)
-		.then(result=>setNbrLike(result.data.length))
+	const [comment, setComment] = useState(null);
+	// const [comment, setComment] = useState(data)
+	// const userId = "01a";
+	// const avatarUrl = "https://ui-avatars.com/api/name=Riya&background=random";
+	// const name = "xyz";
+	const signinUrl = "/signin";
+	const signupUrl = "/signup";
+	let count = 0;
+	if (comment)
+		comment.map((i) => {
+			count += 1;
+			i.replies && i.replies.map((i) => (count += 1));
+		});
 
-		
-	},[liked])
+	useEffect(() => {
+		if (likee) setLiked(true);
+		console.log("data");
+		console.log("data");
+		console.log("data");
+		console.log(data.comments);
+		setComment(data.comments);
+	}, []);
+	useEffect(() => {
+		axios.get("/api/likes/" + data.id_creation).then((result) => setNbrLike(result.data.length));
+	}, [liked]);
 	const toggleModalImage = () => {
 		setIsOpen(true);
+	};
+	const toggleModalComments = () => {
+		setModalCommentsOpen(true);
 	};
 	let navigate = useNavigate();
 
@@ -106,25 +141,32 @@ const Card = ({ isAdmin, data, refresh,likee,user }) => {
 		slidesToScroll: 1,
 	};
 	const liker = () => {
-		console.log("data")
-		console.log(data)
-		console.log("user")
-		console.log("user")
-		console.log("user")
-		console.log("user")
-		console.log("user")
-		console.log(user)
+		console.log("data");
+		console.log(data);
+		console.log("user");
+		console.log("user");
+		console.log("user");
+		console.log("user");
+		console.log("user");
+		console.log(user);
 		if (!liked) {
-			
 			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "like" }).then((result) => setLiked(true));
 		} else if (liked) {
-			
 			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "dislike" }).then((result) => setLiked(false));
 		}
 	};
 	return (
 		<div className={styles.cardContainer}>
-			{/* <img src={image1} /> */}
+			<Modal isOpen={modalCommentsOpen} onRequestClose={() => setModalCommentsOpen(false)} style={customStyles2} contentLabel="Example Modal">
+				<div className={styles.cardContainerModal2}>
+					{/* <button className={styles.closeButton} onClick={() => setModalCommentsOpen(false)}> */}
+					<HighlightOffIcon className={styles.icons} onClick={() => setModalCommentsOpen(false)} />
+					<h1 style={{ textAlign: "center" }}>{data.nom}</h1>
+					{/* </button> */}
+					{/* {comment && <CommentSection currentUser={userId && { userId: user.username, avatarUrl: avatarUrl, name: name }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} />} */}
+					{comment && <CommentSection currentUser={{ userId: user.userId, avatarUrl: "https://ui-avatars.com/api/name=" + user.username + "&background=random", name: user.username }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} />}
+				</div>
+			</Modal>
 			<Modal isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} style={customStyles} contentLabel="Example Modal">
 				<button className={styles.closeButton} onClick={() => setIsOpen(false)}>
 					X
@@ -143,12 +185,13 @@ const Card = ({ isAdmin, data, refresh,likee,user }) => {
 					</Slider>
 				</div>
 			</Modal>
+			{/* <img src={image1} /> */}
 			<div className={styles.divCardContainer}>
 				<div className={styles.likeCommentContainer}>
 					{!liked && <FavoriteBorderOutlinedIcon onMouseEnter={animateLike} onMouseLeave={animateLike2} ref={likeRef} onClick={liker} style={{ color: "black" }} />}
 					{liked && <FavoriteRoundedIcon onClick={liker} style={{ color: "red" }} />}
 					{nbrLike}
-					<InsertCommentOutlinedIcon style={{ color: "black" }} />
+					<InsertCommentOutlinedIcon style={{ color: "black" }} onClick={toggleModalComments} />
 				</div>
 				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
 			</div>

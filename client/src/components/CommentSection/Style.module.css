@@ -1,8 +1,8 @@
 .section {
 	display: flex;
 	flex-direction: column;
-	width: 50%;
-    background-color: #ffffff50;
+	width: 100%;
+    /* background-color: #ffffff50; */
 }
 .inputBox {
 	width: 100%;

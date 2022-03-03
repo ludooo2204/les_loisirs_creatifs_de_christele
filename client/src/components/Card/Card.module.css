@@ -34,6 +34,16 @@
 	position: relative;
 	outline: none;
 }
+.cardContainerModal2 {
+	/* margin: 5%;
+	padding-right:  5%; */
+	height: 70vh;
+	width: 35VW;
+	/* background-color: #f0c8a310; */
+	transition: all 0.4s;
+	position: relative;
+	outline: none;
+}
 .cardImageModal {
 	transition: all 0.4s;
 	max-width: 100%;

@@ -7,60 +7,59 @@ const Tag = db.tag;
 const fs = require("fs");
 const sharp = require("sharp");
 exports.getCreations = (req, res) => {
-db.creation
-	.findAll({
-		where: { id_creation: 7 },
-		order: [
-			[{ model: db.Comments }, "comId", "ASC"],
-			// [ { model:db.Reply }, 'replyId','ASC']
-			[{ model: db.Comments }, { model: db.Reply }, "replyId", "ASC"],
-		],
+	db.creation
+		.findAll({
+			order: [
+				[{ model: db.Comments }, "comId", "ASC"],
+				// [ { model:db.Reply }, 'replyId','ASC']
+				[{ model: db.Comments }, { model: db.Reply }, "replyId", "ASC"],
+			],
 
-		include: [
-			{
-				model: db.Comments,
-				attributes: { exclude: ["userId", "creationId", "creationIdCreation"] },
-				include: [
-					{ model: db.Reply, attributes: { exclude: ["commentComId", "creationId", "comId", "userId"] }, include: [{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } }] },
-					{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } },
-				],
-			},Tag,Image
-		],
-		attributes: { exclude: ["createdAt", "updatedAt"] },
-	})
-	.then((data) => {
+			include: [
+				{
+					model: db.Comments,
+					attributes: { exclude: ["userId", "creationId", "creationIdCreation"] },
+					include: [
+						{ model: db.Reply, attributes: { exclude: ["commentComId", "creationId", "comId", "userId"] }, include: [{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } }] },
+						{ model: db.user, attributes: { exclude: ["password", "createdAt", "updatedAt"] } },
+					],
+				},
+				Tag,
+				Image,
+			],
+			attributes: { exclude: ["createdAt", "updatedAt"] },
+		})
+		.then((data) => {
+			// console.log(e[0].dataValues)
+			console.log("#################################");
+			// console.log(JSON.stringify(data, null, 2));
+			let dataCopié = JSON.parse(JSON.stringify(data));
+			for (let i = 0; i < dataCopié.length; i++) {
+				const Commentaires = dataCopié[i].comments;
 
-		// console.log(e[0].dataValues)
-		console.log("#################################");
-		// console.log(JSON.stringify(data[0], null, 2));
-		let dataCopié=JSON.parse(JSON.stringify(data))
-		const Commentaires = dataCopié[0].comments;
-		// console.log(Commentaires);
-		for (const commentaire of Commentaires) {
-      commentaire.fullname=commentaire.user.username
-      commentaire.userId=commentaire.user.id
-      commentaire.avatarUrl= "https://ui-avatars.com/api/name="+commentaire.user.username+"&background=random" 
-      delete commentaire.user
-      for (const reponse of commentaire.replies){
-        reponse.fullname=reponse.user.username
-        reponse.userId=reponse.user.id
-        reponse.avatarUrl= "https://ui-avatars.com/api/name="+reponse.user.username+"&background=random" 
-        delete reponse.user
-      }
-		}
-		// console.log("Commentaires nettoyé");
-		// console.log(Commentaires);
-		dataCopié[0].comments=Commentaires
-		// console.log(JSON.stringify(test,null,2))
-		console.log("dataCopié")
-		console.log(dataCopié)
-		res.status(200).send(dataCopié);
-	})
+				for (const commentaire of Commentaires) {
+					commentaire.fullname = commentaire.user.username;
+					commentaire.userId = commentaire.user.id;
+					commentaire.avatarUrl = "https://ui-avatars.com/api/name=" + commentaire.user.username + "&background=random";
+					delete commentaire.user;
+					for (const reponse of commentaire.replies) {
+						reponse.fullname = reponse.user.username;
+						reponse.userId = reponse.user.id;
+						reponse.avatarUrl = "https://ui-avatars.com/api/name=" + reponse.user.username + "&background=random";
+						delete reponse.user;
+					}
+				}
+				dataCopié[i].comments = Commentaires;
+				console.log("dataCopié[i].comments")
+				console.log(dataCopié[i].comments)
+			}
+			// console.log(JSON.stringify(test,null,2))
+			console.log("dataCopié");
+			console.log(dataCopié);
+			res.status(200).send(dataCopié);
+		})
 		.catch((err) => res.status(500).send("ca bug"));
 
-
-
-	
 	// Creation.findAll({ include: [Tag, Image] })
 	// 	.then((e) => {
 	// 		// console.log(JSON.stringify(e, null, 2));
@@ -140,7 +139,7 @@ exports.deleteCreation = (req, res) => {
 };
 exports.patchCreation = (req, res) => {
 	console.log("patch products!!");
-	const id_creationAPatcher = req.params.id
+	const id_creationAPatcher = req.params.id;
 	console.log("id_creation à patcher : ", id_creationAPatcher);
 
 	let dataToModify = { ...req.body };
@@ -197,28 +196,30 @@ exports.patchCreation = (req, res) => {
 	});
 
 	//MAJ du tag
-	console.log("dataToModify.tagChoisi")
-	console.log(dataToModify.tagChoisi)
-	const tempp=dataToModify.tagChoisi.map(id=>id.id_tag)
+	console.log("dataToModify.tagChoisi");
+	console.log(dataToModify.tagChoisi);
+	const tempp = dataToModify.tagChoisi.map((id) => id.id_tag);
 
-
-	Creation_Tag.destroy({ where: { id_creation: id_creationAPatcher} })
+	Creation_Tag.destroy({ where: { id_creation: id_creationAPatcher } })
 		.then((e) => {
 			console.log("Creation_Tag supprimé");
 			console.log("Creation_Tag supprimé");
 			console.log("Creation_Tag supprimé");
 			console.log("Creation_Tag supprimé");
-		
 		})
 		.then(() => {
-			Creation_Tag.bulkCreate(tempp.map((tag)=>{return { id_creation: id_creationAPatcher,id_tag:tag }}));
+			Creation_Tag.bulkCreate(
+				tempp.map((tag) => {
+					return { id_creation: id_creationAPatcher, id_tag: tag };
+				})
+			);
 		})
 		.then((e) => {
 			console.log("Creation_Tag créée");
 			console.log("Creation_Tag créée");
 			console.log("Creation_Tag créée");
-			console.log("Creation_Tag créée")
-			console.log(e)
+			console.log("Creation_Tag créée");
+			console.log(e);
 		})
 
 		// Creation_Tag.update({ id_tag },{where:{id_creation:req.params.id}})

@@ -96,7 +96,7 @@ db.ROLES = ["user", "admin"];
 // 	})
 // 	.catch((err) => console.log("loupé", err));
 
-// db.Comments.create({ text: Math.random().toString(), userId: 5,creationId:7})
+// db.Comments.create({ text: Math.random().toString(), userId: 11,creationId:1})
 // .then(console.log("nouvel entrée creeé"))
 // .catch((err) => console.log("loupé", err));
 
@@ -147,7 +147,7 @@ db.ROLES = ["user", "admin"];
 // 	})
 // 	.catch((err) => console.log("loupé", err));
 
-// db.Reply.create({ text: Math.random().toString(), userId: 1, comId: 3 })
+// db.Reply.create({ text: Math.random().toString(), userId: 3, comId: 3 })
 // 	.then(console.log("nouvel entrée creeé"))
 // 	.catch((err) => console.log("loupé", err));
 
