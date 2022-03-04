@@ -61,12 +61,10 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 	const [liked, setLiked] = useState(false);
 	const [nbrLike, setNbrLike] = useState(0);
 	const [nbrComments, setNbrComments] = useState(0);
+	// const [refreshProp, setRefresh] = useState(0);
 
 	const [comment, setComment] = useState(null);
-	// const [comment, setComment] = useState(data)
-	// const userId = "01a";
-	// const avatarUrl = "https://ui-avatars.com/api/name=Riya&background=random";
-	// const name = "xyz";
+
 	const signinUrl = "/signin";
 	const signupUrl = "/signup";
 	let count = 0;
@@ -78,17 +76,25 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 
 	useEffect(() => {
 		if (likee) setLiked(true);
-		console.log("data");
-		console.log("data");
-		console.log("data");
+		console.log("mount CARD !!!!!");
 		console.log(data);
-		console.log(data.comments);
-		let nbrReply=0
-		for (const iterator of data.comments) {
-			nbrReply+=iterator.replies.length
-		}
-		setComment(data.comments);
-		setNbrComments(data.comments.length+nbrReply);
+
+		axios.get("/api/comments/" + data.id_creation).then((result) => {
+			console.log("comments", result);
+			let nbrReply = 0;
+			for (const iterator of result.data.comments) {
+				nbrReply += iterator.replies.length;
+			}
+			setComment(result.data.comments);
+			setNbrComments(result.data.comments.length + nbrReply);
+		});
+
+		// let nbrReply = 0;
+		// for (const iterator of data.comments) {
+		// 	nbrReply += iterator.replies.length;
+		// }
+		// setComment(data.comments);
+		// setNbrComments(data.comments.length + nbrReply);
 	}, []);
 	useEffect(() => {
 		axios.get("/api/likes/" + data.id_creation).then((result) => setNbrLike(result.data.length));
@@ -96,8 +102,13 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
+	useEffect(() => {
+		console.log("useeffect modal comment");
+		// refresh()
+	}, [modalCommentsOpen]);
 	const toggleModalComments = () => {
-		setModalCommentsOpen(true);
+		console.log("toggle modal");
+		setModalCommentsOpen(!modalCommentsOpen);
 	};
 	let navigate = useNavigate();
 
@@ -157,21 +168,34 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 		console.log("user");
 		console.log(user);
 		if (!liked) {
-			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "like" }).then((result) => setLiked(true));
+			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "like" }).then((result) => {
+				setLiked(true);
+			});
 		} else if (liked) {
-			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "dislike" }).then((result) => setLiked(false));
+			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "dislike" }).then((result) => {
+				setLiked(false);
+			});
 		}
 	};
 	return (
 		<div className={styles.cardContainer}>
-			<Modal isOpen={modalCommentsOpen} onRequestClose={() => setModalCommentsOpen(false)} style={customStyles2} contentLabel="Example Modal">
+			<Modal isOpen={modalCommentsOpen} onRequestClose={toggleModalComments} style={customStyles2} contentLabel="Example Modal">
 				<div className={styles.cardContainerModal2}>
 					{/* <button className={styles.closeButton} onClick={() => setModalCommentsOpen(false)}> */}
-					<HighlightOffIcon className={styles.icons} onClick={() => setModalCommentsOpen(false)} />
+					<HighlightOffIcon className={styles.icons} onClick={toggleModalComments} />
 					<h1 style={{ textAlign: "center" }}>{data.nom}</h1>
 					{/* </button> */}
 					{/* {comment && <CommentSection currentUser={userId && { userId: user.username, avatarUrl: avatarUrl, name: name }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} />} */}
-					{comment && <CommentSection currentUser={{ userId: user.userId, avatarUrl: "https://ui-avatars.com/api/name=" + user.username + "&background=random", name: user.username }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} creationId={data.id_creation}/>}
+					{comment && (
+						<CommentSection
+							currentUser={user ? { userId: user.userId, avatarUrl: "https://ui-avatars.com/api/name=" + user.username + "&background=random", name: user.username } : null}
+							commentsArray={comment}
+							setComment={setComment}
+							signinUrl={signinUrl}
+							signupUrl={signupUrl}
+							creationId={data.id_creation}
+						/>
+					)}
 				</div>
 			</Modal>
 			<Modal isOpen={modalIsOpen} onRequestClose={() => setIsOpen(false)} style={customStyles} contentLabel="Example Modal">

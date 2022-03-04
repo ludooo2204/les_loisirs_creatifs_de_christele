@@ -12,14 +12,14 @@ const Home = () => {
 	const [isAdminProp, setIsAdminProp] = useState(false);
 	const [defaultIsOpen, setDefaultIsOpen] = useState(false);
 	const [user, setUser] = useState(null);
-	console.log("user from home")
-	console.log("user from home")
-	console.log("user from home")
-	console.log("user from home")
-	console.log("user from home")
-	console.log(user)
+	// console.log("user from home")
+	// console.log("user from home")
+	// console.log("user from home")
+	// console.log("user from home")
+	// console.log("user from home")
+	// console.log(user)
 	const isAdmin=(info)=>{
-		console.log(info + " from Home");
+		// console.log(info + " from Home");
 		setIsAdminProp(true)
 	}
 	return (

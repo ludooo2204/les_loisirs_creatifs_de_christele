@@ -12,6 +12,10 @@ router.get("/:id", (req, res) => {
 				userId: req.params.id,
 			},
 		}).then((result) => {
+			console.log("liked from backend")
+			console.log("liked from backend")
+			console.log("liked from backend")
+			console.log(result)
 			res.status(200).json(result);
 		});
 	})

@@ -1,1 +1,2 @@
 lors d'une modif d'une creation, l'ajout d'un nouveau tag n'enclenche pas sont apparaition immediate (refresh) alors que quand c'est une nouvelle creation ca marche 
+PAS DE COMMENTAIRE QUAND PAS LOGGUE

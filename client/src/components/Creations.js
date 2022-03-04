@@ -10,7 +10,6 @@ import axios from "axios";
 // console.log("data")
 // console.log(data)
 //AJOUTER PROPS OU STATE USER (POUR RECUPERER LES LIKES/ COMMENTS)
-const userId=1
 const Creations = ({ isAdmin,user }) => {
 	const [bddCréation, setBddCréation] = useState(null);
 	const [refreshProp, setRefresh] = useState(0);
@@ -27,20 +26,20 @@ const Creations = ({ isAdmin,user }) => {
 	// let count = 0
 	// if (comment) comment.map(i => {count+=1; i.replies && i.replies.map(i=> count+=1)} )
 
-
-
+console.log("user")
+console.log(user)
 	useEffect(() => {
 		axios.get("/api/creations").then((e) => {
-			console.log("products fecth");
-			console.log(e);
+			console.log("products fetch FROM CREATION");
+			// console.log(e);
 			const temp = [...e.data];
-			console.log(temp)
+			// console.log(temp)
 			for (const iterator of temp) {
 				iterator.url = iterator.images.map((e) => e.url);
 				delete iterator.images;
 			}
 
-			console.log("temp");
+			// console.log("temp");
 			console.log(temp);
 			if (e.data) setBddCréation(temp);
 			// setComment(temp[1].comments)
@@ -48,13 +47,17 @@ const Creations = ({ isAdmin,user }) => {
 	}, [refreshProp]);
 
 	useEffect(() => {
-		axios.get("/api/liked/"+userId).then((e) => {
-			console.log("fetch liked")
+		console.log("products fetch FROM CREATION");
+
+		if (user) {
+		console.log("userID", user.userId)
+		axios.get("/api/liked/"+user.userId).then((e) => {
+			console.log("fetch liked by user from creations")
 			console.log(e)
 		const likedTemp=e.data.map(like=>like.id_creation)
 		setLiked(likedTemp)
-		});
-	}, []);
+		});}
+	}, [user]);
 
 	const refresh = () => {
 		console.log("refresh from creation");
@@ -63,7 +66,7 @@ const Creations = ({ isAdmin,user }) => {
 	let navigate = useNavigate();
 	return (
 		<div className={styles.main}>
-			{bddCréation && liked && bddCréation.map((e) => <Card isAdmin={isAdmin} data={e} refresh={refresh} likee={liked.includes(e.id_creation)} user={user} />)}
+			{bddCréation && liked && bddCréation.map((e,i) => <Card key={i} isAdmin={isAdmin} data={e} refresh={refresh} likee={liked.includes(e.id_creation)} user={user} />)}
 
 			<ReactTooltip className="" globalEventOff="click" place="bottom" type="light" effect="float" id="add">
 				<h3>Ajouter une création</h3>
