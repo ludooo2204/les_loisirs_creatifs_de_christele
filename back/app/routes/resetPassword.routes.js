@@ -1,12 +1,7 @@
 let express = require("express");
 let router = express.Router();
 const path = require('path')
-console.log("__dirname")
-console.log("__dirname")
-console.log("__dirname")
-console.log("__dirname")
-console.log(__dirname)
-// const controller = require("../controllers/like.controller");
+
 const Sequelize = require('sequelize')
 const Op= Sequelize.Op
 const db = require("../models");
@@ -23,9 +18,6 @@ router.get('/', async function(req, res, next) {
      * big site. We just include this in here as a
      * demonstration.
      **/
-    console.log("ROUTER.GET IN RESET-password ")
-    console.log("ROUTER.GET IN RESET-password ")
-    console.log("ROUTER.GET IN RESET-password ")
     await ResetToken.destroy({
       where: {
         expiration: { [Op.lt]: Sequelize.fn('CURDATE')},
@@ -56,35 +48,10 @@ router.get('/', async function(req, res, next) {
 
 
 
-
-
-
-
-
   router.post('/', async function(req, res, next) {
-    console.log("req.body")
-    console.log("req.body")
-    console.log("req.body")
-    console.log("req.body")
-    console.log(req.body)
-    //compare passwords
     if (req.body.MDP1 !== req.body.MDP2) {
       return res.json({status: 'error', message: 'Passwords do not match. Please try again.'});
     }
-   
-    /**
-    * Ensure password is valid (isValidPassword
-    * function checks if password is >= 8 chars, alphanumeric,
-    * has special chars, etc)
-    **/
-  //  TODO
-  //  TODO
-  //  TODO
-  //  TODO
-  //  TODO
-    // if (!isValidPassword(req.body.password1)) {
-    //   return res.json({status: 'error', message: 'Password does not meet minimum requirements. Please try again.'});
-    // }
    
     var record = await ResetToken.findOne({
       where: {

@@ -17,10 +17,12 @@ exports.postImage = (req,res)=>{
 			let avatar = req.files.file;
 			// const rnd= Math.random()
 			//Use the mv() method to place the file in upload directory (i.e. "uploads")
+			// avatar.mv("../client/public/uploads/" + avatar.name);
 			avatar.mv("../client/src/uploads/" + avatar.name);
 			// avatar.mv('./uploads/' + rnd+avatar.name);
 
 			//send response
+			console.log("coucou lolo")
 			res.send({
 				status: true,
 				message: "File is uploaded",

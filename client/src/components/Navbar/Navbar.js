@@ -122,14 +122,11 @@ const Navbar = ({ isAdmin, defaultIsOpen, setUser }) => {
 					<p>pour pourvoir me poser des questions, commenter mes créations ou recevoir des alertes par mail quand je rajoute de nouveaux produits !</p>
 				</ReactTooltip>
 				<div data-testid="connexion" onClick={openModal} className={`${styles.text}  ${styles.connexionButton}`}>
-					{userConnected ? (
-						userConnected
-					) : (
+					{userConnected ? (userConnected) : (
 						<>
 							<AccountCircleIcon
 								data-tip
 								data-for="AccountCircleIcon"
-								//  sx={{ fontSize: 40 }}
 							/>
 							<HelpOutlineOutlinedIcon style={{ alignSelf: "flex-end", position: "relative", right: "10" }} sx={{ fontSize: 15 }} />
 						</>

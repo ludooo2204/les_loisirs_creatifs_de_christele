@@ -15,9 +15,6 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import { gsap } from "gsap";
 import { CommentSection } from "../CommentSection";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-
-import image4 from "../../image/4.jpg";
-import { Navigate } from "react-router-dom";
 import { Back } from "gsap/all";
 import axios from "axios";
 
@@ -118,9 +115,7 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 	};
 
 	const likeRef = useRef();
-	// useEffect(() => {
-	// 	gsap.from(likeRef.current, { translateX: "-=360", duration: 2 });
-	// });
+
 	const animateLike = () => {
 		gsap.to(likeRef.current, { scale: 1.2, duration: 0.3, ease: Back.easeOut.config(4) });
 	};
@@ -142,6 +137,7 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
+
 	const settingsModal = {
 		customPaging: function (i) {
 			return (
@@ -159,14 +155,6 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 		slidesToScroll: 1,
 	};
 	const liker = () => {
-		console.log("data");
-		console.log(data);
-		console.log("user");
-		console.log("user");
-		console.log("user");
-		console.log("user");
-		console.log("user");
-		console.log(user);
 		if (!liked) {
 			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "like" }).then((result) => {
 				setLiked(true);
@@ -181,11 +169,9 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 		<div className={styles.cardContainer}>
 			<Modal isOpen={modalCommentsOpen} onRequestClose={toggleModalComments} style={customStyles2} contentLabel="Example Modal">
 				<div className={styles.cardContainerModal2}>
-					{/* <button className={styles.closeButton} onClick={() => setModalCommentsOpen(false)}> */}
 					<HighlightOffIcon className={styles.icons} onClick={toggleModalComments} />
 					<h1 style={{ textAlign: "center" }}>{data.nom}</h1>
-					{/* </button> */}
-					{/* {comment && <CommentSection currentUser={userId && { userId: user.username, avatarUrl: avatarUrl, name: name }} commentsArray={comment} setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} />} */}
+
 					{comment && (
 						<CommentSection
 							currentUser={user ? { userId: user.userId, avatarUrl: "https://ui-avatars.com/api/name=" + user.username + "&background=random", name: user.username } : null}
@@ -206,9 +192,11 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 					<Slider {...settingsModal}>
 						<div className={styles.divCardContainerModal}>
 							<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImageModal} />
+							{/* <img src={"/uploads/" + data.url[0]} onClick={() => toggleModalImage()} className={styles.cardImageModal} /> */}
 						</div>
 						<div className={styles.divCardContainerModal}>
-							<img src={require("../../uploads/" + data.url[1])} className={styles.cardImageModal} />
+							{/* <img src={"/uploads/" + data.url[1]} className={styles.cardImageModal} /> */}
+							<img sorc={require("../../uploads/" + data.url[1])} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
 							<img src={image2} className={styles.cardImageModal} />

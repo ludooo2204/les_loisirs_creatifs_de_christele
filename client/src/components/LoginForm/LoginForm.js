@@ -37,7 +37,8 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const validerInscription = () => {
 		if (MDP === MDP2) {
 			axios
-				.post("/api/auth/signup", { username: identifiant, email, password: MDP, roles: ["user", "admin"] })
+				.post("/api/auth/signup",
+				 { username: identifiant, email, password: MDP, roles: ["user", "admin"] })
 				.then((e) => {
 					if (e.data.message == "Erreur! l'identifiant est déja utilisé!") {
 						window.alert(e.data.message);
@@ -68,7 +69,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				console.log(e.data);
 				window.localStorage.setItem("token", e.data.accessToken);
 
-				seConnecter({userId:e.data.id,username:e.data.username,roles:e.data.roles});
+				seConnecter({ userId: e.data.id, username: e.data.username, roles: e.data.roles });
 
 				closeModal();
 			})
@@ -105,19 +106,12 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 
 	const handleSendmailForPassword = () => {
 		if (emailForNewPassword) {
-			console.log("clickSendMail for password");
-			// const header = {
-			// 	headers: {
-			// 		"x-access-Token": window.localStorage.getItem("token"),
-			// 		"content-type": "application/json",
-			// 	},
-			// };
+
 			axios
 				.post("/api/forgot-password", { email: emailForNewPassword })
-				// .get("/api/sendmail")
 				.then((e) => {
-					console.log("ca marche !", e);
-					window.alert("Un mail de réinitialisation a été envoyé à "+emailForNewPassword+" .\n\n merci de consulter vos mails")
+					window.alert("Un mail de réinitialisation a été envoyé à " + emailForNewPassword +
+					 " .\n\n merci de consulter vos mails");
 				})
 				.catch((err) => console.log("bye", err));
 		} else {
@@ -132,16 +126,15 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				// .get("/api/sendmail")
 				.then((e) => {
 					console.log("ca marche !", e);
-					window.alert("Un mail contenant votre login a été envoyé à "+emailForLogin+" .\n\n merci de consulter vos mails")
+					window.alert("Un mail contenant votre login a été envoyé à " + emailForLogin + " .\n\n merci de consulter vos mails");
 				})
 				.catch((err) => console.log("bye", err));
 		} else {
 			window.alert("veuillez entrer votre email !");
 		}
 	};
-	return (	
+	return (
 		<div className="LoginForm">
-			{/* <button className="buttonConnexionDansModal">Se connecter</button> */}
 			<div className="buttonLoginGroupDansModal">
 				<button
 					className={`button button--calypso
@@ -178,21 +171,39 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					<label>Mot de passe</label>
 					<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 				</span>
+				
 				<input type={passwordShown ? "text" : "password"} onChange={handleMDP} value={MDP} />
-				<span style={{margin:"auto"}}>{isChoixInscriptionActif && <button className={styles.buttonMotDePasseOublié} onClick={retrievePassword}> mot de passe oublié ?</button>}
-				{isChoixInscriptionActif && <button className={styles.buttonMotDePasseOublié} onClick={retrieveLogin}> Identifiant oublié ?</button>}</span>
+
+				<span style={{ margin: "auto" }}>
+					{isChoixInscriptionActif && (
+						<button className={styles.buttonMotDePasseOublié} onClick={retrievePassword}>
+							{" "}
+							mot de passe oublié ?
+						</button>
+					)}
+					{isChoixInscriptionActif && (
+						<button className={styles.buttonMotDePasseOublié} onClick={retrieveLogin}>
+							{" "}
+							Identifiant oublié ?
+						</button>
+					)}
+				</span>
 				{isChoixInscriptionActif && emailVisibleforNewPassword && (
 					<>
 						<label>Email pour renouveller le mot de passe</label>
 						<input onChange={handleEmailForNewPasswordInput} value={emailForNewPassword} type="text" />
-						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForPassword}>Valider</button>
+						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForPassword}>
+							Valider
+						</button>
 					</>
 				)}
 				{isChoixInscriptionActif && emailVisibleforLogin && (
 					<>
 						<label>Email pour récupérer login</label>
 						<input onChange={handleEmailForLoginInput} value={emailForLogin} type="text" />
-						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForLogin}>Valider</button>
+						<button className={styles.buttonMotDePasseOublié} onClick={handleSendmailForLogin}>
+							Valider
+						</button>
 					</>
 				)}
 				{!isChoixInscriptionActif && (
@@ -214,15 +225,11 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 						<HelpOutlineOutlinedIcon style={{ position: "relative", top: "10" }} sx={{ fontSize: 15 }} />
 					</span>
 				)}
-				{/* console.log(isEmail('foo@bar.com')); pour verifier si mail ok */}
 				{!isChoixInscriptionActif && <input type="email" onChange={handleEmail} value={email} />}
 			</div>
 			<button className={styles.buttonValidation} onClick={!isChoixInscriptionActif ? validerInscription : validerConnexion}>
 				valider
 			</button>
-			{/* <button className={styles.dev } data-testid="devAdmin" onClick={validerFormFake}>
-					se connecter pour developpement
-				</button> */}
 		</div>
 	);
 };

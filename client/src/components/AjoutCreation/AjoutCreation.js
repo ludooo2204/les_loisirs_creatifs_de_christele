@@ -45,7 +45,6 @@ const AjoutCreation = () => {
 		}
 	}, [state]);
 
-
 	useEffect(() => {
 		// console.log("fetch tags");
 		axios.get("/api/tags").then((tags) => {
@@ -54,9 +53,11 @@ const AjoutCreation = () => {
 			setBddTag(tags.data);
 		});
 	}, [newTag]);
+
 	useEffect(() => {
 		if (!state) handleTag(tagInputRef.current.value);
 	}, [bddTag]);
+
 
 	let navigate = useNavigate();
 	const handleTitle = (e) => {
@@ -72,6 +73,8 @@ const AjoutCreation = () => {
 	};
 
 	const handleTag = (e) => {
+		console.log("bbddtag");
+		console.log(bddTag);
 		let value;
 		e.target == undefined ? (value = e) : (value = e.target.value);
 		setTag(value);
@@ -80,7 +83,6 @@ const AjoutCreation = () => {
 				bddTag.map((tag) => tag.tag),
 				value
 			);
-			console.log("ototototo");
 			let temp = [];
 			for (const iterator of resultatDeRecherche) {
 				temp.push(bddTag.filter((e) => e.tag == iterator)[0]);
@@ -91,14 +93,6 @@ const AjoutCreation = () => {
 		} else setTagTrouvés(null);
 	};
 	const handleImage = (e) => {
-		console.log("handleImage");
-		console.log("handleImage");
-		console.log("handleImage");
-		console.log(images);
-		console.log("e");
-		console.log("e");
-		console.log("e");
-		console.log(e);
 		setImages((images) => [...images, e]);
 	};
 	const handleTagSelectionné = (e) => {
@@ -139,7 +133,6 @@ const AjoutCreation = () => {
 	};
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter") {
-			console.log("do validate");
 			axios
 				.post("/api/tags", { tag })
 				.then(setNewTag(newTag + 1))
@@ -182,9 +175,6 @@ const AjoutCreation = () => {
 				{/* {!state && */}
 				<ListeImages images={images} onDelete={onDelete} />
 
-				{/* {state && <ListeImagesModifiées images={state.url} />} */}
-				{console.log("tagChoisi")}
-				{console.log(tagChoisi)}
 				{tagChoisi && (
 					<div className={styles.tagChoisiContainer}>
 						{tagChoisi.map((e, i) => (
