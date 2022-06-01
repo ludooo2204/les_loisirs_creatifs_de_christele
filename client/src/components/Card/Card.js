@@ -12,7 +12,7 @@ import DeleteAndModifyByAdmin from "./DeleteAndModifyByAdmin/DeleteAndModifyByAd
 import FavoriteRoundedIcon from "@mui/icons-material/FavoriteRounded";
 import InsertCommentOutlinedIcon from "@mui/icons-material/InsertCommentOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { gsap } from "gsap";
+import { Expo, gsap } from "gsap";
 import { CommentSection } from "../CommentSection";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Back } from "gsap/all";
@@ -115,6 +115,7 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 	};
 
 	const likeRef = useRef();
+	const imagePrincipale = useRef();
 
 	const animateLike = () => {
 		gsap.to(likeRef.current, { scale: 1.2, duration: 0.3, ease: Back.easeOut.config(4) });
@@ -165,6 +166,18 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 			});
 		}
 	};
+	const hoverInLegende=()=>{
+		console.log("int")
+
+		gsap.to(imagePrincipale.current, { yPercent: -30, duration: 0.1, ease: "elastic.out(1, 0.3)"});
+
+	}
+	const hoverOutLegende=()=>{
+		console.log("out")
+		gsap.to(imagePrincipale.current, { yPercent: 0, duration: 0.2	, ease: "none" });
+
+
+	}
 	return (
 		<div className={styles.cardContainer}>
 			<Modal isOpen={modalCommentsOpen} onRequestClose={toggleModalComments} style={customStyles2} contentLabel="Example Modal">
@@ -196,15 +209,14 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 						</div>
 						<div className={styles.divCardContainerModal}>
 							{/* <img src={"/uploads/" + data.url[1]} className={styles.cardImageModal} /> */}
-							<img sorc={require("../../uploads/" + data.url[1])} className={styles.cardImageModal} />
+							<img src={require("../../uploads/" + data.url[1])} className={styles.cardImageModal} />
 						</div>
 						<div className={styles.divCardContainerModal}>
-							<img src={image2} className={styles.cardImageModal} />
+							<img src={require("../../uploads/" + data.url[2])} className={styles.cardImageModal} />
 						</div>
 					</Slider>
 				</div>
 			</Modal>
-			{/* <img src={image1} /> */}
 			<div className={styles.divCardContainer}>
 				<div className={styles.likeCommentContainer}>
 					{!liked && <FavoriteBorderOutlinedIcon onMouseEnter={animateLike} onMouseLeave={animateLike2} ref={likeRef} onClick={liker} style={{ color: "black" }} />}
@@ -213,20 +225,11 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 					<InsertCommentOutlinedIcon style={{ color: "black" }} onClick={toggleModalComments} />
 					{nbrComments}
 				</div>
-				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
+				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} ref={imagePrincipale} className={styles.cardImage} />
 			</div>
-			{/* <Slider {...settings}>
-				<div className={styles.divCardContainer}>
-					<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} className={styles.cardImage} />
-				</div>
-				<div className={styles.divCardContainer}>
-					<img src={require("../../uploads/" + data.url[1])} className={styles.cardImage} />
-				</div>
-				<div className={styles.divCardContainer}>
-					<img src={image2} className={styles.cardImage} />
-				</div>
-			</Slider> */}
-			<div className={styles.legende}>
+
+		
+			<div onMouseEnter={hoverInLegende} onMouseLeave={hoverOutLegende} className={styles.legende}>
 				<div className={styles.priceTag}>{data.prix}€</div>
 				<div className={styles.title}>{data.nom}</div>
 				<div className={styles.description}> {data.description}</div>

@@ -24,7 +24,8 @@ const AjoutCreation = () => {
 	const [refresh, setRefresh] = useState(0);
 	const tagInputRef = useRef();
 	const { state } = useLocation();
-
+	console.log(description);
+	console.log(description.length);
 	useEffect(() => {
 		if (state) {
 			console.log("state");
@@ -57,7 +58,6 @@ const AjoutCreation = () => {
 	useEffect(() => {
 		if (!state) handleTag(tagInputRef.current.value);
 	}, [bddTag]);
-
 
 	let navigate = useNavigate();
 	const handleTitle = (e) => {
@@ -162,7 +162,7 @@ const AjoutCreation = () => {
 					<label className={styles.LabelTitle}>Titre</label>
 					<input onChange={handleTitle} type="text" value={title} maxLength="25" className={styles.inputTitle} />
 					<label className={styles.LabelTitle}>Description</label>
-					<textarea onChange={handleDescription} rows={2} value={description} className={styles.inputTitle} type="text" maxLength="60" />
+					<textarea onChange={handleDescription} rows={2} value={description} className={styles.inputTitle} type="text" maxLength="80" />
 					<label className={styles.LabelTitle}>Prix €</label>
 					<span className={styles.euro}>
 						<input onChange={handlePrix} type="" value={prix} maxLength="25" className={styles.inputTitle} />€
