@@ -6,8 +6,11 @@ import isEmail from "validator/lib/isEmail";
 import { ReactComponent as LoginSvg } from "../../image/svg/Black-And-White-Flowers.svg";
 import styles from "./LoginForm.module.css";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
-const LoginForm = ({ closeModal, seConnecter }) => {
+import { addCount, resetCount, setUser } from "../../redux/action";
+
+const LoginForm = ({ closeModal }) => {
 	const [isChoixInscriptionActif, setIsChoixInscriptionActif] = useState(true);
 	const [passwordShown, setPasswordShown] = useState(false);
 	const [MDP, setMDP] = useState("");
@@ -18,6 +21,21 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 	const [emailForLogin, setEmailForLogin] = useState(null);
 	const [emailVisibleforNewPassword, setEmailVisibleforNewPassword] = useState(false);
 	const [emailVisibleforLogin, setEmailVisibleforLogin] = useState(false);
+
+
+	const user = useSelector((state) => state.user);
+
+	const dispatch = useDispatch()
+
+	const seConnecter = (user) => {
+		console.log(user.username);
+		console.log("user");
+		console.log(user);
+		dispatch(setUser(user));
+
+		// setUserConnected(user.username);
+	};
+
 
 	// Password toggle handler
 	const togglePassword = () => {
@@ -38,7 +56,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 		if (MDP === MDP2) {
 			axios
 				.post("/api/auth/signup",
-				 { username: identifiant, email, password: MDP, roles: ["user", "admin"] })
+					{ username: identifiant, email, password: MDP, roles: ["user"] })
 				.then((e) => {
 					if (e.data.message == "Erreur! l'identifiant est déja utilisé!") {
 						window.alert(e.data.message);
@@ -66,6 +84,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					window.alert(e.data.message);
 					return;
 				}
+				console.log("retour de la connection");
 				console.log(e.data);
 				window.localStorage.setItem("token", e.data.accessToken);
 
@@ -111,7 +130,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 				.post("/api/forgot-password", { email: emailForNewPassword })
 				.then((e) => {
 					window.alert("Un mail de réinitialisation a été envoyé à " + emailForNewPassword +
-					 " .\n\n merci de consulter vos mails");
+						" .\n\n merci de consulter vos mails");
 				})
 				.catch((err) => console.log("bye", err));
 		} else {
@@ -171,7 +190,7 @@ const LoginForm = ({ closeModal, seConnecter }) => {
 					<label>Mot de passe</label>
 					<VisibilityIcon onClick={togglePassword} style={{ verticalAlign: "middle", marginLeft: "0.5REM", fontSize: "20", cursor: "pointer" }} />
 				</span>
-				
+
 				<input type={passwordShown ? "text" : "password"} onChange={handleMDP} value={MDP} />
 
 				<span style={{ margin: "auto" }}>

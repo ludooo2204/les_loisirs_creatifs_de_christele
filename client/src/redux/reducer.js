@@ -1,9 +1,10 @@
-import { ADD_COUNT, RESET_COUNT, ADD_TODO } from "./type";
+import { ADD_COUNT, RESET_COUNT, ADD_TODO, SET_USER } from "./type";
 
 //format initial du state global
 const initialState = {
 	todos: [],
 	count: 0,
+	user: null,
 };
 
 // le reducer permet de manipuler les actions de la vue (composant React)
@@ -24,6 +25,12 @@ export const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				todos: [...state.todos, action.payload], //new todos array
+				// todos: state.todos.push(action.payload),
+			};
+		case SET_USER:
+			return {
+				...state,
+				user: action.payload, //new todos array
 				// todos: state.todos.push(action.payload),
 			};
 

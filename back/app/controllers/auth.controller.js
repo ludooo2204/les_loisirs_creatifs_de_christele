@@ -7,6 +7,8 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 exports.signup = (req, res) => {
   console.log("test signup")
+  console.log(req.body)
+  console.log(req.body.roles)
   // Save User to Database
   User.create({
     username: req.body.username,
@@ -29,7 +31,7 @@ exports.signup = (req, res) => {
       } else {
         // user role = 1
         user.setRoles([1]).then(() => {
-          res.send({ message: "Le compte a bien été enregistré !" });
+          res.send({ message: "Le compte a bien été enregistré !2" });
         });
       }
     })
@@ -39,6 +41,9 @@ exports.signup = (req, res) => {
 };
 exports.signin = (req, res) => {
   console.log("test signin")
+  console.log("test signin")
+  console.log("test signin")
+  console.log("test signin")
 
   User.findOne({
     where: {
@@ -46,7 +51,7 @@ exports.signin = (req, res) => {
     }
   })
     .then(user => {
-      // console.log("user trouveé")
+      console.log("user trouveé")
       if (!user) {
         // return res.status(404).send({ message: "Cet identifiant n'existe pas !" });
         return res.send({ message: "Cet identifiant n'existe pas !" });
@@ -62,9 +67,7 @@ exports.signin = (req, res) => {
           message: "Mot de passe erroné!"
         });
       }
-      var token = jwt.sign({ id: user.id,username:user.username }, config.secret, {
-        expiresIn: 86400 // 24 hours
-      });
+
       var authorities = [];
       // console.log("user")
       // console.log(user)
@@ -74,9 +77,14 @@ exports.signin = (req, res) => {
         for (let i = 0; i < roles.length; i++) {
           authorities.push("ROLE_" + roles[i].name.toUpperCase());
         }
+        var token = jwt.sign({ userId: user.id, username: user.username, roles: authorities }, config.secret, {
+          expiresIn: 86400 // 24 hours
+        });
+
+
 
         res.status(200).send({
-          id: user.id,
+          userId: user.id,
           username: user.username,
           email: user.email,
           roles: authorities,

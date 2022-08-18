@@ -17,6 +17,7 @@ import { CommentSection } from "../CommentSection";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Back } from "gsap/all";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 let images = [image1, image2, image3];
 
@@ -26,33 +27,8 @@ let images = [image1, image2, image3];
 console.log("window.innerWidth");
 console.log(window.innerWidth);
 
-const customStyles = {
-	content: {
-		top: "50%",
-		left: "50%",
-		right: "auto",
-		bottom: "auto",
-		marginRight: "-50%",
-		transform: "translate(-50%, -50%)",
-		backgroundColor: "#fefff7",
-	},
-};
-const customStyles2 = {
-	content: {
-		top: "20%",
-		left: "30%",
-		right: "auto",
-		// width:'30%',
-		// height:"80%",
-		bottom: "auto",
-		// marginRight: "-50%",
-		// transform: "translate(-100%, -40%)",
-		borderRadius: "3rem",
-		background: "linear-gradient(180deg, rgba(240, 200, 163, 1) 0%, rgb(243, 238, 234) 70%, rgb(243, 238, 234) 100%)",
-	},
-};
 
-const Card = ({ isAdmin, data, refresh, likee, user }) => {
+const Card = ({ data, refresh, likee }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	const [modalCommentsOpen, setModalCommentsOpen] = useState(false);
 	const [liked, setLiked] = useState(false);
@@ -61,6 +37,10 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 	// const [refreshProp, setRefresh] = useState(0);
 
 	const [comment, setComment] = useState(null);
+
+	const user = useSelector((state) => state.user);
+
+
 
 	const signinUrl = "/signin";
 	const signupUrl = "/signup";
@@ -155,6 +135,8 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
+	console.log("user")
+	console.log(user)
 	const liker = () => {
 		if (!liked) {
 			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "like" }).then((result) => {
@@ -166,15 +148,15 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 			});
 		}
 	};
-	const hoverInLegende=()=>{
+	const hoverInLegende = () => {
 		console.log("int")
 
-		gsap.to(imagePrincipale.current, { yPercent: -30, duration: 0.1, ease: "elastic.out(1, 0.3)"});
+		gsap.to(imagePrincipale.current, { yPercent: -30, duration: 0.1, ease: "elastic.out(1, 0.3)" });
 
 	}
-	const hoverOutLegende=()=>{
+	const hoverOutLegende = () => {
 		console.log("out")
-		gsap.to(imagePrincipale.current, { yPercent: 0, duration: 0.2	, ease: "none" });
+		gsap.to(imagePrincipale.current, { yPercent: 0, duration: 0.2, ease: "none" });
 
 
 	}
@@ -228,15 +210,41 @@ const Card = ({ isAdmin, data, refresh, likee, user }) => {
 				<img src={require("../../uploads/" + data.url[0])} onClick={() => toggleModalImage()} ref={imagePrincipale} className={styles.cardImage} />
 			</div>
 
-		
+
 			<div onMouseEnter={hoverInLegende} onMouseLeave={hoverOutLegende} className={styles.legende}>
 				<div className={styles.priceTag}>{data.prix}€</div>
 				<div className={styles.title}>{data.nom}</div>
 				<div className={styles.description}> {data.description}</div>
-				{isAdmin && <DeleteAndModifyByAdmin id={data.id_creation} refresh={refresh} modifierCreation={modifierCreation} />}
+				{/* {isAdmin && <DeleteAndModifyByAdmin id={data.id_creation} refresh={refresh} modifierCreation={modifierCreation} />} */}
 			</div>
 		</div>
 	);
 };
 
 export default Card;
+
+const customStyles = {
+	content: {
+		top: "50%",
+		left: "50%",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-50%",
+		transform: "translate(-50%, -50%)",
+		backgroundColor: "#fefff7",
+	},
+};
+const customStyles2 = {
+	content: {
+		top: "20%",
+		left: "30%",
+		right: "auto",
+		// width:'30%',
+		// height:"80%",
+		bottom: "auto",
+		// marginRight: "-50%",
+		// transform: "translate(-100%, -40%)",
+		borderRadius: "3rem",
+		background: "linear-gradient(180deg, rgba(240, 200, 163, 1) 0%, rgb(243, 238, 234) 70%, rgb(243, 238, 234) 100%)",
+	},
+};

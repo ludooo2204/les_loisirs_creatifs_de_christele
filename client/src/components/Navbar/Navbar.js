@@ -10,32 +10,26 @@ import Modal from "react-modal";
 import styles from "./Navbar.module.css";
 import LoginForm from "../LoginForm/LoginForm";
 import axios from "axios";
-const customStyles = {
-	content: {
-		top: "50%",
-		left: "50%",
-		width: "50VW",
-		height: "80VH",
-		right: "auto",
-		bottom: "auto",
-		marginRight: "-50%",
-		transform: "translate(-50%, -50%)",
-		backgroundColor: "#f0c8a3",
-		display: "flex",
-		justifyContent: "center",
-		padding: "0.3REM",
-		boxShadow: "3px 3px 30px 2px",
-		borderRadius: "10px",
-	},
-};
+import { useSelector, useDispatch } from "react-redux";
+
+import { addCount, resetCount, setUser } from "../../redux/action";
+
+
 
 Modal.setAppElement("body");
 
-const Navbar = ({ isAdmin, defaultIsOpen, setUser }) => {
+const Navbar = ({ defaultIsOpen }) => {
 	const [modalIsOpen, setIsOpen] = useState(false);
 	// const [adminConnected, setAdminConnected] = useState(false);
 	const [userConnected, setUserConnected] = useState(null);
 	// const [userConnected, setUserConnected] = useState(null);
+
+	const store = useSelector((state) => state);
+	const todos = useSelector((state) => state.todos);
+	const dispatch = useDispatch()
+
+	console.log("store")
+	console.log(store)
 	useEffect(() => {
 		if (defaultIsOpen) setIsOpen(true);
 	}, []);
@@ -54,26 +48,15 @@ const Navbar = ({ isAdmin, defaultIsOpen, setUser }) => {
 				console.log("signinauto");
 				console.log(e.data);
 				setUserConnected(e.data.username);
-				setUser(e.data);
+				console.log("signinauto avec redux");
+				dispatch(setUser(e.data));
 
-				isAdmin(true);
+
 			})
 			.catch((err) => console.log("bye", err));
 	}, []);
 
-	const seConnecter = (user) => {
-		console.log(user.username);
-		setUser(user);
-		// setUsername(user.username)
-		if (user.roles.includes("ROLE_ADMIN")) {
-			console.log("ROLE ADMIN");
 
-			//A REVOIR
-			// setAdminConnected(true);
-			isAdmin(true);
-		}
-		setUserConnected(user.username);
-	};
 	function openModal() {
 		setIsOpen(true);
 	}
@@ -140,7 +123,7 @@ const Navbar = ({ isAdmin, defaultIsOpen, setUser }) => {
 					style={customStyles}
 					contentLabel="Example Modal"
 				>
-					<LoginForm closeModal={closeModal} seConnecter={seConnecter} />
+					<LoginForm closeModal={closeModal} />
 				</Modal>
 			</nav>
 		</>
@@ -148,3 +131,22 @@ const Navbar = ({ isAdmin, defaultIsOpen, setUser }) => {
 };
 
 export default Navbar;
+
+const customStyles = {
+	content: {
+		top: "50%",
+		left: "50%",
+		width: "50VW",
+		height: "80VH",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-50%",
+		transform: "translate(-50%, -50%)",
+		backgroundColor: "#f0c8a3",
+		display: "flex",
+		justifyContent: "center",
+		padding: "0.3REM",
+		boxShadow: "3px 3px 30px 2px",
+		borderRadius: "10px",
+	},
+};

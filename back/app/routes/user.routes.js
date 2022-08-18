@@ -20,7 +20,7 @@ module.exports = function (app) {
 	});
 
 	// partie visiteur
-	app.use("/api/creations",  creations_route);
+	app.use("/api/creations", creations_route);
 	app.use("/api/tags", tag_route);
 	app.use("/api/images", images_route);
 	app.use("/api/likes", likes_route);
@@ -34,9 +34,9 @@ module.exports = function (app) {
 	// app.use("/api/sendmail", [authJwt.verifyToken], sendMail_route);
 
 	// partie utilisateur connecté
-	app.use("/api/signinAuto", [authJwt.verifyToken, authJwt.isAdmin], signinAuto_route);
+	app.use("/api/signinAuto", [authJwt.verifyToken], signinAuto_route);
 
 	// partie Admin
 	// app.use("/api/admin/tags", [authJwt.verifyToken, authJwt.isAdmin], tag_route);
-	app.get("/api/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
+	// app.get("/api/admin", [authJwt.verifyToken, authJwt.isAdmin], controller.adminBoard);
 };

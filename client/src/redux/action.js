@@ -1,6 +1,6 @@
 //ce fichier action permet de simplifier l'appel a la fonction addCount dans la vue
 
-import { ADD_COUNT, RESET_COUNT, ADD_TODO } from "./type";
+import { ADD_COUNT, RESET_COUNT, ADD_TODO, SET_USER } from "./type";
 
 export const addCount = () => {
 	return {
@@ -15,6 +15,12 @@ export const resetCount = () => {
 export const addTodo = (payload) => {
 	return {
 		type: ADD_TODO,
+		payload,
+	};
+};
+export const setUser = (payload) => {
+	return {
+		type: SET_USER,
 		payload,
 	};
 };
