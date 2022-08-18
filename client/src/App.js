@@ -5,12 +5,16 @@ import './App.css';
 // Import FirebaseAuth and firebase.
 import Home from './components/Home'
 // import SignInScreen from './components/SignIn'
+import { Provider } from "react-redux";
+import store from './store/store';
 
 
 function App() {
   return (
-  <Home />
-  // <SignInScreen />
+    <Provider store={store}>
+      <Home />
+      {/* <SignInScreen /> */}
+    </Provider>
   );
 }
 
