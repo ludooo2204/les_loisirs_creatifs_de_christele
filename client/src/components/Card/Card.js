@@ -34,16 +34,14 @@ const Card = ({ data, refresh, likee }) => {
 	const [liked, setLiked] = useState(false);
 	const [nbrLike, setNbrLike] = useState(0);
 	const [nbrComments, setNbrComments] = useState(0);
-	// const [refreshProp, setRefresh] = useState(0);
+	const [isAdmin, setAdmin] = useState(false);
 
 	const [comment, setComment] = useState(null);
 
 	const user = useSelector((state) => state.user);
-
-
-
 	const signinUrl = "/signin";
 	const signupUrl = "/signup";
+
 	let count = 0;
 	if (comment)
 		comment.map((i) => {
@@ -51,10 +49,14 @@ const Card = ({ data, refresh, likee }) => {
 			i.replies && i.replies.map((i) => (count += 1));
 		});
 
+
 	useEffect(() => {
 		if (likee) setLiked(true);
-		console.log("mount CARD !!!!!");
-		console.log(data);
+
+		console.log(user)
+		console.log(user)
+		console.log(user.roles)
+		if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
 
 		axios.get("/api/comments/" + data.id_creation).then((result) => {
 			console.log("comments", result);
@@ -66,25 +68,27 @@ const Card = ({ data, refresh, likee }) => {
 			setNbrComments(result.data.comments.length + nbrReply);
 		});
 
-		// let nbrReply = 0;
-		// for (const iterator of data.comments) {
-		// 	nbrReply += iterator.replies.length;
-		// }
-		// setComment(data.comments);
-		// setNbrComments(data.comments.length + nbrReply);
 	}, []);
 	useEffect(() => {
 		axios.get("/api/likes/" + data.id_creation).then((result) => setNbrLike(result.data.length));
 	}, [liked]);
+
+	useEffect(() => {
+		axios.get("/api/comments/" + data.id_creation).then((result) => {
+			let nbrReply = 0;
+			for (const iterator of result.data.comments) {
+				nbrReply += iterator.replies.length;
+			}
+			setNbrComments(result.data.comments.length + nbrReply);
+		});
+	}, [comment]);
+
 	const toggleModalImage = () => {
 		setIsOpen(true);
 	};
-	useEffect(() => {
-		console.log("useeffect modal comment");
-		// refresh()
-	}, [modalCommentsOpen]);
+
+
 	const toggleModalComments = () => {
-		console.log("toggle modal");
 		setModalCommentsOpen(!modalCommentsOpen);
 	};
 	let navigate = useNavigate();
@@ -215,7 +219,7 @@ const Card = ({ data, refresh, likee }) => {
 				<div className={styles.priceTag}>{data.prix}€</div>
 				<div className={styles.title}>{data.nom}</div>
 				<div className={styles.description}> {data.description}</div>
-				{/* {isAdmin && <DeleteAndModifyByAdmin id={data.id_creation} refresh={refresh} modifierCreation={modifierCreation} />} */}
+				{isAdmin && <DeleteAndModifyByAdmin id={data.id_creation} refresh={refresh} modifierCreation={modifierCreation} />}
 			</div>
 		</div>
 	);

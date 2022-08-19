@@ -3,6 +3,9 @@ let router = express.Router();
 
 router.get("/", (req, res) => {
     console.log("signin auto")
+    console.log("signin auto")
+    console.log("signin auto")
+    console.log("signin auto")
     console.log("req.userId")
     console.log(req.userId)
     console.log("req.username")

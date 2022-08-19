@@ -3,7 +3,7 @@
 	border-radius: 10%;
 	transition: all 0.4s;
 }
-.icons{
+.icons {
 	position: fixed;
 }
 .cardContainer {
@@ -11,7 +11,7 @@
 	margin-left: 1%;
 	margin-right: 1%;
 	border-radius: 10%;
-	width: 15VW;
+	width: 15vw;
 	height: 25vw;
 	transition: all 0.4s;
 	background-color: #f0c8a3;
@@ -25,21 +25,21 @@
 	/* margin: 5%;
 	padding-right:  5%; */
 	height: 90vh;
-	width: 60VW;
+	width: 60vw;
 	/* background-color: #f0c8a310; */
 	transition: all 0.4s;
 	position: relative;
 	outline: none;
 }
 ::-webkit-scrollbar {
-    display: none;
+	display: none;
 }
 .cardContainerModal2 {
 	/* margin: 5%;
 	padding-right:  5%; */
 	height: 70vh;
-	width: 35VW;
-	
+	width: 35vw;
+
 	/* background-color: #f0c8a310; */
 	transition: all 0.4s;
 	position: relative;
@@ -84,8 +84,7 @@
 	overflow: visible;
 	/* transform: translateY(-10%); */
 	transition: 0.2s ease-in-out;
-	color: "#684529",
-
+	color: "#684529";
 }
 /* .legende:hover {
 	transform: translateY(-40%);
@@ -106,28 +105,26 @@
 }
 .priceTag {
 	position: relative;
-	top: -1.5VW;
-	left: 1VW;
-	width: 2VW;
+	top: -1.5vw;
+	left: 1vw;
+	width: 2vw;
 	text-align: center;
-	height: 2VW;
-	background-color: #EAF9D9;
+	height: 2vw;
+	background-color: #eaf9d9;
 	border-radius: 50%;
 	/* z-index: 2; */
-	line-height: 2VW;
+	line-height: 2vw;
 	font-weight: 500;
-	font-size: 1VW;
+	font-size: 1vw;
 	transition: all 0.4s;
-		color: #684529;
-		border: 2px solid  ;
-
+	color: #684529;
+	border: 2px solid;
 }
 .title {
 	margin-top: 0;
-	margin-bottom: 1000px;
+	/* margin-bottom: 1000px; */
 	font-size: 1.5vw;
 	color: #684529;
-
 }
 /* .legende:hover .priceTag {
 	background-color: #DEBAD5;
@@ -139,16 +136,14 @@
 	margin-bottom: 0px;
 } */
 
-.description{
-	margin-top: calc(5px + 1VW);
+.description {
+	margin-top: calc(5px + 1vw);
 	color: #684529;
 	font-size: 1vw;
-
-
 }
 
-.likeCommentContainer{
-position: absolute;
-top:50%;
-z-index:4 ;
+.likeCommentContainer {
+	position: absolute;
+	top: 50%;
+	z-index: 4;
 }

@@ -33,7 +33,7 @@ verifyToken = (req, res, next) => {
     console.log("token decodé !")
     console.log("token decodé !")
     console.log("token decodé !")
-    req.userId = decoded.id;
+    req.userId = decoded.userId;
     req.username = decoded.username;
     req.roles = decoded.roles;
     next();

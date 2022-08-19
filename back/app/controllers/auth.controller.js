@@ -52,6 +52,7 @@ exports.signin = (req, res) => {
   })
     .then(user => {
       console.log("user trouveé")
+      console.log(user)
       if (!user) {
         // return res.status(404).send({ message: "Cet identifiant n'existe pas !" });
         return res.send({ message: "Cet identifiant n'existe pas !" });

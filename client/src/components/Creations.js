@@ -54,8 +54,10 @@ const Creations = () => {
 
 		if (user) {
 			console.log(user)
-			console.log("userID", user.id)
-			axios.get("/api/liked/" + user.id).then((e) => {
+			console.log("userID", user.userId)
+			axios.get("/api/liked/" + user.userId).then((e) => {
+				console.log("fetch liked by user from creations")
+				console.log("fetch liked by user from creations")
 				console.log("fetch liked by user from creations")
 				console.log(e)
 				const likedTemp = e.data.map(like => like.id_creation)

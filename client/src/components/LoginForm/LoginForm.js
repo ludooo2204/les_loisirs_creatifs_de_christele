@@ -8,7 +8,7 @@ import styles from "./LoginForm.module.css";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 
-import { addCount, resetCount, setUser } from "../../redux/action";
+import { setUser } from "../../redux/action";
 
 const LoginForm = ({ closeModal }) => {
 	const [isChoixInscriptionActif, setIsChoixInscriptionActif] = useState(true);
