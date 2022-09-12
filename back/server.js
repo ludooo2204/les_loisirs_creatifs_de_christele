@@ -1,10 +1,9 @@
 const express = require("express");
 const app = express();
-
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
-const bodyParser = require("body-parser");
 const path = require("path");
+
 
 // enable files upload
 app.use(
@@ -16,8 +15,6 @@ var corsOptions = {
 	origin: "http://localhost:3000",
 };
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "app/views"));
@@ -35,13 +32,6 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./app/models");
 
 db.sequelize.sync();
-// force: true will drop the table if it already exists
-// db.sequelize.sync({force: true}).then(() => {
-	//   console.log('Drop and Resync Database with { force: true }');
-//   initial();
-// });
-
-
 
 // routes
 require("./app/routes/auth.routes")(app);
@@ -70,3 +60,8 @@ function initial() {
 		name: "admin",
 	});
 }
+
+// FIXME besoin ou pas ?
+// const bodyParser = require("body-parser");
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));

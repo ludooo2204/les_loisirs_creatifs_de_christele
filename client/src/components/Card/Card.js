@@ -46,16 +46,15 @@ const Card = ({ data, refresh, likee }) => {
 	const imagePrincipale = useRef();
 
 
-
 	useEffect
 		(() => {
+
 			if (likee) setLiked(true);
 
 
 			if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
 
 			axios.get("/api/comments/" + data.id_creation).then((result) => {
-				console.log("comments", result);
 				let nbrReply = 0;
 				for (const iterator of result.data.comments) {
 					nbrReply += iterator.replies.length;
@@ -70,6 +69,24 @@ const Card = ({ data, refresh, likee }) => {
 	useEffect(() => {
 		axios.get("/api/likes/" + data.id_creation).then((result) => setNbrLike(result.data.length));
 	}, [liked]);
+
+	// useEffect(() => {
+	// 	console.log("products fetch FROM CREATION");
+
+	// 	if (user) {
+	// 		console.log(user)
+	// 		console.log("userID", user.userId)
+	// 		// if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
+	// 		axios.get("/api/liked/" + user.userId).then((e) => {
+	// 			console.log("fetch liked by user from creations")
+	// 			console.log("fetch liked by user from creations")
+	// 			console.log("fetch liked by user from creations")
+	// 			console.log(e)
+	// 			// const likedTemp = e.data.map(like => like.id_creation)
+	// 			// setLiked(likedTemp)
+	// 		});
+	// 	}
+	// }, [liked]);
 
 	useEffect(() => {
 		axios.get("/api/comments/" + data.id_creation).then((result) => {
@@ -250,7 +267,9 @@ const customStyles2 = {
 		right: "auto",
 		// width:'30%',
 		// height:"80%",
+		// position: "relative",
 		bottom: "auto",
+		zIndex: 5,
 		// marginRight: "-50%",
 		// transform: "translate(-100%, -40%)",
 		borderRadius: "3rem",

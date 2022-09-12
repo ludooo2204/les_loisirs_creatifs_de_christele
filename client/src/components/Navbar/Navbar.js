@@ -25,7 +25,6 @@ const Navbar = ({ defaultIsOpen }) => {
 	// const [userConnected, setUserConnected] = useState(null);
 
 	const store = useSelector((state) => state);
-	const todos = useSelector((state) => state.todos);
 	const dispatch = useDispatch()
 
 	console.log("store")
@@ -33,6 +32,13 @@ const Navbar = ({ defaultIsOpen }) => {
 	useEffect(() => {
 		if (defaultIsOpen) setIsOpen(true);
 	}, []);
+	useEffect(() => {
+		if (store.user) {
+			console.log("store from useeffect")
+			console.log(store.user.username)
+			setUserConnected(store.user.username)
+		}
+	}, [modalIsOpen]);
 	useEffect(() => {
 		console.log("allez c parti");
 		const header = {
@@ -63,6 +69,18 @@ const Navbar = ({ defaultIsOpen }) => {
 
 	function closeModal() {
 		setIsOpen(false);
+		window.location.reload(false);
+		// 
+	}
+	const seDeconnecter = () => {
+		const decoConfirm = window.confirm('voulez-vous vous deconnecter ?')
+		if (decoConfirm) {
+			console.log("deco")
+			window.localStorage.removeItem("token");
+			setUserConnected(null);
+			window.location.reload(false);
+		}
+
 	}
 
 	return (
@@ -104,10 +122,11 @@ const Navbar = ({ defaultIsOpen }) => {
 					<h1>Connectez-vous</h1>
 					<p>pour pourvoir me poser des questions, commenter mes créations ou recevoir des alertes par mail quand je rajoute de nouveaux produits !</p>
 				</ReactTooltip>
-				<div data-testid="connexion" onClick={openModal} className={`${styles.text}  ${styles.connexionButton}`}>
-					{userConnected ? (userConnected) : (
+				<div data-testid="connexion" className={`${styles.text}  ${styles.connexionButton}`}>
+					{userConnected ? (<div onClick={seDeconnecter}>{userConnected}</div>) : (
 						<>
 							<AccountCircleIcon
+								onClick={openModal}
 								data-tip
 								data-for="AccountCircleIcon"
 							/>

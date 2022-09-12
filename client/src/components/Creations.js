@@ -34,34 +34,22 @@ const Creations = () => {
 	console.log(user)
 	useEffect(() => {
 		axios.get("/api/creations").then((e) => {
-			console.log("products fetch FROM CREATION get api");
-			// console.log(e);
 			const temp = [...e.data];
-			// console.log(temp)
 			for (const iterator of temp) {
 				iterator.url = iterator.images.map((e) => e.url);
 				delete iterator.images;
 			}
 
-			// console.log("temp");
-			console.log(temp);
 			if (e.data) setBddCréation(temp);
-			// setComment(temp[1].comments)
 		});
 	}, [refreshProp]);
 
 	useEffect(() => {
-		console.log("products fetch FROM CREATION");
 
 		if (user) {
-			console.log(user)
-			console.log("userID", user.userId)
 			if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
 			axios.get("/api/liked/" + user.userId).then((e) => {
-				console.log("fetch liked by user from creations")
-				console.log("fetch liked by user from creations")
-				console.log("fetch liked by user from creations")
-				console.log(e)
+
 				const likedTemp = e.data.map(like => like.id_creation)
 				setLiked(likedTemp)
 			});
@@ -69,13 +57,17 @@ const Creations = () => {
 	}, [user]);
 
 	const refresh = () => {
-		console.log("refresh from creation");
 		setRefresh(refreshProp + 1);
 	};
 	let navigate = useNavigate();
+	console.log("liked from crea")
+	console.log(liked)
+	console.log("bddcreation")
+	console.log(bddCréation)
 	return (
 		<div className={styles.main}>
 			{bddCréation && liked && bddCréation.map((e, i) => <Card key={i} data={e} refresh={refresh} likee={liked.includes(e.id_creation)} />)}
+			{bddCréation && !liked && bddCréation.map((e, i) => <Card key={i} data={e} refresh={refresh} likee={null} />)}
 
 			<ReactTooltip className="" globalEventOff="click" place="bottom" type="light" effect="float" id="add">
 				<h3>Ajouter une création</h3>

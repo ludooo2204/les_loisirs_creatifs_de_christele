@@ -28,10 +28,12 @@ const LoginForm = ({ closeModal }) => {
 	const dispatch = useDispatch()
 
 	const seConnecter = (user) => {
+		console.log("se connecter from loginForm");
 		console.log(user.username);
 		console.log("user");
 		console.log(user);
 		dispatch(setUser(user));
+		// window.location.reload(false);
 
 		// setUserConnected(user.username);
 	};
