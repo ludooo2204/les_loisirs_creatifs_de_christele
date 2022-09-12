@@ -1,14 +1,16 @@
-.adminButtons{
-	width: 12VW  ;
+.adminButtons {
+	width: 12vw;
 	/* height:  20px; */
-    /* display: flex;
+	/* display: flex;
     justify-content: space-between; */
-	position: relative; 
-	top:-9.5VW; 
-
+	position: relative;
+	/* bottom: 5vw; */
+	top: -13vh;
+	/* top: -15vh; */
+	left: 6vw;
 }
-.icons{
-font-size: 3.5VW!important;
-color: #684529;
-
+.icons {
+	font-size: 2vw !important;
+	/* color: #f0093f; */
+	color: #684529;
 }

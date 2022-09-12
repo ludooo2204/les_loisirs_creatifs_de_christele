@@ -16,6 +16,7 @@ const Creations = () => {
 	const [bddCréation, setBddCréation] = useState(null);
 	const [refreshProp, setRefresh] = useState(0);
 	const [liked, setLiked] = useState(null);
+	const [isAdmin, setAdmin] = useState(false);
 
 	const user = useSelector((state) => state.user);
 
@@ -55,6 +56,7 @@ const Creations = () => {
 		if (user) {
 			console.log(user)
 			console.log("userID", user.userId)
+			if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
 			axios.get("/api/liked/" + user.userId).then((e) => {
 				console.log("fetch liked by user from creations")
 				console.log("fetch liked by user from creations")
@@ -79,9 +81,9 @@ const Creations = () => {
 				<h3>Ajouter une création</h3>
 				<p>Clique ici pour ajouter une de tes nouvelles créations</p>
 			</ReactTooltip>
-			{/* {isAdmin && <AddCircleIcon data-tip data-for="add" onClick={() => navigate("../ajoutCreation")} className={styles.addCreation} />} */}
-			{/* {comment&&<CommentSection currentUser={userId && { userId: userId, avatarUrl: avatarUrl, name: name }} commentsArray={comment} */}
-			{/* setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl}/>} */}
+			{isAdmin && <AddCircleIcon data-tip data-for="add" onClick={() => navigate("../ajoutCreation")} className={styles.addCreation} />}
+			{/* {comment && <CommentSection currentUser={userId && { userId: userId, avatarUrl: avatarUrl, name: name }} commentsArray={comment}
+				setComment={setComment} signinUrl={signinUrl} signupUrl={signupUrl} />} */}
 		</div>
 	);
 };

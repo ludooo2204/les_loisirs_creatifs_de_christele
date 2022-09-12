@@ -144,6 +144,7 @@
 
 .likeCommentContainer {
 	position: absolute;
-	top: 50%;
-	z-index: 4;
+	top: 85%;
+	/* top: 50vh; */
+	z-index: 1;
 }

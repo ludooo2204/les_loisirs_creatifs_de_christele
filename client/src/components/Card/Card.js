@@ -42,33 +42,31 @@ const Card = ({ data, refresh, likee }) => {
 	const signinUrl = "/signin";
 	const signupUrl = "/signup";
 
-	let count = 0;
-	if (comment)
-		comment.map((i) => {
-			count += 1;
-			i.replies && i.replies.map((i) => (count += 1));
-		});
+	const likeRef = useRef();
+	const imagePrincipale = useRef();
 
 
-	useEffect(() => {
-		if (likee) setLiked(true);
 
-		console.log(user)
-		console.log(user)
-		console.log(user.roles)
-		if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
+	useEffect
+		(() => {
+			if (likee) setLiked(true);
 
-		axios.get("/api/comments/" + data.id_creation).then((result) => {
-			console.log("comments", result);
-			let nbrReply = 0;
-			for (const iterator of result.data.comments) {
-				nbrReply += iterator.replies.length;
-			}
-			setComment(result.data.comments);
-			setNbrComments(result.data.comments.length + nbrReply);
-		});
 
-	}, []);
+			if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
+
+			axios.get("/api/comments/" + data.id_creation).then((result) => {
+				console.log("comments", result);
+				let nbrReply = 0;
+				for (const iterator of result.data.comments) {
+					nbrReply += iterator.replies.length;
+				}
+				setComment(result.data.comments);
+				setNbrComments(result.data.comments.length + nbrReply);
+			});
+
+		}, []);
+
+
 	useEffect(() => {
 		axios.get("/api/likes/" + data.id_creation).then((result) => setNbrLike(result.data.length));
 	}, [liked]);
@@ -82,31 +80,13 @@ const Card = ({ data, refresh, likee }) => {
 			setNbrComments(result.data.comments.length + nbrReply);
 		});
 	}, [comment]);
-
-	const toggleModalImage = () => {
-		setIsOpen(true);
-	};
-
-
-	const toggleModalComments = () => {
-		setModalCommentsOpen(!modalCommentsOpen);
-	};
-	let navigate = useNavigate();
-
-	const modifierCreation = () => {
-		console.log(data);
-		navigate("../../ajoutCreation", { state: data });
-	};
-
-	const likeRef = useRef();
-	const imagePrincipale = useRef();
-
-	const animateLike = () => {
-		gsap.to(likeRef.current, { scale: 1.2, duration: 0.3, ease: Back.easeOut.config(4) });
-	};
-	const animateLike2 = () => {
-		gsap.to(likeRef.current, { scale: 1, duration: 0.3, ease: Back.easeOut.config(4) });
-	};
+	////////////////////////////
+	let count = 0;
+	if (comment)
+		comment.map((i) => {
+			count += 1;
+			i.replies && i.replies.map((i) => (count += 1));
+		});
 	const settings = {
 		// customPaging: function(i) {
 		// 	return (
@@ -122,7 +102,6 @@ const Card = ({ data, refresh, likee }) => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
-
 	const settingsModal = {
 		customPaging: function (i) {
 			return (
@@ -139,8 +118,33 @@ const Card = ({ data, refresh, likee }) => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 	};
-	console.log("user")
-	console.log(user)
+
+	///////////////////////////
+	const toggleModalImage = () => {
+		setIsOpen(true);
+	};
+
+
+	const toggleModalComments = () => {
+		setModalCommentsOpen(!modalCommentsOpen);
+	};
+	let navigate = useNavigate();
+
+	const modifierCreation = () => {
+		console.log(data);
+		navigate("../../ajoutCreation", { state: data });
+	};
+
+
+
+	const animateLike = () => {
+		gsap.to(likeRef.current, { scale: 1.2, duration: 0.3, ease: Back.easeOut.config(4) });
+	};
+	const animateLike2 = () => {
+		gsap.to(likeRef.current, { scale: 1, duration: 0.3, ease: Back.easeOut.config(4) });
+	};
+
+
 	const liker = () => {
 		if (!liked) {
 			axios.post("/api/likes/", { userId: user.userId, id_creation: data.id_creation, operation: "like" }).then((result) => {
@@ -161,9 +165,10 @@ const Card = ({ data, refresh, likee }) => {
 	const hoverOutLegende = () => {
 		console.log("out")
 		gsap.to(imagePrincipale.current, { yPercent: 0, duration: 0.2, ease: "none" });
-
-
 	}
+
+	// console.log("user from Card")
+	// console.log(user)
 	return (
 		<div className={styles.cardContainer}>
 			<Modal isOpen={modalCommentsOpen} onRequestClose={toggleModalComments} style={customStyles2} contentLabel="Example Modal">

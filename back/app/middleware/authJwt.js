@@ -39,6 +39,40 @@ verifyToken = (req, res, next) => {
     next();
   });
 };
+//TODO A FINIR
+//EXEMPLE DE L'ECF
+// isAdmin = (req, res, next) => {
+// 	let token = req.headers["x-access-token"];
+// 	if (!token) {
+// 		return res.status(403).send({
+// 			message: "No token provided!",
+// 		});
+// 	}
+// 	jwt.verify(token, config.secret, (err, decoded) => {
+// 		if (err) {
+// 			return res.status(401).send({
+// 				message: "Unauthorized!",
+// 			});
+// 		}
+// 		let rolesTemp = [];
+// 		User.findAll({ where: { email: decoded.email } }).then((user) => {
+// 			user[0].getRoles().then((roles) => {
+// 				for (let i = 0; i < roles.length; i++) {
+// 					rolesTemp.push(roles[i].name);
+// 				}
+// 				if (rolesTemp.includes("admin")) {
+// 					console.log("ta les droits !!!");
+// 					next();
+// 				} else {
+// 					return res.status(401).send({
+// 						message: "ta pas les droits des admins!!!",
+// 					});
+// 				}
+// 			});
+// 		});
+// 	});
+// };
+
 // isAdmin = (req, res, next) => {
 //   User.findByPk(req.userId).then(user => {
 //     user.getRoles().then(roles => {
