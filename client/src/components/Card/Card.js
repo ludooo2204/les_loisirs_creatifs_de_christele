@@ -52,7 +52,7 @@ const Card = ({ data, refresh, likee }) => {
 			if (likee) setLiked(true);
 
 
-			if (user.roles.includes('ROLE_ADMIN')) setAdmin(true)
+			if (user && user.roles.includes('ROLE_ADMIN')) setAdmin(true)
 
 			axios.get("/api/comments/" + data.id_creation).then((result) => {
 				let nbrReply = 0;
